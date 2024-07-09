@@ -1,9 +1,12 @@
-import { useContext, useState } from "react";
-import Login from "./pages/Login/Login";
-import AuthContext from "./context/AuthProvider";
-import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth.tsx";
+import Login from "./pages/Auth/Login.tsx";
+import Register from "./pages/Auth/Register.tsx";
 import Layout from "./pages/Layout.tsx";
+import TestPage from "./pages/TestPage.tsx";
+import PersistLogin from "./components/PersistLogin.tsx";
+import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
+import Home from "./pages/Home/Home.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -12,22 +15,32 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <div>Home</div>,
+				element: <Home />,
 			},
 			{
-				path: "login",
-				element: <Login />,
-			},
-			{
-				element: <RequireAuth />,
+				element: <PersistLogin />,
 				children: [
 					{
-						path: "test",
-						element: (
-							<button>
-								<Link to="/login">login</Link>
-							</button>
-						),
+						element: <RedirectIfLoggedIn />,
+						children: [
+							{
+								path: "login",
+								element: <Login />,
+							},
+							{
+								path: "register",
+								element: <Register />,
+							},
+						],
+					},
+					{
+						element: <RequireAuth />,
+						children: [
+							{
+								path: "test",
+								element: <TestPage />,
+							},
+						],
 					},
 				],
 			},

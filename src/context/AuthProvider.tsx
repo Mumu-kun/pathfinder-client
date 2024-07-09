@@ -3,14 +3,23 @@ import { createContext, useState, FC, ReactNode } from "react";
 type AuthContextProps = {
 	auth: any;
 	setAuth: (auth: any) => void;
+	persist: boolean;
+	setPersist: (persist: boolean) => void;
 };
 
-const AuthContext = createContext<AuthContextProps>({ auth: null, setAuth: () => {} });
+const AuthContext = createContext<AuthContextProps>({
+	auth: null,
+	setAuth: () => {},
+	persist: false,
+	setPersist: () => {},
+});
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [auth, setAuth] = useState({});
+	const localStoragePersist = localStorage.getItem("persist_login");
+	const [persist, setPersist] = useState<boolean>(localStoragePersist ? JSON.parse(localStoragePersist) : false);
 
-	return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
+	return <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;

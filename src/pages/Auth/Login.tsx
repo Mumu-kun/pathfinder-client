@@ -10,9 +10,9 @@ const Login: React.FC = () => {
 
 	const refresh = useRefreshToken();
 
-	// const navigate = useNavigate();
-	// const location = useLocation();
-	// const from = location.state?.from || "/";
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from || "/";
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -32,11 +32,10 @@ const Login: React.FC = () => {
 
 			setAuth({ email: formData.get("email"), accessToken, refreshToken });
 
-			// navigate(from, { replace: true });
+			navigate(from, { replace: true });
 		} catch (err) {
 			console.error(err);
 		}
-		// Add your login logic here
 	};
 
 	return (
@@ -69,8 +68,18 @@ const Login: React.FC = () => {
 						className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
 						type="submit"
 					>
-						Sign In
+						Log In
 					</button>
+				</div>
+				<div className="mb-6">
+					<input
+						type="checkbox"
+						id="trust"
+						onChange={(e) => {
+							localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
+						}}
+					/>
+					<label htmlFor="trust">Trust this device</label>
 				</div>
 			</form>
 			<button
@@ -79,12 +88,6 @@ const Login: React.FC = () => {
 			>
 				Refresh Token
 			</button>
-			<Link
-				to="/test"
-				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-			>
-				Test
-			</Link>
 		</div>
 	);
 };
