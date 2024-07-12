@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
 	return (
-		<>
+		<div className="mt-[1000px]">
 			<Link
 				to="/register"
 				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
 			>
 				Test
 			</Link>
-		</>
+		</div>
 	);
 };
 

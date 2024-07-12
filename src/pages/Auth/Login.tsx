@@ -39,7 +39,7 @@ const Login: React.FC = () => {
 	};
 
 	return (
-		<div className="flex h-screen items-center justify-center">
+		<>
 			<form className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md" onSubmit={handleSubmit}>
 				<div className="mb-4">
 					<label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="email">
@@ -88,7 +88,7 @@ const Login: React.FC = () => {
 			>
 				Refresh Token
 			</button>
-		</div>
+		</>
 	);
 };
 

@@ -3,4 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+	.header-grid-layout {
+		@apply grid;
+		grid-template-columns: 10rem minmax(0, var(--stuck-width, 0px)) minmax(max-content, 1fr);
+	}
+
+	.--stuck-width {
+		--stuck-width: 100%;
+	}
+
+	.btn {
+		@apply rounded px-4 py-2 text-white transition-all;
+	}
 }
