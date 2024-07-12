@@ -2,5 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--bg-color: #000000;
+	--text-color: #eeeeee;
+	--secondary-color: #171717;
+}
+
+.dark {
+	--bg-color: #000000 !important;
+	--text-color: #eeeeee !important;
+	--secondary-color: #171717 !important;
+}
+
+.light {
+	--bg-color: #f5f5f5 !important;
+	--text-color: #1f1f1f !important;
+	--secondary-color: #e0e0e0 !important;
+}
+
+body {
+	min-height: 100vh;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+
+.secondary-color {
+    background-color: var(--secondary-color);
+}
+
 @layer base {
+	.large-headings {
+		@apply p-3 text-center text-lg font-bold sm:text-5xl;
+	}
+
+	.small-headings {
+		@apply p-3 text-center text-sm font-bold sm:text-lg;
+	}
+
+	.normal-text {
+		@apply px-5 py-1 text-center text-xs font-bold sm:text-sm;
+	}
+
+	.form-1 {
+		@apply bg-[bg-color] text-[text-color];
+	}
 }
