@@ -15,10 +15,10 @@ const ChangeTheme: React.FC = () => {
 		localStorage.setItem("theme", e.currentTarget.value);
 		setTheme(localStorage.getItem("theme"));
 	};
+
 	return (
 		<div>
-			<select onChange={handleThemeChange} className="form-1" aria-label="Default select example">
-				{theme && <option value={theme}>{theme.toUpperCase()}</option>}
+			<select onChange={handleThemeChange} className="form-1 text-xs" aria-label="Default select example">
 				{!theme && <option value="">THEME</option>}
 				<option value="light">LIGHT</option>
 				<option value="dark">DARK</option>

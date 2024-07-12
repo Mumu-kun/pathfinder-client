@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { TypeAnimation } from "react-type-animation";
 import SearchBar from "./SearchBar";
+import ChangeTheme from "./ChangeTheme";
 
 const Header = () => {
 	const [stuck, setStuck] = useState<Boolean>(false);
@@ -18,9 +19,12 @@ const Header = () => {
 				<div
 					className={`header-grid-layout h-headerHeight mx-auto w-full max-w-7xl items-center gap-4 transition-all duration-500 ease-in-out ${stuck ? "--stuck-width" : ""}`}
 				>
-					<Link to="/" className="col-span-1">
-						Logo
-					</Link>
+					<div className="col-span-1 flex items-center gap-2">
+						<Link to="/" className="mr-6 text-3xl font-bold">
+							Logo
+						</Link>
+						<ChangeTheme />
+					</div>
 
 					<SearchBar />
 

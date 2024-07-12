@@ -46,6 +46,7 @@ body {
 	.form-1 {
 		@apply bg-[bg-color] text-[text-color];
 	}
+
 	.header-grid-layout {
 		@apply grid;
 		grid-template-columns: 10rem minmax(0, var(--stuck-width, 0px)) minmax(max-content, 1fr);
