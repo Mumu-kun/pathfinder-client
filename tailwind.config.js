@@ -11,6 +11,16 @@ export default {
 				glow: ["0 0px 1px rgba(29,78, 216, 0.35)", "0 0px 3px rgba(29, 78,216, 0.2)"],
 			},
 			colors: {
+				light: {
+					text: "#1f1f1f",
+					bg: "#f5f5f5",
+					secondary: "#e0e0e0",
+				},
+				dark: {
+					text: "#eeeeee",
+					bg: "#000000",
+					secondary: "#171717",
+				},
 				prim: {
 					50: "#effafc",
 					100: "#d6f2f7",

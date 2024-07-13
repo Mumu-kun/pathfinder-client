@@ -15,7 +15,7 @@ const Header = () => {
 				setStuck((prev) => !prev);
 			}}
 		>
-			<header className="flex w-full secondary-color-bg z-50">
+			<header className="flex w-full bg-light-secondary dark:bg-dark-secondary z-50">
 				<div
 					className={`header-grid-layout h-headerHeight mx-auto w-full max-w-7xl items-center gap-4 transition-all duration-500 ease-in-out ${stuck ? "--stuck-width" : ""}`}
 				>
@@ -37,13 +37,13 @@ const Header = () => {
 						</Link>
 						<Link
 							to="/login"
-							className="rounded-sm border-2 border-blue-600 bg-white px-4 py-1 font-bold text-blue-600 transition-all duration-100 hover:-translate-y-0.5 hover:bg-blue-600 hover:text-white hover:shadow-md active:translate-y-0 active:shadow-none"
+							className="outline-btn"
 						>
 							Log In
 						</Link>
 						<Link
 							to="/register"
-							className="rounded-sm border-2 border-blue-600 bg-blue-600 px-4 py-1 font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:bg-blue-600 hover:text-white hover:shadow-md active:translate-y-0 active:shadow-none"
+							className="solid-btn"
 						>
 							Join as a{" "}
 							<span className="inline-block w-14 pr-2">

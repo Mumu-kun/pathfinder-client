@@ -40,11 +40,15 @@ body {
 
 @layer base {
 	.large-headings {
-		@apply p-3 text-center text-lg font-bold sm:text-5xl;
+		@apply anton-sc-regular p-3 text-center text-lg font-bold sm:text-5xl;
+	}
+
+	.medium-headings {
+		@apply anton-sc-regular text-base p-3 text-center font-bold sm:text-3xl;
 	}
 
 	.small-headings {
-		@apply p-3 text-center text-sm font-bold sm:text-lg;
+		@apply anton-sc-regular p-3 text-center text-sm font-bold sm:text-lg;
 	}
 
 	.normal-text {
@@ -66,5 +70,13 @@ body {
 
 	.btn {
 		@apply rounded px-4 py-2 text-white transition-all;
+	}
+
+	.solid-btn {
+		@apply rounded-md border-2 border-green-500 bg-green-500 px-4 py-1 font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none;
+	}
+
+	.outline-btn {
+		@apply rounded-md border-2 border-green-500 px-4 py-1 font-bold text-green-500 transition-all duration-100 hover:-translate-y-0.5 hover:bg-green-500 hover:text-white hover:shadow-md active:translate-y-0 active:shadow-none;
 	}
 }
