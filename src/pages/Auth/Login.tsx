@@ -40,51 +40,56 @@ const Login: React.FC = () => {
 
 	return (
 		<>
-			<form className="mb-4 rounded px-8 pb-8 pt-6 shadow-md bg-light-secondary dark:bg-dark-secondary" onSubmit={handleSubmit}>
+			<p className="medium-headings mb-4">Log in, sire! We are happy to have you back.</p>
+			<form className="bg-light-secondary dark:bg-dark-secondary rounded px-8 py-6 shadow-md" onSubmit={handleSubmit}>
 				<div className="mb-4">
 					<label className="mb-2 block text-sm font-bold" htmlFor="email">
 						Email
 					</label>
 					<input
-						className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+						className="text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
 						name="email"
 						type="text"
 						placeholder="Email"
 					/>
 				</div>
-				<div className="mb-6">
+				<div className="mb-4">
 					<label className="mb-2 block text-sm font-bold" htmlFor="password">
 						Password
 					</label>
 					<input
-						className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+						className="text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
 						name="password"
 						type="password"
 						placeholder="Password"
 					/>
 				</div>
-				<div className="flex items-center justify-between">
-					<button className="solid-btn" type="submit">
-						Log In
-					</button>
-				</div>
-				<div className="mb-6">
-					<input
-						type="checkbox"
-						id="trust"
-						onChange={(e) => {
-							localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
-						}}
-					/>
-					<label htmlFor="trust">Trust this device</label>
+				<div className="flex flex-col items-center justify-center">
+					<div className="my-2">
+						<input
+							type="checkbox"
+							id="trust"
+							onChange={(e) => {
+								localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
+							}}
+						/>
+						<label htmlFor="trust" className="m-2">
+							Trust this device
+						</label>
+					</div>
+					<div className="flex items-center justify-between">
+						<button className="solid-btn" type="submit">
+							Log In
+						</button>
+					</div>
 				</div>
 			</form>
-			<button
+			{/* <button
 				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
 				onClick={refresh}
 			>
 				Refresh Token
-			</button>
+			</button> */}
 		</>
 	);
 };
