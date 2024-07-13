@@ -15,7 +15,7 @@ const Header = () => {
 				setStuck((prev) => !prev);
 			}}
 		>
-			<header className="flex w-full bg-white">
+			<header className="flex w-full secondary-color-bg z-50">
 				<div
 					className={`header-grid-layout h-headerHeight mx-auto w-full max-w-7xl items-center gap-4 transition-all duration-500 ease-in-out ${stuck ? "--stuck-width" : ""}`}
 				>

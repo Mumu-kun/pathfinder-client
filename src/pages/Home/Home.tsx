@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Intro from "./Intro";
+import Categories from "./Categories";
 
 const Home: React.FC = () => {
 	return (
 		<div className="mt-[800px]">
+			<Categories />
 			<Link
 				to="/register"
 				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"

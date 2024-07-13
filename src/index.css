@@ -26,8 +26,16 @@ body {
 	color: var(--text-color);
 }
 
-.secondary-color-bg {
-	background-color: var(--secondary-color);
+.anton-regular {
+	font-family: "Anton", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.anton-sc-regular {
+	font-family: "Anton SC", sans-serif;
+	font-weight: 400;
+	font-style: normal;
 }
 
 @layer base {
