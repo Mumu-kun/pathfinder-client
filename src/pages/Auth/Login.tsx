@@ -40,9 +40,9 @@ const Login: React.FC = () => {
 
 	return (
 		<>
-			<form className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md" onSubmit={handleSubmit}>
+			<form className="mb-4 rounded px-8 pb-8 pt-6 shadow-md bg-light-secondary dark:bg-dark-secondary" onSubmit={handleSubmit}>
 				<div className="mb-4">
-					<label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="email">
+					<label className="mb-2 block text-sm font-bold" htmlFor="email">
 						Email
 					</label>
 					<input
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
 					/>
 				</div>
 				<div className="mb-6">
-					<label className="mb-2 block text-sm font-bold text-gray-700" htmlFor="password">
+					<label className="mb-2 block text-sm font-bold" htmlFor="password">
 						Password
 					</label>
 					<input
@@ -64,10 +64,7 @@ const Login: React.FC = () => {
 					/>
 				</div>
 				<div className="flex items-center justify-between">
-					<button
-						className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-						type="submit"
-					>
+					<button className="solid-btn" type="submit">
 						Log In
 					</button>
 				</div>
