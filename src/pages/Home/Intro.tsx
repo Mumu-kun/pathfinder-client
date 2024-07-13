@@ -3,9 +3,9 @@ import React from "react";
 const Intro: React.FC = () => {
 	return (
 		<div className="m-20">
-			<div className="flex items-center justify-between">
+			<div className="flex items-center justify-between lg:flex-row flex-col">
 				<div className="w-1/2 bg-light-secondary dark:bg-dark-secondary relative overflow-hidden -z-10">
-					<p className="large-headings anton-sc-regular rounded-l-lg p-20 text-left">
+					<p className="large-headings anton-sc-regular rounded-l-lg p-[15%] text-left">
 						Find yourself the perfect mentor based on your interests and goals.
 					</p>
 					<div className="absolute -right-2 top-0 h-full w-16 bg-light-bg dark:bg-dark-bg [clip-path:polygon(0_100%,87.5%_0,100%_0,100%_100%)] max-lg:hidden"></div>

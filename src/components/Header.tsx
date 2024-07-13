@@ -21,18 +21,17 @@ const Header = () => {
 				>
 					<div className="col-span-1 flex items-center gap-2">
 						<Link to="/" className="mr-6 text-3xl font-bold">
-							Logo
+							path<span className="text-green-500 text-4xl">Finder</span>
 						</Link>
-						<ChangeTheme />
 					</div>
 
 					<SearchBar />
 
 					<animated.div className="flex items-center justify-center gap-4 text-sm">
-						<Link to="/" className="px-2">
+						<Link to="/" className="px-2 font-bold text-base">
 							About Us
 						</Link>
-						<Link to="/" className="px-2">
+						<Link to="/" className="px-2 font-bold text-base">
 							Contact
 						</Link>
 						<Link

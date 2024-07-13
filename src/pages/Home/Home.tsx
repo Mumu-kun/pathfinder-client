@@ -1,29 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Categories from "./Categories";
+import ChangeTheme from "../../components/ChangeTheme";
 
 const Home: React.FC = () => {
 	return (
-		<div className="mt-[800px]">
+		<div className="">
 			<Categories />
-			<Link
+			{/* <Link
 				to="/register"
-				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+				className="solid-btn"
 			>
 				register
 			</Link>
 			<Link
 				to="/login"
-				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+				className="solid-btn"
 			>
 				login
 			</Link>
 			<Link
 				to="/test"
-				className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+				className="solid-btn"
 			>
 				Test
-			</Link>
+			</Link> */}
+			<ChangeTheme />
 		</div>
 	);
 };
