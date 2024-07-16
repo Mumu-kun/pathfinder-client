@@ -8,11 +8,14 @@ import PersistLogin from "./components/PersistLogin.tsx";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
 import Home from "./pages/Home/Home.tsx";
 import { useEffect, useState } from "react";
+import ErrorPage from "./components/ErrorPage.tsx";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Layout />,
+		hydrateFallbackElement: <div>Loading...</div>,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/",
@@ -21,6 +24,10 @@ const router = createBrowserRouter([
 			{
 				element: <PersistLogin />,
 				children: [
+					{
+						path: "profile/:userId?",
+						lazy: () => import("./pages/Profile/Profile.tsx"),
+					},
 					{
 						element: <RedirectIfLoggedIn />,
 						children: [
@@ -51,7 +58,7 @@ const router = createBrowserRouter([
 
 function App() {
 	// this code is in app.tsx because we want to know the theme all over the app.
-	const [theme, setTheme] = useState<string | null>(localStorage.getItem("theme"));
+	const [theme] = useState<string | null>(localStorage.getItem("theme"));
 
 	useEffect(() => {
 		document.body.classList.remove("light", "dark");
@@ -59,6 +66,7 @@ function App() {
 			document.body.classList.add(theme);
 		}
 	}, [theme]);
+
 	return <RouterProvider router={router} />;
 }
 

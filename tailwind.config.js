@@ -4,9 +4,6 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
-			height: {
-				headerHeight: "6rem",
-			},
 			dropShadow: {
 				glow: ["0 0px 1px rgba(29,78, 216, 0.35)", "0 0px 3px rgba(29, 78,216, 0.2)"],
 			},
@@ -46,6 +43,20 @@ export default {
 					800: "#00538e",
 					900: "#054575",
 					950: "#02182b",
+				},
+			},
+			animation: {
+				fadeIn: "fadeIn .3s ease-in-out",
+				fadeOut: "fadeOut .3s ease-in-out",
+			},
+			keyframes: {
+				fadeIn: {
+					from: { opacity: 0 },
+					to: { opacity: 1 },
+				},
+				fadeOut: {
+					from: { opacity: 1 },
+					to: { opacity: 0 },
 				},
 			},
 		},
