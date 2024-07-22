@@ -4,6 +4,9 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
+			fontSize: {
+				xss: "0.625rem",
+			},
 			dropShadow: {
 				glow: ["0 0px 1px rgba(29,78, 216, 0.35)", "0 0px 3px rgba(29, 78,216, 0.2)"],
 			},
@@ -58,6 +61,9 @@ export default {
 					from: { opacity: 1 },
 					to: { opacity: 0 },
 				},
+			},
+			screens: {
+				xs: "500px",
 			},
 		},
 	},

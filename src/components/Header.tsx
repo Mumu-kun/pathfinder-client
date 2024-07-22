@@ -1,6 +1,5 @@
-import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { TypeAnimation } from "react-type-animation";
 import SearchBar from "./SearchBar";
@@ -8,7 +7,10 @@ import ChangeTheme from "./ChangeTheme";
 import Dropdown from "./Dropdown";
 
 const Header = () => {
-	const [stuck, setStuck] = useState<boolean>(false);
+	const location = useLocation();
+	const isHome: Boolean = location.pathname === "/";
+
+	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
 	const [isMediaSM, setIsMediaSM] = useState<boolean>(window.matchMedia("(max-width: 640px)").matches);
 	const [isMediaMD, setIsMediaMD] = useState<boolean>(window.matchMedia("(max-width: 768px)").matches);
@@ -30,15 +32,23 @@ const Header = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		isHome && setStuck(Boolean(window.scrollY));
+	}, [location.pathname]);
+
 	return (
 		<Sticky
 			onFixedToggle={() => {
-				setStuck((prev) => !prev);
+				isHome && setStuck(Boolean(window.scrollY));
 			}}
+			stickyClassName="z-50"
 		>
-			<header className="z-50 flex w-full flex-col items-center bg-light-secondary pt-3 shadow max-xl:px-6 dark:bg-dark-secondary dark:shadow-gray-700">
+			<header
+				id="header"
+				className="flex w-full flex-col items-center bg-light-secondary px-6 pt-3 shadow dark:bg-dark-secondary dark:shadow-gray-700"
+			>
 				<div
-					className={`header-grid-layout w-full max-w-7xl items-center gap-x-4 transition-all duration-500 ease-in-out max-lg:pb-1 ${stuck ? "--stuck-header" : ""} `}
+					className={`header-grid-layout w-full max-w-7xl items-center gap-x-4 transition-all duration-500 ease-in-out ${stuck ? "--stuck-header" : ""} `}
 				>
 					{/* Logo */}
 					<div className="col-span-1 flex items-center gap-2">
@@ -72,7 +82,7 @@ const Header = () => {
 
 					{/* Auxiliary Links */}
 				</div>
-				<div className="mt-2 w-full">
+				<div className="mt-1 w-full">
 					<div className="mx-auto flex max-w-7xl">
 						<Dropdown
 							title="Mathematics"

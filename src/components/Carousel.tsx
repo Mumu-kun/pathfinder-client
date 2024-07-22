@@ -8,9 +8,16 @@ type CarouselProps = {
 	autoplay?: boolean;
 	loop?: boolean;
 	duration?: number;
+	className?: string;
 };
 
-const Carousel: React.FC<CarouselProps> = ({ children, autoplay, loop = false, duration = 50 }) => {
+const Carousel: React.FC<CarouselProps> = ({
+	children,
+	autoplay,
+	loop = false,
+	duration = 50,
+	className: pClassName = "",
+}) => {
 	const [emblaRef, emblaApi] = useEmblaCarousel(
 		{ loop, align: "start", duration },
 		autoplay ? [Autoplay({ delay: 5000 + Math.random() * 500, stopOnMouseEnter: true })] : undefined
@@ -46,8 +53,8 @@ const Carousel: React.FC<CarouselProps> = ({ children, autoplay, loop = false, d
 	}, [emblaApi]);
 
 	return (
-		<div className="relative flex items-center px-6">
-			<div ref={emblaRef} className="mt-2 flex-1 overflow-hidden rounded-lg pb-2">
+		<div className={`relative flex items-center px-6 ${pClassName}`}>
+			<div ref={emblaRef} className="mt-2 flex-1 overflow-hidden rounded-lg p-2">
 				<div className="flex gap-4">{children}</div>
 			</div>
 

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { PropagateLoader } from "react-spinners";
 
 type LoadingProps = {
@@ -7,9 +8,15 @@ type LoadingProps = {
 };
 
 const Loading = ({ fullscreen = false, isLoading = true, deleteMe }: LoadingProps) => {
+	useEffect(() => {
+		if (!isLoading) {
+			setTimeout(deleteMe, 300);
+		}
+	}, [isLoading]);
+
 	return (
 		<div
-			className={`animate-fadeIn flex h-full w-full items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity duration-300 ${fullscreen ? "fixed left-0 top-0 z-10" : ""} ${!isLoading ? "opacity-0" : ""}`}
+			className={`flex h-full w-full animate-fadeIn items-center justify-center bg-gray-500 bg-opacity-50 transition-opacity duration-300 ${fullscreen ? "fixed left-0 top-0 z-10" : ""} ${!isLoading ? "opacity-0" : ""}`}
 			onTransitionEnd={() => {
 				deleteMe();
 			}}
