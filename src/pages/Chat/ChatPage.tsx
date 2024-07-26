@@ -6,30 +6,33 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import Contacts from "./Contacts";
+import ChatWindow from "./ChatWindow";
+import Controls from "./Controls";
 
 const ChatPage: React.FC = () => {
 	const { id } = useParams();
-    const {auth } = useAuth();
+	const { auth } = useAuth();
 
-    console.log(id);
-    console.log(auth?.firstName);
+	console.log(id);
+	console.log(auth);
 
-    // PROBLEM - cant access auth data.
+	// PROBLEM - cant access auth data.
 
 	return (
 		<div>
 			<p className="text-center text-2xl">ChatPage</p>
 			<div className="flex items-center justify-between">
 				<div>
-					<p>contacts</p>
+					<Contacts />
 				</div>
 				<div>
-					<p>chat window</p>
+					<ChatWindow />
 				</div>
 				<div>
-                    {/* // todo: let the seller create an enrollment.
+					{/* // todo: let the seller create an enrollment.
                     // todo: let buyer see the created enrollment. */}
-					<p>info</p>
+					<Controls />
 				</div>
 			</div>
 		</div>
