@@ -5,7 +5,7 @@ import ChangeTheme from "../../components/ChangeTheme";
 
 const Home: React.FC = () => {
 	return (
-		<div className="">
+		<div className="mt-80">
 			<Categories />
 			{/* <Link
 				to="/register"
@@ -26,6 +26,9 @@ const Home: React.FC = () => {
 				Test
 			</Link> */}
 			<ChangeTheme />
+			<Link to="/profile" className="solid-btn">
+				Profile
+			</Link>
 		</div>
 	);
 };

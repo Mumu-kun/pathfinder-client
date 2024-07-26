@@ -9,8 +9,6 @@ const PersistLogin: React.FC = () => {
 	const refresh = useRefreshToken();
 	const logout = useLogout();
 
-	console.log(persist);
-
 	const [loading, setLoading] = useState<Boolean>(true);
 
 	useEffect(() => {
