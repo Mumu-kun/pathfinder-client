@@ -1,12 +1,5 @@
 export const Category = {};
 
-export type CardUserData = {
-	id: number;
-	firstName: string;
-	lastName: string;
-	profileImage: string;
-};
-
 export type ProfileData = {
 	id: number;
 	email: string;
@@ -26,36 +19,29 @@ export type ProfileData = {
 	qualification: string[];
 };
 
-export type GigCardData = {
-	id: number;
-	title: string;
-	tags: string[];
-	price: number;
-	rating: number;
-	ratedByCount: number;
-	coverImage: string;
-	user?: CardUserData;
-};
-
-export type Review = {
-	title: string;
-	text: string;
-	rating: number;
-	user: CardUserData;
-	gig?: {
-		id: number;
-		title: string;
-		coverImage: string;
-	};
+export type AuthUser = {
+	userId: number;
+	firstName: string;
+	lastName: string;
+	email: string;
+	role: string;
+	accessToken: string;
 };
 
 export type User = {
 	id: number;
-	firstname: string;
-	lastname: string;
-	email: string | null;
-	role: string | null;
-	username: string | null;
+	firstName: string;
+	lastName: string;
+	email?: string;
+	role?: string;
+	username?: string;
+};
+
+export type UserShort = {
+	id: number;
+	firstName: string;
+	lastName: string;
+	profileImage: string;
 };
 
 export type Gig = {
@@ -73,11 +59,26 @@ export type Gig = {
 	gig_video: string | null;
 };
 
+export type GigCardData = {
+	id: number;
+	title: string;
+	tags: string[];
+	price: number;
+	rating: number;
+	ratedByCount: number;
+	coverImage: string;
+	user?: UserShort;
+};
+
 export type Review = {
 	id: number;
 	title: string;
 	text: string;
 	rating: number;
-	created_at: Date;
-	reviewer: User;
+	reviewer: UserShort;
+	gig?: {
+		id: number;
+		title: string;
+		coverImage: string;
+	};
 };

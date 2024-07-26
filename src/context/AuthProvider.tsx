@@ -1,7 +1,8 @@
+import { AuthUser } from "@/utils/types";
 import { createContext, useState, FC, ReactNode } from "react";
 
 type AuthContextProps = {
-	auth: any;
+	auth: AuthUser | null;
 	setAuth: (auth: any) => void;
 	persist: boolean;
 	setPersist: (persist: boolean) => void;
@@ -15,7 +16,7 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-	const [auth, setAuth] = useState({});
+	const [auth, setAuth] = useState<AuthUser | null>(null);
 	const localStoragePersist = localStorage.getItem("persist_login");
 	const [persist, setPersist] = useState<boolean>(localStoragePersist ? JSON.parse(localStoragePersist) : false);
 
