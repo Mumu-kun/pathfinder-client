@@ -22,7 +22,12 @@ const Register: React.FC = () => {
 			const accessToken = res?.data?.access_token;
 			const refreshToken = res?.data?.refresh_token;
 
-			setAuth({ email: formData.get("email"), accessToken, refreshToken });
+			const userId = res?.data?.user_id;
+			const firstName = res?.data?.first_name;
+			const lastName = res?.data?.last_name;
+			const role = res?.data?.role;
+
+			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
 		} catch (err) {
 			console.error(err);
 		}
@@ -34,13 +39,13 @@ const Register: React.FC = () => {
 			<p className="medium-headings mb-4">Teach them. Learn from them.</p>
 			<div className="">
 				<form
-					className="bg-light-secondary dark:bg-dark-secondary mb-4 rounded px-8 pb-8 pt-6 shadow-md"
+					className="mb-4 rounded bg-light-secondary px-8 pb-8 pt-6 shadow-md dark:bg-dark-secondary"
 					onSubmit={handleSubmit}
 				>
 					<div className="mb-4">
 						<label className="mb-2 block text-sm font-bold">First Name:</label>
 						<input
-							className="bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
 							name="firstname"
 							placeholder="firstname"
@@ -49,7 +54,7 @@ const Register: React.FC = () => {
 					<div className="mb-4">
 						<label className="mb-2 block text-sm font-bold">Last Name:</label>
 						<input
-							className="bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
 							name="lastname"
 							placeholder="lastname"
@@ -58,7 +63,7 @@ const Register: React.FC = () => {
 					<div className="mb-4">
 						<label className="mb-2 block text-sm font-bold">Email:</label>
 						<input
-							className="bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
 							name="email"
 							placeholder="email"
@@ -67,13 +72,13 @@ const Register: React.FC = () => {
 					<div className="mb-4">
 						<label className="mb-2 block text-sm font-bold">Password:</label>
 						<input
-							className="bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="password"
 							name="password"
 							placeholder="password"
 						/>
 					</div>
-					<div className="flex justify-center flex-col items-center">
+					<div className="flex flex-col items-center justify-center">
 						<div className="mb-4">
 							<input
 								type="checkbox"

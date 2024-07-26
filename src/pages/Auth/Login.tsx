@@ -30,7 +30,12 @@ const Login: React.FC = () => {
 			const accessToken = res?.data?.access_token;
 			const refreshToken = res?.data?.refresh_token;
 
-			setAuth({ email: formData.get("email"), accessToken, refreshToken });
+			const userId = res?.data?.user_id;
+			const firstName = res?.data?.first_name;
+			const lastName = res?.data?.last_name;
+			const role = res?.data?.role;
+
+			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
 
 			navigate(from, { replace: true });
 		} catch (err) {

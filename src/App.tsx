@@ -4,10 +4,12 @@ import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 import Layout from "./pages/Layout.tsx";
 import TestPage from "./pages/TestPage.tsx";
+import Gig from "./pages/Gig/GigPage.tsx"
 import PersistLogin from "./components/PersistLogin.tsx";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
 import Home from "./pages/Home/Home.tsx";
 import { useEffect, useState } from "react";
+import ChatPage from "./pages/Chat/ChatPage.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Home />,
+			},
+			{
+				path: "gig/:id",
+				element: <Gig />
+			},
+			{
+				path: "chat/user/:id",
+				element: <ChatPage />
 			},
 			{
 				element: <PersistLogin />,
