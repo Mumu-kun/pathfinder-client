@@ -13,7 +13,6 @@ export type ProfileData = {
 	rating: number;
 	ratedByCount: number;
 	totalStudents: number;
-	totalSessions: number;
 	totalCompletedEnrollments: number;
 	education: string[];
 	qualification: string[];

@@ -4,10 +4,10 @@ import { PropagateLoader } from "react-spinners";
 type LoadingProps = {
 	fullscreen?: boolean;
 	isLoading?: boolean;
-	deleteMe: () => void;
+	deleteMe?: () => void;
 };
 
-const Loading = ({ fullscreen = false, isLoading = true, deleteMe }: LoadingProps) => {
+const Loading = ({ fullscreen = false, isLoading = true, deleteMe = () => {} }: LoadingProps) => {
 	useEffect(() => {
 		if (!isLoading) {
 			setTimeout(deleteMe, 300);

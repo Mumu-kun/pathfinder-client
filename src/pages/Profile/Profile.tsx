@@ -5,7 +5,7 @@ import { BsPersonCheck } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
 import { GoPeople } from "react-icons/go";
 import { PiChalkboardTeacher } from "react-icons/pi";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import Carousel from "../../components/Carousel";
 import ErrorPage from "../../components/ErrorPage";
 import GigCard from "../../components/GigCard";
@@ -14,17 +14,36 @@ import { GigCardData, ProfileData, Review } from "../../utils/types";
 import FloatCard from "./FloatCard";
 
 import profileImg from "@/assets/profile.jpg";
-import coverImg from "@/assets/cover.jpg";
+import coverImg from "@/assets/cover.png";
 import ReviewCard from "@/components/ReviewCard";
+import useAuth from "@/hooks/useAuth";
+import axios from "@/api/axios";
 
 type loaderDataType = {
 	profileData: ProfileData;
 	gigs: GigCardData[];
 };
 
-export const loader = async (params: any): Promise<loaderDataType> => {
-	const profileData: ProfileData = {
-		id: params?.id ?? 1,
+const getProfileData = async (userId: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/users/${userId}/profile`);
+		const data = res;
+		console.log(res);
+
+		return data;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const Profile = () => {
+	const params = useParams();
+	const { auth } = useAuth();
+
+	let userId = params?.id ? parseInt(params?.id) : auth?.userId;
+
+	const [profileData, setProfileData] = useState<ProfileData>({
+		id: userId ?? 1,
 		email: "mumufahad@gmail.com",
 		username: "mumufahad",
 		firstName: "Mustafa",
@@ -39,13 +58,12 @@ export const loader = async (params: any): Promise<loaderDataType> => {
 		rating: 2.7,
 		ratedByCount: 25,
 		totalStudents: 40,
-		totalSessions: 500,
 		totalCompletedEnrollments: 50,
 		education: ["Bachelor of Science in Computer Science", "M.Sc. in Computer Science"],
 		qualification: ["Bachelor of Science in Computer Science", "M.Sc. in Computer Science"],
-	};
+	});
 
-	const gigs: GigCardData[] = [
+	const [gigs, setGigs] = useState<GigCardData[]>([
 		{
 			id: 1,
 			title: "Intro to Python Programming",
@@ -61,28 +79,15 @@ export const loader = async (params: any): Promise<loaderDataType> => {
 				profileImage: profileData.profileImage,
 			},
 		},
-	];
+	]);
 
-	const data = {
-		profileData,
-		gigs,
-	};
-
-	// Simulate a network delay
-	// await new Promise((resolve) => setTimeout(resolve, 1000));
-
-	return data;
-};
-
-export const Component = () => {
-	const { profileData, gigs } = useLoaderData() as loaderDataType;
-
-	const reviews: Review[] = [
+	const [reviews, setReviews] = useState<Review[]>([
 		{
+			id: 1,
 			title: "This was life changing",
 			text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
 			rating: 4.5,
-			user: {
+			reviewer: {
 				id: 1,
 				firstName: "Mustafa",
 				lastName: "Muhaimin",
@@ -94,7 +99,7 @@ export const Component = () => {
 				coverImage: coverImg,
 			},
 		},
-	];
+	]);
 
 	const theme = localStorage.getItem("theme");
 	const { getCollapseProps, getToggleProps, setExpanded } = useCollapse({
@@ -145,7 +150,9 @@ export const Component = () => {
 									itemStyles={{
 										itemShapes: ThinRoundedStar,
 										activeFillColor: "#4ade80",
-										inactiveFillColor: theme === "light" ? "#e0e0e0" : "#333",
+										inactiveFillColor: "white",
+										activeStrokeColor: "#157010",
+										itemStrokeWidth: 2,
 									}}
 								/>
 							</div>
@@ -226,7 +233,8 @@ export const Component = () => {
 			</div>
 
 			{/* Gigs */}
-			<div className="mt-4">
+			<div className="mt-8">
+				<div className="mb-2 flex items-center text-xl font-semibold">Gigs from this Mentor</div>
 				<Carousel>
 					{gigs.map((value) => (
 						<GigCard gig={value} key={`profileGig-${value.id}`} />
@@ -245,4 +253,4 @@ export const Component = () => {
 	);
 };
 
-export const ErrorBoundary = ErrorPage;
+export default Profile;

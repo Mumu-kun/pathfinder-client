@@ -9,7 +9,7 @@ type ReviewProps = {
 };
 
 const ReviewCard = ({ review }: ReviewProps) => {
-	const { gig, user } = review;
+	const { gig, reviewer: user } = review;
 	const [reviewExpanded, setReviewExpanded] = useState<boolean>(false);
 
 	return (

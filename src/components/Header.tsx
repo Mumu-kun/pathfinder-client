@@ -1,14 +1,19 @@
+import useAuth from "@/hooks/useAuth";
+import useLogout from "@/hooks/useLogout";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { TypeAnimation } from "react-type-animation";
-import SearchBar from "./SearchBar";
 import ChangeTheme from "./ChangeTheme";
 import Dropdown from "./Dropdown";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
 	const location = useLocation();
 	const isHome: Boolean = location.pathname === "/";
+
+	const { auth } = useAuth();
+	const logout = useLogout();
 
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
@@ -69,15 +74,28 @@ const Header = () => {
 						<Link to="/" className="px-2 font-bold">
 							{isMediaMD ? "md" : "Contact"}
 						</Link>
-						<Link to="/login" className="outline-btn">
-							Log In
-						</Link>
-						<Link to="/register" className="solid-btn">
-							Join as a{" "}
-							<span className="inline-block w-14 pr-2">
-								<TypeAnimation sequence={["Student", 3000, "Mentor", 3000]} speed={10} repeat={Infinity} />
-							</span>
-						</Link>
+						{!auth ? (
+							<>
+								<Link to="/login" className="outline-btn">
+									Log In
+								</Link>
+								<Link to="/register" className="solid-btn">
+									Join as a{" "}
+									<span className="inline-block w-14 pr-2">
+										<TypeAnimation sequence={["Student", 3000, "Mentor", 3000]} speed={10} repeat={Infinity} />
+									</span>
+								</Link>
+							</>
+						) : (
+							<button
+								className="outline-btn"
+								onClick={() => {
+									logout();
+								}}
+							>
+								Log Out
+							</button>
+						)}
 					</div>
 
 					{/* Auxiliary Links */}

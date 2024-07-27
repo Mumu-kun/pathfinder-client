@@ -25,17 +25,9 @@ const Login: React.FC = () => {
 				withCredentials: true,
 			});
 
-			// console.log(res);
+			// console.log(res.data);
 
-			const accessToken = res?.data?.access_token;
-			const refreshToken = res?.data?.refresh_token;
-
-			const userId = res?.data?.user_id;
-			const firstName = res?.data?.first_name;
-			const lastName = res?.data?.last_name;
-			const role = res?.data?.role;
-
-			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
+			setAuth(res.data);
 
 			navigate(from, { replace: true });
 		} catch (err) {
@@ -46,13 +38,13 @@ const Login: React.FC = () => {
 	return (
 		<>
 			<p className="medium-headings mb-4">Log in, sire! We are happy to have you back.</p>
-			<form className="bg-light-secondary dark:bg-dark-secondary rounded px-8 py-6 shadow-md" onSubmit={handleSubmit}>
+			<form className="rounded bg-light-secondary px-8 py-6 shadow-md dark:bg-dark-secondary" onSubmit={handleSubmit}>
 				<div className="mb-4">
 					<label className="mb-2 block text-sm font-bold" htmlFor="email">
 						Email
 					</label>
 					<input
-						className="text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+						className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight text-light-text shadow focus:outline-none dark:bg-dark-bg dark:text-dark-text"
 						name="email"
 						type="text"
 						placeholder="Email"
@@ -63,7 +55,7 @@ const Login: React.FC = () => {
 						Password
 					</label>
 					<input
-						className="text-light-text dark:text-dark-text bg-light-bg dark:bg-dark-bg focus:shadow-outline w-full appearance-none rounded px-3 py-2 leading-tight shadow focus:outline-none"
+						className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight text-light-text shadow focus:outline-none dark:bg-dark-bg dark:text-dark-text"
 						name="password"
 						type="password"
 						placeholder="Password"

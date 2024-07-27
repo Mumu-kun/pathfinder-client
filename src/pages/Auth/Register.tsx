@@ -47,8 +47,8 @@ const Register: React.FC = () => {
 						<input
 							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
-							name="firstname"
-							placeholder="firstname"
+							name="firstName"
+							placeholder="First Name"
 						/>
 					</div>
 					<div className="mb-4">
@@ -56,8 +56,8 @@ const Register: React.FC = () => {
 						<input
 							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
-							name="lastname"
-							placeholder="lastname"
+							name="lastName"
+							placeholder="Last Name"
 						/>
 					</div>
 					<div className="mb-4">
