@@ -18,12 +18,7 @@ import profileImg from "@/assets/profile.jpg";
 import ReviewCard from "@/components/ReviewCard";
 import useAuth from "@/hooks/useAuth";
 
-type loaderDataType = {
-	profileData: ProfileData;
-	gigs: GigCardData[];
-};
-
-const getProfileData = async (userId: number) => {
+export const getProfileData = async (userId: number) => {
 	try {
 		const res = await axios.get(`/api/v1/public/users/${userId}/profile`);
 		const data = res;
@@ -186,7 +181,7 @@ export const Profile = () => {
 					{profileData.description}
 				</p>
 				<button
-					className="mt-2 font-semibold text-blue-600"
+					className="mt-2 font-semibold text-green-500"
 					{...getToggleProps({
 						onClick: () => setExpanded((prev) => !prev),
 					})}
