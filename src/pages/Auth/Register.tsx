@@ -2,9 +2,12 @@ import React from "react";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { REGISTER_URL } from "../../utils/variables";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
 	const { setAuth } = useAuth();
+
+	const navigate = useNavigate();
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -39,6 +42,8 @@ const Register: React.FC = () => {
 			const role = res?.data?.role;
 
 			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
+
+			navigate("/");
 		} catch (err) {
 			console.error(err);
 		}

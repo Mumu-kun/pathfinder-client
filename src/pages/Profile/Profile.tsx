@@ -5,19 +5,18 @@ import { BsPersonCheck } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
 import { GoPeople } from "react-icons/go";
 import { PiChalkboardTeacher } from "react-icons/pi";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Carousel from "../../components/Carousel";
-import ErrorPage from "../../components/ErrorPage";
 import GigCard from "../../components/GigCard";
 import Tag from "../../components/Tag";
 import { GigCardData, ProfileData, Review } from "../../utils/types";
 import FloatCard from "./FloatCard";
 
-import profileImg from "@/assets/profile.jpg";
+import axios from "@/api/axios";
 import coverImg from "@/assets/cover.png";
+import profileImg from "@/assets/profile.jpg";
 import ReviewCard from "@/components/ReviewCard";
 import useAuth from "@/hooks/useAuth";
-import axios from "@/api/axios";
 
 type loaderDataType = {
 	profileData: ProfileData;

@@ -1,14 +1,14 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import PersistLogin from "./components/PersistLogin.tsx";
+import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
 import RequireAuth from "./components/RequireAuth.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
+import Gig from "./pages/Gig/GigPage.tsx";
+import Home from "./pages/Home/Home.tsx";
 import Layout from "./pages/Layout.tsx";
 import TestPage from "./pages/TestPage.tsx";
-import Gig from "./pages/Gig/GigPage.tsx";
-import PersistLogin from "./components/PersistLogin.tsx";
-import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
-import Home from "./pages/Home/Home.tsx";
-import { lazy, Suspense, useEffect, useState } from "react";
 
 import ChatPage from "./pages/Chat/ChatPage.tsx";
 
@@ -20,8 +20,10 @@ const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const router = createBrowserRouter([
 	{
 		element: <Layout />,
+		errorElement: <ErrorPage showHeader />,
 		children: [
 			{
+				element: <PersistLogin />,
 				errorElement: <ErrorPage />,
 				children: [
 					{
@@ -36,38 +38,34 @@ const router = createBrowserRouter([
 						path: "chat/user/:id",
 						element: <ChatPage />,
 					},
+
 					{
-						element: <PersistLogin />,
+						path: "profile/:userId?",
+						element: (
+							<Suspense fallback={<Loading fullscreen />}>
+								<Profile />
+							</Suspense>
+						),
+					},
+					{
+						element: <RedirectIfLoggedIn />,
 						children: [
 							{
-								path: "profile/:userId?",
-								element: (
-									<Suspense fallback={<Loading fullscreen />}>
-										<Profile />
-									</Suspense>
-								),
+								path: "login",
+								element: <Login />,
 							},
 							{
-								element: <RedirectIfLoggedIn />,
-								children: [
-									{
-										path: "login",
-										element: <Login />,
-									},
-									{
-										path: "register",
-										element: <Register />,
-									},
-								],
+								path: "register",
+								element: <Register />,
 							},
+						],
+					},
+					{
+						element: <RequireAuth />,
+						children: [
 							{
-								element: <RequireAuth />,
-								children: [
-									{
-										path: "test",
-										element: <TestPage />,
-									},
-								],
+								path: "test",
+								element: <TestPage />,
 							},
 						],
 					},
