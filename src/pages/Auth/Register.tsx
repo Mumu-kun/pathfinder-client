@@ -11,20 +11,31 @@ const Register: React.FC = () => {
 		const formData = new FormData(event.currentTarget);
 		formData.append("role", "USER");
 
+		// converting to json
+		let object: { [key: string]: any } = {};
+		formData.forEach((value, key) => {
+			object[key] = value;
+		});
+
+		const json = JSON.stringify(object);
+
+		console.log(json);
+
 		try {
-			const res = await axios.post(REGISTER_URL, formData, {
+			console.log(formData);
+			const res = await axios.post(REGISTER_URL, json, {
 				headers: { "Content-Type": "application/json" },
 				withCredentials: true,
 			});
 
 			// console.log(res);
 
-			const accessToken = res?.data?.access_token;
-			const refreshToken = res?.data?.refresh_token;
+			const accessToken = res?.data?.accessToken;
+			const refreshToken = res?.data?.refreshToken;
 
-			const userId = res?.data?.user_id;
-			const firstName = res?.data?.first_name;
-			const lastName = res?.data?.last_name;
+			const userId = res?.data?.userId;
+			const firstName = res?.data?.firstName;
+			const lastName = res?.data?.lastName;
 			const role = res?.data?.role;
 
 			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });

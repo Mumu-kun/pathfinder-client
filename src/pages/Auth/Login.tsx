@@ -4,6 +4,7 @@ import axios from "../../api/axios";
 import { LOGIN_URL } from "../../utils/variables";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useRefreshToken from "../../hooks/useRefreshToken";
+import useLogout from "@/hooks/useLogout";
 
 const Login: React.FC = () => {
 	const { setAuth } = useContext(AuthContext);

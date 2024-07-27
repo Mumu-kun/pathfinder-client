@@ -35,6 +35,7 @@ const ChatPage: React.FC = () => {
 					<Controls />
 				</div>
 			</div>
+			{auth?.email}
 		</div>
 	);
 };
