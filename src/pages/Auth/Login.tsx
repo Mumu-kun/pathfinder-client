@@ -4,6 +4,7 @@ import axios from "../../api/axios";
 import { LOGIN_URL } from "../../utils/variables";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useRefreshToken from "../../hooks/useRefreshToken";
+import useLogout from "@/hooks/useLogout";
 
 const Login: React.FC = () => {
 	const { setAuth } = useContext(AuthContext);
@@ -27,12 +28,12 @@ const Login: React.FC = () => {
 
 			// console.log(res);
 
-			const accessToken = res?.data?.access_token;
-			const refreshToken = res?.data?.refresh_token;
+			const accessToken = res?.data?.accessToken;
+			const refreshToken = res?.data?.refreshToken;
 
-			const userId = res?.data?.user_id;
-			const firstName = res?.data?.first_name;
-			const lastName = res?.data?.last_name;
+			const userId = res?.data?.userId;
+			const firstName = res?.data?.firstName;
+			const lastName = res?.data?.lastName;
 			const role = res?.data?.role;
 
 			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
