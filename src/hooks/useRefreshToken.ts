@@ -1,9 +1,9 @@
-import useAuth from "./useAuth";
 import axios from "../api/axios";
 import { REFRESH_TOKEN_URL } from "../utils/variables";
+import useAuth from "./useAuth";
 
 const useRefreshToken = () => {
-	const { auth, setAuth } = useAuth();
+	const { setAuth } = useAuth();
 
 	const refresh = async () => {
 		try {
@@ -15,15 +15,7 @@ const useRefreshToken = () => {
 				}
 			);
 
-			console.log(res);
-
-			setAuth((prev: any) => {
-				return {
-					...prev,
-					accessToken: res?.data?.accessToken,
-					refreshToken: res?.data?.refreshToken,
-				};
-			});
+			setAuth(res.data);
 
 			return res?.data?.access_token;
 		} catch (error) {

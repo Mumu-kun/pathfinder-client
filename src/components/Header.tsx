@@ -76,10 +76,10 @@ const Header = () => {
 						</Link>
 						{!auth ? (
 							<>
-								<Link to="/login" className="outline-btn">
+								<Link to="/login" state={{ from: location.pathname }} className="outline-btn">
 									Log In
 								</Link>
-								<Link to="/register" className="solid-btn">
+								<Link to="/register" state={{ from: location.pathname }} className="solid-btn">
 									Join as a{" "}
 									<span className="inline-block w-14 pr-2">
 										<TypeAnimation sequence={["Student", 3000, "Mentor", 3000]} speed={10} repeat={Infinity} />

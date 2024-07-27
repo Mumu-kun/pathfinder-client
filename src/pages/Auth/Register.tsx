@@ -2,12 +2,14 @@ import React from "react";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { REGISTER_URL } from "../../utils/variables";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
 	const { setAuth } = useAuth();
 
 	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from || "/";
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -43,7 +45,7 @@ const Register: React.FC = () => {
 
 			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
 
-			navigate("/");
+			navigate(from, { replace: true });
 		} catch (err) {
 			console.error(err);
 		}

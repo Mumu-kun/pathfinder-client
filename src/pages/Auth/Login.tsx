@@ -1,15 +1,11 @@
-import React, { useContext, useState } from "react";
-import AuthContext from "../../context/AuthProvider";
+import React, { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import AuthContext from "../../context/AuthProvider";
 import { LOGIN_URL } from "../../utils/variables";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useRefreshToken from "../../hooks/useRefreshToken";
-import useLogout from "@/hooks/useLogout";
 
 const Login: React.FC = () => {
 	const { setAuth } = useContext(AuthContext);
-
-	const refresh = useRefreshToken();
 
 	const navigate = useNavigate();
 	const location = useLocation();
