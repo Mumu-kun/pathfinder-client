@@ -11,8 +11,19 @@ const Register: React.FC = () => {
 		const formData = new FormData(event.currentTarget);
 		formData.append("role", "USER");
 
+		// converting to json
+		let object: {[key: string]: any} = {};
+		formData.forEach((value, key) => {
+			object[key] = value;
+		});
+
+		const json = JSON.stringify(object);
+
+		console.log(json);
+
 		try {
-			const res = await axios.post(REGISTER_URL, formData, {
+			console.log(formData);
+			const res = await axios.post(REGISTER_URL, json, {
 				headers: { "Content-Type": "application/json" },
 				withCredentials: true,
 			});
@@ -47,7 +58,7 @@ const Register: React.FC = () => {
 						<input
 							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
-							name="firstname"
+							name="firstName"
 							placeholder="firstname"
 						/>
 					</div>
@@ -56,7 +67,7 @@ const Register: React.FC = () => {
 						<input
 							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
 							type="text"
-							name="lastname"
+							name="lastName"
 							placeholder="lastname"
 						/>
 					</div>

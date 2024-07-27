@@ -79,10 +79,11 @@ export const Component = () => {
 
 	const reviews: Review[] = [
 		{
+			id: 1,
 			title: "This was life changing",
 			text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
 			rating: 4.5,
-			user: {
+			reviewer: {
 				id: 1,
 				firstName: "Mustafa",
 				lastName: "Muhaimin",
