@@ -2,10 +2,16 @@ import React, { useEffect } from "react";
 import SockJS from "sockjs-client/dist/sockjs";
 import { Stomp } from "@stomp/stompjs";
 
+import { useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+
 const ChatWindow: React.FC = () => {
-	const senderId = 1;
-	const receiverId = 2;
-	const message = "hi there";
+	const { auth } = useAuth();
+	const senderId = auth?.userId;
+	const senderEmail = auth?.email;
+	const { id } = useParams();
+	const receiverId = id;
+	const message = `hii there from user ${auth?.userId}`;
 
 	useEffect(() => {
 		connect();
@@ -18,12 +24,12 @@ const ChatWindow: React.FC = () => {
 		const socket = new SockJS("http://localhost:8080/ws");
 		stompClient = Stomp.over(socket);
 
-		stompClient.connect({}, onConnected, onError);
+		stompClient.connect({Authorization: `Bearer ${auth?.accessToken}`}, onConnected, onError);
 	}
 
 	function onConnected() {
 		console.log("connected");
-		stompClient.subscribe(`/user/${senderId}/queue/messages`, onMessageReceived);
+		stompClient.subscribe(`/user/${senderEmail}/queue/messages`, onMessageReceived);
 	}
 
 	function onError(error: any) {

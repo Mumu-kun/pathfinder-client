@@ -15,7 +15,7 @@ const ChatPage: React.FC = () => {
 	const { auth } = useAuth();
 
 	console.log(id);
-	console.log(auth);
+	console.log(auth?.userId);
 
 	// PROBLEM - cant access auth data.
 
