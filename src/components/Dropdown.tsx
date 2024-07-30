@@ -1,13 +1,15 @@
 import React, { RefObject, useEffect, useRef, useState } from "react";
+import { useCollapse } from "react-collapsed";
 import { FaCaretDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 type DropdownProps = {
-	title: string;
-	options: { text: string; url: string }[];
-	isOpenClassName?: string;
-	className?: string;
-	itemClassName?: string;
+	head: React.ReactNode;
+	children?: React.ReactNode;
+	isOpen?: boolean;
+	setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+	rightAlign?: boolean;
+	dropdownClassName?: string;
 };
 
 function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
@@ -24,45 +26,36 @@ function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
 	}, [ref, onClickOutside]);
 }
 
-const Dropdown = ({
-	title,
-	options,
-	isOpenClassName,
-	className: pClassName = "",
-	itemClassName = "",
-}: DropdownProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+const Dropdown = ({ head, children, isOpen, setIsOpen, rightAlign = false, dropdownClassName = "" }: DropdownProps) => {
+	// if (!isOpen || !setIsOpen) {
+	// 	[isOpen, setIsOpen] = useState<boolean>(false);
+	// }
+
+	const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse({
+		isExpanded: isOpen,
+		collapsedHeight: 0,
+	});
+
+	if (!setIsOpen) {
+		setIsOpen = setExpanded;
+	}
+
 	const ref = useRef<HTMLDivElement>(null);
 
 	useClickOutside(ref, () => {
-		if (isOpen) {
+		if (isExpanded) {
 			setIsOpen(false);
 		}
 	});
 
 	return (
 		<div ref={ref} className={`relative cursor-pointer transition-all`}>
+			<div {...getToggleProps({ onClick: () => setIsOpen((prev) => !prev) })}>{head}</div>
 			<div
-				className={`flex select-none items-center gap-0.5 ${pClassName} ${isOpen ? isOpenClassName : ""}`}
-				onBlur={(e) => {
-					console.log("onBlur");
-
-					setIsOpen(false);
-				}}
-				onClick={() => setIsOpen((prev) => !prev)}
+				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
+				{...getCollapseProps()}
 			>
-				{title}
-				<FaCaretDown className="h-3 w-3" />
-			</div>
-
-			<div className={`absolute left-0 top-full min-w-full overflow-hidden rounded-b-sm shadow dark:shadow-gray-800`}>
-				<div className={`flex flex-col transition-all ${!isOpen ? "-mt-[500%]" : ""}`}>
-					{options.map((option, index) => (
-						<Link key={index} to={option.url} className={`p-2 text-sm font-semibold ${itemClassName}`}>
-							{option.text}
-						</Link>
-					))}
-				</div>
+				{children}
 			</div>
 		</div>
 	);

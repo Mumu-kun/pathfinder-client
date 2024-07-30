@@ -10,6 +10,9 @@ const useLogout = () => {
 	const logout = async () => {
 		localStorage.removeItem("persist_login");
 		setAuth(null);
+
+		console.log("Logging out");
+
 		try {
 			await axios("/api/v1/auth/logout", {
 				withCredentials: true,
