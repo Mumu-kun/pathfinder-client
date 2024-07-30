@@ -4,11 +4,14 @@ import App from "./App.tsx";
 import "./index.css";
 import "@smastrom/react-rating/style.css";
 import { AuthProvider } from "./context/AuthProvider.tsx";
+import { StompProvider } from "./context/StompProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<AuthProvider>
-			<App />
+			<StompProvider>
+				<App />
+			</StompProvider>
 		</AuthProvider>
 	</React.StrictMode>
 );
