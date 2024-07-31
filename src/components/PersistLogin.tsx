@@ -3,6 +3,7 @@ import useAuth from "../hooks/useAuth";
 import useRefreshToken from "../hooks/useRefreshToken";
 import { Outlet } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
+import Loading from "./Loading";
 
 const PersistLogin: React.FC = () => {
 	const { auth, persist } = useAuth();
@@ -49,7 +50,7 @@ const PersistLogin: React.FC = () => {
 	}
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <Loading fullscreen />;
 	}
 
 	return <Outlet />;

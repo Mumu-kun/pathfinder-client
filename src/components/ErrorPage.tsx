@@ -1,11 +1,21 @@
 import Layout from "@/pages/Layout";
 import { isRouteErrorResponse, Link, useRouteError } from "react-router-dom";
 
-const ErrorPage = ({ showHeader = false }) => {
+const ErrorPage = ({
+	showHeader = false,
+	errorCode,
+	errorMessage,
+}: {
+	showHeader?: boolean;
+	errorCode?: number;
+	errorMessage?: string;
+}) => {
 	const error = useRouteError();
 
-	let errorCode = 500;
-	let errorMessage = "Sorry, an unknown error has occurred.";
+	if (!errorCode || !errorMessage) {
+		errorCode = 500;
+		errorMessage = "Sorry, an unknown error has occurred.";
+	}
 
 	if (isRouteErrorResponse(error)) {
 		console.log(error);

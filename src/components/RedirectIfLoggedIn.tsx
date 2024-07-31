@@ -7,8 +7,8 @@ const RedirectIfLoggedIn: React.FC = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!!auth?.accessToken) {
-			navigate(-1);
+		if (auth) {
+			navigate("/");
 			return;
 		}
 	}, [auth]);
