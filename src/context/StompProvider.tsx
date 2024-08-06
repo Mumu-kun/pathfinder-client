@@ -2,16 +2,19 @@ import useAuth from "@/hooks/useAuth";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import SockJS from "sockjs-client/dist/sockjs";
+import { ChatMessage } from "@/utils/types";
 
 type StompContextProps = {
-	lastSentMessage?: any;
-	sendMessage: (chatMessage: any) => void;
+	receivedMessage?: ChatMessage;
+	sendMessage: (chatMessage: any) => Promise<void>;
 	isConnected: boolean;
 };
 
 const StompContext = createContext<StompContextProps>({
-	lastSentMessage: undefined,
-	sendMessage: () => {},
+	receivedMessage: undefined,
+	sendMessage: async () => {
+		return Promise.resolve();
+	},
 	isConnected: false,
 });
 
@@ -19,7 +22,7 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const { auth } = useAuth();
 
 	const [isConnected, setIsConnected] = useState<boolean>(false);
-	const [lastSentMessage, setLastSentMessage] = useState<any>();
+	const [receivedMessage, setReceivedMessage] = useState<ChatMessage>();
 
 	const senderEmail = auth?.email;
 
@@ -47,13 +50,20 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	function onMessageReceived(payload: any) {
 		const message = JSON.parse(payload.body);
 		console.log("message - ", message);
-		setLastSentMessage(message);
+		setReceivedMessage(message);
 	}
 
-	function sendMessage(chatMessage: any) {
-		stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-		console.log("msg sent");
-	}
+	const sendMessage = async (chatMessage: any): Promise<void> => {
+		return new Promise<void>((resolve, reject) => {
+			try {
+				stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+				console.log("msg sent");
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	};
 
 	useEffect(() => {
 		!!senderEmail && connect();
@@ -65,7 +75,7 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	}, [senderEmail]);
 
 	return (
-		<StompContext.Provider value={{ isConnected, lastSentMessage, sendMessage }}>{children}</StompContext.Provider>
+		<StompContext.Provider value={{ isConnected, receivedMessage, sendMessage }}>{children}</StompContext.Provider>
 	);
 };
 
