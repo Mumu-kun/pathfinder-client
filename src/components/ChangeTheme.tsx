@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from "react";
+import ThemeContext, { Theme } from "@/context/ThemeProvide";
+import React, { useContext } from "react";
 
 const ChangeTheme: React.FC = () => {
-	const [theme, setTheme] = useState<string>(localStorage.getItem("theme") ?? "");
-
-	useEffect(() => {
-		document.body.classList.remove("light", "dark");
-		if (theme !== "" && theme !== null) {
-			document.body.classList.add(theme);
-		}
-	}, [theme]);
+	const { theme, changeTheme } = useContext(ThemeContext);
 
 	const handleThemeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		console.log("theme changed");
-		localStorage.setItem("theme", e.currentTarget.value);
-		setTheme(e.currentTarget.value);
+		changeTheme(e.currentTarget.value as Theme);
 	};
 
 	return (

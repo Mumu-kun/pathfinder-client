@@ -3,6 +3,16 @@ import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { REGISTER_URL } from "../../utils/variables";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Field, Form, Formik } from "formik";
+import { TextInputComponent } from "@/components/FormComponents";
+import * as Yup from "yup";
+
+const RegisterSchema = Yup.object().shape({
+	firstName: Yup.string().required(),
+	lastName: Yup.string().required(),
+	email: Yup.string().email("Invalid email").required("Required"),
+	password: Yup.string().required("Provide a password.").min(8, "Password is too short - should be 8 chars minimum."),
+});
 
 const Register: React.FC = () => {
 	const { setAuth } = useAuth();
@@ -11,110 +21,88 @@ const Register: React.FC = () => {
 	const location = useLocation();
 	const from = location.state?.from || "/";
 
-	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const formData = new FormData(event.currentTarget);
-		formData.append("role", "USER");
-
-		// converting to json
-		let object: { [key: string]: any } = {};
-		formData.forEach((value, key) => {
-			object[key] = value;
-		});
-
-		const json = JSON.stringify(object);
-
-		console.log(json);
-
-		try {
-			console.log(formData);
-			const res = await axios.post(REGISTER_URL, json, {
-				headers: { "Content-Type": "application/json" },
-				withCredentials: true,
-			});
-
-			// console.log(res);
-
-			const accessToken = res?.data?.accessToken;
-			const refreshToken = res?.data?.refreshToken;
-
-			const userId = res?.data?.userId;
-			const firstName = res?.data?.firstName;
-			const lastName = res?.data?.lastName;
-			const role = res?.data?.role;
-
-			setAuth({ email: formData.get("email"), accessToken, refreshToken, userId, firstName, lastName, role });
-
-			navigate(from, { replace: true });
-		} catch (err) {
-			console.error(err);
-		}
-	};
-
 	return (
-		<div>
+		<div className="mx-auto mt-10 max-w-[30rem]">
 			<p className="medium-headings">Hello sire! Join a world full of talented individuals.</p>
 			<p className="medium-headings mb-4">Teach them. Learn from them.</p>
-			<div className="">
-				<form
-					className="mb-4 rounded bg-light-secondary px-8 pb-8 pt-6 shadow-md dark:bg-dark-secondary"
-					onSubmit={handleSubmit}
-				>
-					<div className="mb-4">
-						<label className="mb-2 block text-sm font-bold">First Name:</label>
-						<input
-							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
-							type="text"
+			<Formik
+				initialValues={{}}
+				validationSchema={RegisterSchema}
+				validateOnBlur
+				onSubmit={async (values, { setSubmitting }) => {
+					try {
+						const res = await axios.post(
+							REGISTER_URL,
+							{ ...values, role: "USER" },
+							{
+								headers: { "Content-Type": "application/json" },
+								withCredentials: true,
+							}
+						);
+
+						// console.log(res);
+
+						setAuth(res.data);
+
+						navigate(from === "/login" ? "/" : from, { replace: true });
+					} catch (err) {
+						console.error(err);
+						setSubmitting(false);
+					}
+				}}
+			>
+				{({ isSubmitting }) => (
+					<Form className="mb-4 rounded bg-light-secondary px-8 pb-8 pt-6 shadow-md dark:bg-dark-secondary">
+						<Field
 							name="firstName"
 							placeholder="First Name"
+							label="First Name"
+							component={TextInputComponent}
+							isFullWidth={true}
 						/>
-					</div>
-					<div className="mb-4">
-						<label className="mb-2 block text-sm font-bold">Last Name:</label>
-						<input
-							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
-							type="text"
+						<Field
 							name="lastName"
 							placeholder="Last Name"
+							label="Last Name"
+							component={TextInputComponent}
+							isFullWidth={true}
 						/>
-					</div>
-					<div className="mb-4">
-						<label className="mb-2 block text-sm font-bold">Email:</label>
-						<input
-							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
-							type="text"
+						<Field
 							name="email"
-							placeholder="email"
+							placeholder="Email"
+							label="Email"
+							type="email"
+							component={TextInputComponent}
+							isFullWidth={true}
 						/>
-					</div>
-					<div className="mb-4">
-						<label className="mb-2 block text-sm font-bold">Password:</label>
-						<input
-							className="focus:shadow-outline w-full appearance-none rounded bg-light-bg px-3 py-2 leading-tight shadow focus:outline-none dark:bg-dark-bg"
-							type="password"
+						<Field
 							name="password"
-							placeholder="password"
+							placeholder="Password"
+							label="Password"
+							type="password"
+							component={TextInputComponent}
+							isFullWidth={true}
 						/>
-					</div>
-					<div className="flex flex-col items-center justify-center">
-						<div className="mb-4">
-							<input
-								type="checkbox"
-								id="trust"
-								onChange={(e) => {
-									localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
-								}}
-							/>
-							<label htmlFor="trust" className="m-2">
-								Trust this device
-							</label>
+						<div className="flex flex-col items-center justify-center">
+							<div className="mb-4">
+								<input
+									type="checkbox"
+									id="trust"
+									onChange={(e) => {
+										localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
+									}}
+								/>
+								<label htmlFor="trust" className="m-2">
+									Trust this device
+								</label>
+							</div>
+							<button className="solid-btn" type="submit" disabled={isSubmitting}>
+								Register
+							</button>
 						</div>
-						<button className="solid-btn" type="submit">
-							Register
-						</button>
-					</div>
-				</form>
-			</div>
+					</Form>
+				)}
+			</Formik>
 		</div>
 	);
 };

@@ -10,12 +10,13 @@ export type ProfileData = {
 	age: number;
 	description: string;
 	tags: string[];
+	interests: string[];
 	rating: number;
 	ratedByCount: number;
 	totalStudents: number;
 	totalCompletedEnrollments: number;
-	education: string[];
-	qualification: string[];
+	education: Achievement[];
+	qualification: Achievement[];
 };
 
 export type AuthUser = {
@@ -80,4 +81,9 @@ export type Review = {
 		title: string;
 		coverImage: string;
 	};
+};
+
+export type Achievement = {
+	title: string;
+	year: number;
 };

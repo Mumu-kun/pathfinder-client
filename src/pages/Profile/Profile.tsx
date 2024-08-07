@@ -21,10 +21,9 @@ import useAuth from "@/hooks/useAuth";
 export const getProfileData = async (userId: number) => {
 	try {
 		const res = await axios.get(`/api/v1/public/users/${userId}/profile`);
-		const data = res;
-		console.log(res);
+		const data = res.data;
 
-		return data;
+		return data as unknown as ProfileData;
 	} catch (error) {
 		console.error(error);
 	}
@@ -49,12 +48,19 @@ export const Profile = () => {
 	I am a software engineer with over 5 years of experience in building web applications using React and Node.js. I have a strong passion for creating clean and efficient code that delivers exceptional user experiences. My expertise includes working with TypeScript, GraphQL, and various front-end frameworks. I have a proven track record of successfully delivering projects on time and exceeding client expectations.
 	In my free time, I enjoy contributing to open source projects and staying up-to-date with the latest industry trends. If you're looking for a dedicated and skilled developer, I would love to collaborate with you on your next project`,
 		tags: ["React", "Node.js", "TypeScript", "GraphQL"],
+		interests: ["React", "Node.js", "TypeScript", "GraphQL"],
 		rating: 2.7,
 		ratedByCount: 25,
 		totalStudents: 40,
 		totalCompletedEnrollments: 50,
-		education: ["Bachelor of Science in Computer Science", "M.Sc. in Computer Science"],
-		qualification: ["Bachelor of Science in Computer Science", "M.Sc. in Computer Science"],
+		education: [
+			{ title: "Bachelor of Science in Computer Science", year: 2017 },
+			{ title: "M.Sc. in Computer Science", year: 2020 },
+		],
+		qualification: [
+			{ title: "Bachelor of Science in Computer Science", year: 2017 },
+			{ title: "M.Sc. in Computer Science", year: 2020 },
+		],
 	});
 
 	const [gigs, setGigs] = useState<GigCardData[]>([
@@ -211,7 +217,7 @@ export const Profile = () => {
 					<ul className="ml-1 mt-4 space-y-2">
 						{profileData.education.map((value, index) => (
 							<li key={`profileEducation-${index}`} className="flex items-center gap-1">
-								<FaCircle className="h-1.5 w-1.5" /> {value}
+								<FaCircle className="h-1.5 w-1.5" /> {value.title} - {value.year}
 							</li>
 						))}
 					</ul>
@@ -219,7 +225,7 @@ export const Profile = () => {
 					<ul className="ml-1 mt-4 space-y-2">
 						{profileData.education.map((value, index) => (
 							<li key={`profileQualification-${index}`} className="flex items-center gap-1">
-								<FaCircle className="h-1.5 w-1.5" /> {value}
+								<FaCircle className="h-1.5 w-1.5" /> {value.title} - {value.year}
 							</li>
 						))}
 					</ul>

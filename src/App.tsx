@@ -16,6 +16,7 @@ import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
+const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
 
 const router = createBrowserRouter([
 	{
@@ -38,7 +39,6 @@ const router = createBrowserRouter([
 						path: "chat/user/:id",
 						element: <ChatPage />,
 					},
-
 					{
 						path: "profile/:userId?",
 						element: (
@@ -67,6 +67,14 @@ const router = createBrowserRouter([
 								path: "test",
 								element: <TestPage />,
 							},
+							{
+								path: "settings/:tab?",
+								element: (
+									<Suspense fallback={<Loading fullscreen />}>
+										<Settings />
+									</Suspense>
+								),
+							},
 						],
 					},
 				],
@@ -77,14 +85,6 @@ const router = createBrowserRouter([
 
 function App() {
 	// this code is in app.tsx because we want to know the theme all over the app.
-	const [theme] = useState<string | null>(localStorage.getItem("theme"));
-
-	useEffect(() => {
-		document.body.classList.remove("light", "dark");
-		if (theme !== "" && theme !== null) {
-			document.body.classList.add(theme);
-		}
-	}, [theme]);
 
 	return <RouterProvider router={router} />;
 }
