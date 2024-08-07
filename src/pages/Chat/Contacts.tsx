@@ -9,7 +9,7 @@ interface ContactsProps {
 	messageSent: boolean;
 }
 
-const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
+const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
 	const { id } = useParams();
 	const urlId = id ? parseInt(id) : undefined;
 	const { auth } = useAuth();

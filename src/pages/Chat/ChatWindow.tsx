@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import useStomp from "@/hooks/useStomp";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,12 @@ interface ChatWindowProps {
 	setMessageSent: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) => {
+interface CurrentContactData {
+	fullName: string;
+	profileImage?: string;
+}
+
+const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) => {
 	const { auth } = useAuth();
 	const senderId = auth?.userId;
 	const { id } = useParams();
@@ -26,6 +31,24 @@ const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) =>
 		message: message,
 		timeStamp: new Date().toISOString(),
 	};
+
+	const [currentContactData, setCurrentContactData] = useState<CurrentContactData>({ fullName: "", profileImage: "" });
+
+	useEffect(() => {
+		const fetchContactData = async () => {
+			if (!receiverId) return;
+
+			try {
+				const response = await axiosPrivate.get(`api/v1/users/find/${receiverId}`);
+				// TODO: change profile_image to camelcase in the backend.
+				setCurrentContactData({ fullName: response.data.fullName, profileImage: response.data.profile_image });
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		fetchContactData();
+	}, [receiverId]);
 
 	useEffect(() => {
 		chatMessageInput.senderId = senderId;
@@ -63,7 +86,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) =>
 			} catch (error) {
 				console.log(error);
 			}
-		}
+		};
 
 		if (receivedMessage) {
 			// making sure wo don't show some other chat rooms msg in this chat window.
@@ -72,7 +95,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) =>
 			}
 
 			// if the user is in the current chat room, make the msg seen.
-			if(receivedMessage.senderId === receiverId) {
+			if (receivedMessage.senderId === receiverId) {
 				readSingleMessage(receivedMessage.id);
 			}
 		}
@@ -97,32 +120,44 @@ const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) =>
 
 	let prevSenderId: number | null = null;
 
+	// auto scroll to the bottom functionalty.
+	const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+	};
+
+	useEffect(() => {
+		scrollToBottom();
+	}, [messageSent, receivedMessage]);
+
 	return (
-		<div className="w-[500px] border-l-2 border-r-2 px-5">
-			<p>ChatWindow</p>
-			{isConnected ? <p>connected</p> : <p>not connected</p>}
-			{chatMessages.length === 0 && <div>No messages to show</div>}
-			{chatMessages.map((message, index) => {
-				const showSenderName = message.senderId !== prevSenderId;
+		<div className="w-[800px] px-5">
+			<div className="">
+				<p className="small-headings">{currentContactData.fullName}</p>
+				{chatMessages.length === 0 && <div>No messages to show</div>}
+				{chatMessages.map((message, index) => {
+					const showSenderName = message.senderId !== prevSenderId;
 
-				// Update prevSenderId for next iteration
-				prevSenderId = message.senderId;
+					// Update prevSenderId for next iteration
+					prevSenderId = message.senderId;
 
-				return (
-					<div key={message.id}>
-						{showSenderName && (
-							<p className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} p-1 text-xs`}>
-								{message.senderId === senderId ? "You" : message.senderFullName}
-							</p>
-						)}
-						<div className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} p-1`}>
-							<p className="normal-text rounded-md bg-light-secondary px-2 py-1 dark:bg-dark-secondary">
-								{message.message}
-							</p>
+					return (
+						<div key={message.id}>
+							{showSenderName && (
+								<p className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} p-1 text-xs`}>
+									{message.senderId === senderId ? "You" : message.senderFullName}
+								</p>
+							)}
+							<div className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} p-1`}>
+								<p className="normal-text rounded-md bg-light-secondary px-2 py-1 dark:bg-dark-secondary">
+									{message.message}
+								</p>
+							</div>
 						</div>
-					</div>
-				);
-			})}
+					);
+				})}
+			</div>
 			<div className="flex justify-center">
 				<form onSubmit={formSubmitted} className="fixed bottom-5">
 					<div className="flex items-center justify-center">
@@ -136,6 +171,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({messageSent, setMessageSent}) =>
 					</div>
 				</form>
 			</div>
+			<div className="pb-16"></div>
+			<div ref={messagesEndRef}></div>
 		</div>
 	);
 };
