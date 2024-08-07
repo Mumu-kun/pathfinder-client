@@ -87,3 +87,33 @@ export type Achievement = {
 	title: string;
 	year: number;
 };
+
+export type ChatRoom = {
+	id: number | null;
+	chatId: string;
+	firstUserId: number;
+	firstUserFullName: string;
+	secondUserId: number;
+	secondUserFullName: string;
+	lastActive: string;
+	lastMessage: ChatMessage;
+};
+
+export type ChatMessageInput = {
+	senderId: number | undefined;
+	receiverId: number | undefined;
+	message: string;
+	timeStamp: string;
+};
+
+export type ChatMessage = {
+	id: number;
+	chatId: string;
+	message: string;
+	senderId: number;
+	senderFullName: string;
+	receiverId: number;
+	receiverFullName: string;
+	timeStamp: string;
+	read: boolean;
+};
