@@ -10,6 +10,8 @@ import Dropdown from "./Dropdown";
 import SearchBar from "./SearchBar";
 import { userProfileImageUrl } from "@/utils/functions";
 import profileImg from "@/assets/profile.jpg";
+import ChatIcon from "./chat/ChatIcon";
+import NotificationIcon from "./chat/NotificationIcon";
 
 type AuxLinkDropdownProps = {
 	title: string;
@@ -109,6 +111,9 @@ const Header = () => {
 					{/* NavLinks */}
 					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-2 max-md:text-xs">
 						<ChangeTheme />
+						{auth && <NotificationIcon />}
+						{auth && <ChatIcon />}
+
 						<Link to="/" className="px-2 font-bold">
 							{isMediaMD ? "md" : "About Us"}
 						</Link>
@@ -128,38 +133,46 @@ const Header = () => {
 								</Link>
 							</>
 						) : (
-							<Dropdown
-								head={
-									<div className="h-10 w-10 overflow-hidden rounded-full">
-										<img
-											src={userProfileImageUrl(auth.userId)}
-											onError={({ currentTarget }) => {
-												currentTarget.onerror = null;
-												currentTarget.src = profileImg;
+							<div>
+								<Dropdown
+									head={
+										<div className="h-10 w-10 overflow-hidden rounded-full">
+											<img
+												src={userProfileImageUrl(auth.userId)}
+												onError={({ currentTarget }) => {
+													currentTarget.onerror = null;
+													currentTarget.src = profileImg;
+												}}
+											/>
+										</div>
+									}
+									dropdownClassName="mt-2 min-w-20 rounded-md"
+									rightAlign
+								>
+									<div className={`flex flex-col bg-light-bg text-right transition-all dark:bg-dark-bg`}>
+										<Link
+											to="/profile"
+											className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+										>
+											Profile
+										</Link>
+										<Link
+											to="/settings"
+											className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+										>
+											Settings
+										</Link>
+										<button
+											onClick={() => {
+												logout();
 											}}
-										/>
+											className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+										>
+											Logout
+										</button>
 									</div>
-								}
-								dropdownClassName="mt-2 min-w-20 rounded-md"
-								rightAlign
-							>
-								<div className={`flex flex-col bg-light-bg text-right transition-all dark:bg-dark-bg`}>
-									<Link to="/profile" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
-										Profile
-									</Link>
-									<Link to="/settings" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
-										Settings
-									</Link>
-									<button
-										onClick={() => {
-											logout();
-										}}
-										className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
-									>
-										Logout
-									</button>
-								</div>
-							</Dropdown>
+								</Dropdown>
+							</div>
 						)}
 					</div>
 
