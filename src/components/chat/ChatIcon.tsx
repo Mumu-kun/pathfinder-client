@@ -42,7 +42,7 @@ const ChatIcon: React.FC = () => {
 					{hasUnreadMessages ? (
 						<div className="relative flex animate-bounce items-center justify-center">
 							<i className="bx bx-message-rounded-dots"></i>
-							<p className="absolute bottom-2 left-5 text-3xl font-extrabold text-red-700">.</p>
+							<p className="absolute bottom-2 left-4 text-3xl font-extrabold text-red-700">.</p>
 						</div>
 					) : (
 						<i className="bx bx-message-rounded-dots"></i>
