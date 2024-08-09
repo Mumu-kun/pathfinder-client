@@ -20,7 +20,7 @@ const ChatPage: React.FC = () => {
 
 	// PROBLEM - cant access auth data.
 
-	// this state is passed as a prop because when a new message is sent 
+	// this state is passed as a prop because when a new message is sent
 	// in the ChatWindow component, we want the info real-time in the Contacts component,
 	// to fetch the chat rooms again.
 	const [messageSent, setMessageSent] = useState<boolean>(false);
@@ -28,13 +28,15 @@ const ChatPage: React.FC = () => {
 	return (
 		<div>
 			<p className="text-center text-2xl">ChatPage</p>
-			<div className="flex justify-between">
-				<div>
-					<Contacts messageSent={messageSent}/>
+			<div className="flex h-screen">
+				<div className="overflow-y-scroll w-[200px]">
+					<Contacts messageSent={messageSent} />
 				</div>
-				<div>
-					<ChatWindow messageSent={messageSent} setMessageSent={setMessageSent}/>
+			
+				<div className="overflow-y-scroll">
+					<ChatWindow messageSent={messageSent} setMessageSent={setMessageSent} />
 				</div>
+
 				<div>
 					{/* // todo: let the seller create an enrollment.
                     // todo: let buyer see the created enrollment. */}

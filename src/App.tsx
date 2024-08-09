@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 						element: <Gig />,
 					},
 					{
-						path: "message/user/:id",
+						path: "interaction/user/:id",
 						element: <ChatPage />,
 					},
 					{

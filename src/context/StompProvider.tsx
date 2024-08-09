@@ -2,16 +2,18 @@ import useAuth from "@/hooks/useAuth";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import SockJS from "sockjs-client/dist/sockjs";
-import { ChatMessage } from "@/utils/types";
+import { ChatMessage, Notification } from "@/utils/types";
 
 type StompContextProps = {
 	receivedMessage?: ChatMessage;
+	receivedNotification?: Notification;
 	sendMessage: (chatMessage: any) => Promise<void>;
 	isConnected: boolean;
 };
 
 const StompContext = createContext<StompContextProps>({
 	receivedMessage: undefined,
+	receivedNotification: undefined,
 	sendMessage: async () => {
 		return Promise.resolve();
 	},
@@ -23,6 +25,7 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 	const [isConnected, setIsConnected] = useState<boolean>(false);
 	const [receivedMessage, setReceivedMessage] = useState<ChatMessage>();
+	const [receivedNotification, setReceivedNotification] = useState<Notification>();
 
 	const senderEmail = auth?.email;
 
@@ -41,6 +44,9 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 		stompClient.subscribe(`/user/${senderEmail}/queue/messages`, onMessageReceived);
 		setIsConnected(true);
 		console.log("connected");
+
+		// notifications
+		stompClient.subscribe(`/user/${senderEmail}/queue/notifications`, onNotificationReceived);
 	}
 
 	function onError(error: any) {
@@ -51,6 +57,12 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 		const message = JSON.parse(payload.body);
 		console.log("message - ", message);
 		setReceivedMessage(message);
+	}
+
+	function onNotificationReceived(payload: any) {
+		const notification = JSON.parse(payload.body);
+		console.log("notif - ", notification);
+		setReceivedNotification(notification);
 	}
 
 	const sendMessage = async (chatMessage: any): Promise<void> => {
@@ -75,7 +87,9 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	}, [senderEmail]);
 
 	return (
-		<StompContext.Provider value={{ isConnected, receivedMessage, sendMessage }}>{children}</StompContext.Provider>
+		<StompContext.Provider value={{ isConnected, receivedMessage, receivedNotification, sendMessage }}>
+			{children}
+		</StompContext.Provider>
 	);
 };
 

@@ -9,7 +9,7 @@ interface ContactsProps {
 	messageSent: boolean;
 }
 
-const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
+const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
 	const { id } = useParams();
 	const urlId = id ? parseInt(id) : undefined;
 	const { auth } = useAuth();
@@ -89,8 +89,8 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
 							<Link
 								to={
 									userId == chatRoom.firstUserId
-										? { pathname: `/message/user/${chatRoom.secondUserId}` }
-										: { pathname: `/message/user/${chatRoom.firstUserId}` }
+										? { pathname: `/interaction/user/${chatRoom.secondUserId}` }
+										: { pathname: `/interaction/user/${chatRoom.firstUserId}` }
 								}
 							>
 								{/* // here the 3rd condition makes sure when I click on a new unseen chat, it becomes seen on the frontend right away. */}

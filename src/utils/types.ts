@@ -117,3 +117,13 @@ export type ChatMessage = {
 	timeStamp: string;
 	read: boolean;
 };
+
+export type Notification = {
+	id: number;
+	text: string;
+	timeStamp: string;
+	receiver: User;
+	read: boolean;
+	type: string;
+	linkSuffix: string;
+};
