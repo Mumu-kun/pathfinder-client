@@ -44,8 +44,6 @@ export const Settings = () => {
 
 	useEffect(() => {
 		getProfileData(auth!.userId).then((data) => {
-			console.log(data);
-
 			setProfileData(data);
 		});
 	}, []);

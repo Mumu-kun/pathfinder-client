@@ -15,8 +15,8 @@ export type ProfileData = {
 	ratedByCount: number;
 	totalStudents: number;
 	totalCompletedEnrollments: number;
-	education: Achievement[];
-	qualification: Achievement[];
+	educations: Achievement[];
+	qualifications: Achievement[];
 };
 
 export type AuthUser = {

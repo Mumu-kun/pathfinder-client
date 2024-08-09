@@ -1,10 +1,12 @@
+import axios from "@/api/axios";
 import { NumberInputComponent, TextAreaInputComponent, TextInputComponent } from "@/components/FormComponents";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { ProfileData } from "@/utils/types";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
-import { useState } from "react";
+import { SingleValue } from "node_modules/react-select/dist/declarations/src";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
-import Creatable from "react-select/creatable";
+import AsyncCreatableSelect from "react-select/async-creatable";
 import * as Yup from "yup";
 
 type EditProfileProps = {
@@ -12,38 +14,28 @@ type EditProfileProps = {
 };
 
 const EditProfile = ({ profileData }: EditProfileProps) => {
-	const [profileImageChange, setProfileImageChange] = useState<string>();
+	const axiosPrivate = useAxiosPrivate();
 
 	return (
 		<Formik
 			initialValues={{
-				profileImage: null,
 				age: profileData.age,
 				description: profileData.description,
-				education: profileData.education,
-				qualification: profileData.qualification,
+				educations: profileData.educations,
+				qualifications: profileData.qualifications,
 				interests: profileData.interests,
 			}}
 			onSubmit={async (values) => {
 				console.log(values);
+
+				const res = await axiosPrivate.patch("/api/v1/users/edit-profile", values);
+				const data = res.data;
+
+				console.log(res);
 			}}
 			validationSchema={Yup.object().shape({
-				profileImage: Yup.mixed()
-					.test("fileFormat", "Only Image files are allowed", (value) => {
-						if (value) {
-							return (value as File).type.startsWith("image/");
-						}
-						return true;
-					})
-					.test("fileSize", "File size must be less than 3MB", (value) => {
-						if (value) {
-							return (value as File).size <= 3145728;
-						}
-						return true;
-					})
-					.nullable(),
 				age: Yup.number().min(0, "Please set a valid age.").max(150, "Please set a valid age.").nullable(),
-				education: Yup.array().of(
+				educations: Yup.array().of(
 					Yup.object().shape({
 						title: Yup.string().required("Required"),
 						year: Yup.number().required("Required"),
@@ -51,69 +43,8 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 				),
 			})}
 		>
-			{({ isSubmitting, setFieldValue, setFieldTouched, validateField, values, errors, touched }) => (
+			{({ isSubmitting, values, errors, touched }) => (
 				<Form className="grid grid-cols-[max-content_auto] place-items-start gap-x-8 gap-y-4 max-md:gap-x-4 max-md:text-sm">
-					<Field
-						isGrid
-						label="Profile Image"
-						name="profImgDummy"
-						type="file"
-						accept="image"
-						className="outline-btn max-w-80 file:hidden"
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-							const file = e.target.files![0];
-
-							setFieldTouched("profileImage", true);
-							setFieldValue("profileImage", file, true);
-							validateField("profileImage");
-
-							if (!file.type.startsWith("image/")) {
-								setProfileImageChange(undefined);
-								return;
-							}
-
-							const fileReader = new FileReader();
-							fileReader.onload = () => {
-								if (fileReader.readyState === 2) {
-									setProfileImageChange(fileReader.result as string);
-								}
-							};
-							fileReader.readAsDataURL(file);
-						}}
-						component={TextInputComponent}
-					/>
-					<ErrorMessage name={"profileImage"}>
-						{(msg) => <div className="col-start-2 text-sm text-red-500">{msg}</div>}
-					</ErrorMessage>
-					{profileImageChange ? (
-						<div className="col-start-2 h-80 w-80 object-cover object-center">
-							<img
-								src={profileImageChange}
-								alt=""
-								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
-							/>
-						</div>
-					) : (
-						profileData.profileImage && (
-							<div className="col-start-2 h-80 w-80 object-cover object-center">
-								<img
-									src={profileData.profileImage}
-									alt=""
-									className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
-								/>
-							</div>
-						)
-					)}
-
-					<Field
-						isGrid
-						label="Age"
-						placeholder="Age"
-						name="age"
-						component={NumberInputComponent}
-						className="max-w-20"
-					/>
-
 					<Field
 						isGrid
 						name="description"
@@ -124,8 +55,17 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 						className="min-h-[20rem]"
 					/>
 
+					<Field
+						isGrid
+						label="Age"
+						placeholder="Age"
+						name="age"
+						component={NumberInputComponent}
+						className="max-w-20"
+					/>
+
 					<FieldArray
-						name="education"
+						name="educations"
 						render={(arrayHelpers) => (
 							<>
 								<label htmlFor={"education"} className={`flex items-center gap-1`}>
@@ -137,19 +77,19 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 										<div
 											className="grid grid-cols-[repeat(3,minmax(min-content,max-content))] gap-x-3 gap-y-1 justify-self-center"
 											style={{
-												gridTemplateRows: `repeat(${values.education.length + 1}, minmax(0,max-content))`,
+												gridTemplateRows: `repeat(${values.educations.length + 1}, minmax(0,max-content))`,
 											}}
 										>
-											{values.education.map((_, index) => (
+											{values.educations.map((_, index) => (
 												<div
 													className="col-span-full grid grid-cols-subgrid items-center"
 													style={{
-														gridTemplateRows: `repeat(${1 + Number(!!touched.education?.[index] && !!errors.education?.[index])}, 1fr)`,
+														gridTemplateRows: `repeat(${1 + Number(!!touched.educations?.[index] && !!errors.educations?.[index])}, 1fr)`,
 													}}
 												>
 													<Field
 														isGrid
-														name={`education.${index}.title`}
+														name={`educations.${index}.title`}
 														placeholder="Education"
 														component={TextInputComponent}
 														className="max-w-40"
@@ -157,7 +97,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 													/>
 													<Field
 														isGrid
-														name={`education.${index}.year`}
+														name={`educations.${index}.year`}
 														placeholder="Year"
 														component={NumberInputComponent}
 														className="max-w-20"
@@ -169,21 +109,22 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 														className="outline-btn h-5 w-5 cursor-pointer rounded p-0.5"
 													/>
 
-													<ErrorMessage name={`education.${index}.title`}>
+													<ErrorMessage name={`educations.${index}.title`}>
 														{(msg) => <div className="col-start-1 text-sm text-red-500">{msg}</div>}
 													</ErrorMessage>
-													<ErrorMessage name={`education.${index}.year`}>
+													<ErrorMessage name={`educations.${index}.year`}>
 														{(msg) => <div className="col-start-2 text-sm text-red-500">{msg}</div>}
 													</ErrorMessage>
 												</div>
 											))}
 											<FaPlus
-												onClick={() =>
+												onClick={() => {
 													arrayHelpers.push({
 														title: "",
 														year: null,
-													})
-												}
+													});
+													console.log(values);
+												}}
 												className="outline-btn col-start-1 my-1 h-5 w-5 cursor-pointer rounded p-0.5"
 											/>
 										</div>
@@ -194,7 +135,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 					/>
 
 					<FieldArray
-						name="qualification"
+						name="qualifications"
 						render={(arrayHelpers) => (
 							<>
 								<label htmlFor={"qualification"} className={`flex items-center gap-1`}>
@@ -206,19 +147,19 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 										<div
 											className="grid grid-cols-[repeat(3,minmax(min-content,max-content))] gap-x-3 gap-y-1 justify-self-center"
 											style={{
-												gridTemplateRows: `repeat(${values.qualification.length + 1}, minmax(0,max-content))`,
+												gridTemplateRows: `repeat(${values.qualifications.length + 1}, minmax(0,max-content))`,
 											}}
 										>
-											{values.qualification.map((_, index) => (
+											{values.qualifications.map((_, index) => (
 												<div
 													className="col-span-full grid grid-cols-subgrid items-center"
 													style={{
-														gridTemplateRows: `repeat(${1 + Number(!!touched.qualification?.[index] && !!errors.qualification?.[index])}, 1fr)`,
+														gridTemplateRows: `repeat(${1 + Number(!!touched.qualifications?.[index] && !!errors.qualifications?.[index])}, 1fr)`,
 													}}
 												>
 													<Field
 														isGrid
-														name={`qualification.${index}.title`}
+														name={`qualifications.${index}.title`}
 														placeholder="Qualification"
 														component={TextInputComponent}
 														className="max-w-40"
@@ -226,7 +167,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 													/>
 													<Field
 														isGrid
-														name={`qualification.${index}.year`}
+														name={`qualifications.${index}.year`}
 														placeholder="Year"
 														component={NumberInputComponent}
 														className="max-w-20"
@@ -238,10 +179,10 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 														className="outline-btn h-5 w-5 cursor-pointer rounded p-0.5"
 													/>
 
-													<ErrorMessage name={`qualification.${index}.title`}>
+													<ErrorMessage name={`qualifications.${index}.title`}>
 														{(msg) => <div className="col-start-1 text-sm text-red-500">{msg}</div>}
 													</ErrorMessage>
-													<ErrorMessage name={`qualification.${index}.year`}>
+													<ErrorMessage name={`qualifications.${index}.year`}>
 														{(msg) => <div className="col-start-2 text-sm text-red-500">{msg}</div>}
 													</ErrorMessage>
 												</div>
@@ -270,13 +211,24 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 									<span>:</span>
 								</label>
 								<div className="w-full">
-									<Creatable
+									<AsyncCreatableSelect
+										cacheOptions
+										defaultOptions
+										loadOptions={async (inputValue) => {
+											try {
+												const res = await axios.get(`/api/v1/public/tags/search/${inputValue}`);
+												const data = res.data;
+
+												return data.map((tag: any) => ({
+													value: tag.name,
+													label: tag.name,
+												}));
+											} catch (error) {
+												console.error(error);
+											}
+										}}
 										value={null}
-										options={[
-											{ value: "foo", label: "Foo" },
-											{ value: "bar", label: "Bar" },
-										]}
-										onChange={(option) => {
+										onChange={(option: SingleValue<{ value: string; label: string }>) => {
 											if (option) {
 												const idx = values.interests.indexOf(option.value);
 												if (idx === -1) {

@@ -1,5 +1,5 @@
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
-import { useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useCollapse } from "react-collapsed";
 import { BsPersonCheck } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
@@ -17,6 +17,8 @@ import coverImg from "@/assets/cover.png";
 import profileImg from "@/assets/profile.jpg";
 import ReviewCard from "@/components/ReviewCard";
 import useAuth from "@/hooks/useAuth";
+import Loading from "@/components/Loading";
+import { boolean } from "yup";
 
 export const getProfileData = async (userId: number) => {
 	try {
@@ -35,33 +37,7 @@ export const Profile = () => {
 
 	let userId = params?.id ? parseInt(params?.id) : auth?.userId;
 
-	const [profileData, setProfileData] = useState<ProfileData>({
-		id: userId ?? 1,
-		email: "mumufahad@gmail.com",
-		username: "mumufahad",
-		firstName: "Mustafa",
-		lastName: "Muhaimin",
-		profileImage: profileImg,
-		age: 23,
-		description: `I am a software engineer. I have experience in building web applications using React and Node.js. I am passionate about creating clean and efficient code.
-	In my free time, I enjoy learning new technologies and contributing to open source projects.I am currently working on a project that uses TypeScript and GraphQL.
-	I am a software engineer with over 5 years of experience in building web applications using React and Node.js. I have a strong passion for creating clean and efficient code that delivers exceptional user experiences. My expertise includes working with TypeScript, GraphQL, and various front-end frameworks. I have a proven track record of successfully delivering projects on time and exceeding client expectations.
-	In my free time, I enjoy contributing to open source projects and staying up-to-date with the latest industry trends. If you're looking for a dedicated and skilled developer, I would love to collaborate with you on your next project`,
-		tags: ["React", "Node.js", "TypeScript", "GraphQL"],
-		interests: ["React", "Node.js", "TypeScript", "GraphQL"],
-		rating: 2.7,
-		ratedByCount: 25,
-		totalStudents: 40,
-		totalCompletedEnrollments: 50,
-		education: [
-			{ title: "Bachelor of Science in Computer Science", year: 2017 },
-			{ title: "M.Sc. in Computer Science", year: 2020 },
-		],
-		qualification: [
-			{ title: "Bachelor of Science in Computer Science", year: 2017 },
-			{ title: "M.Sc. in Computer Science", year: 2020 },
-		],
-	});
+	const [profileData, setProfileData] = useState<ProfileData | undefined>();
 
 	const [gigs, setGigs] = useState<GigCardData[]>([
 		{
@@ -73,10 +49,10 @@ export const Profile = () => {
 			ratedByCount: 20,
 			coverImage: coverImg,
 			user: {
-				id: profileData.id,
-				firstName: profileData.firstName,
-				lastName: profileData.lastName,
-				profileImage: profileData.profileImage,
+				id: userId ?? 1,
+				firstName: "Mustafa",
+				lastName: "Muhaimin",
+				profileImage: profileImg,
 			},
 		},
 	]);
@@ -102,21 +78,59 @@ export const Profile = () => {
 	]);
 
 	const theme = localStorage.getItem("theme");
-	const { getCollapseProps, getToggleProps, setExpanded } = useCollapse({
+
+	const descRef = useRef<HTMLParagraphElement>(null);
+	const [shouldCollapse, setShouldCollapse] = useState<boolean>(false);
+	const resizeObs = useMemo(() => {
+		return new ResizeObserver((entries) => {
+			entries.forEach((e) => {
+				if (e.contentRect.height > 130) {
+					setExpanded(false);
+					setShouldCollapse(true);
+				} else {
+					setExpanded(true);
+					setShouldCollapse(false);
+				}
+			});
+		});
+	}, []);
+
+	const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse({
 		collapsedHeight: 100,
+		defaultExpanded: true,
 	});
 
 	const [activeTab, setActiveTab] = useState<string>("education");
 
+	useEffect(() => {
+		getProfileData(auth!.userId).then((data) => {
+			setProfileData(data);
+		});
+	}, []);
+
+	useEffect(() => {
+		if (descRef?.current) {
+			resizeObs.observe(descRef.current);
+		}
+
+		return () => {
+			resizeObs.disconnect();
+		};
+	}, [descRef]);
+
+	if (!profileData) {
+		return <Loading fullscreen />;
+	}
+
 	return (
 		<>
 			<FloatCard />
-			<div className="mt-12 flex w-full items-center gap-4">
+			<div className="mt-12 flex w-full gap-4">
 				{/* Profile Image */}
 				<img
-					src={profileData.profileImage ?? "https://placehold.co/400x400"}
+					src={profileData.profileImage ? profileData.profileImage : profileImg}
 					alt=""
-					className="h-80 w-80 object-cover object-center"
+					className={`${profileData.totalStudents ? "h-80 w-80" : "h-40 w-40"} object-cover object-center`}
 				/>
 
 				{/* Profile Info */}
@@ -126,80 +140,90 @@ export const Profile = () => {
 					</div>
 
 					{/* Tags */}
-					<div className="mt-4 grid grid-cols-[max-content_auto] grid-rows-2 items-center gap-x-1.5">
-						<PiChalkboardTeacher className="h-7 w-7" />
-						<div className="text-lg font-medium">Teaches</div>
-						<div className="col-start-2 ml-0.5 flex flex-wrap">
-							{profileData.tags.map((tag, index) => (
-								<Tag tag={tag} key={index} />
-							))}
-						</div>
-					</div>
-
-					<div className="mt-8 flex items-center">
-						{/* Rating */}
-						<div className="space-y-1">
-							<div className="ml-0.5 text-lg font-medium">
-								<span className="">Rating</span> {profileData.rating}
-							</div>
-							<div className="flex items-center">
-								<Rating
-									value={profileData.rating}
-									className="max-w-28"
-									readOnly
-									itemStyles={{
-										itemShapes: ThinRoundedStar,
-										activeFillColor: "#4ade80",
-										inactiveFillColor: "white",
-										activeStrokeColor: "#157010",
-										itemStrokeWidth: 2,
-									}}
-								/>
-							</div>
-							<div className="ml-0.5 text-sm font-medium">{profileData.ratedByCount} Reviews</div>
-						</div>
-
-						{/* Total Mentored */}
-						<div className="ml-10 grid grid-cols-[max-content_auto] items-center gap-x-2">
-							<GoPeople className="row-span-2 mb-1 h-auto w-10" />
-							<div className="h-fit self-end text-sm font-semibold leading-3">Mentored</div>
-							<div className="h-fit self-start text-sm font-semibold leading-4">
-								<span className="text-lg text-green-600">{profileData.totalStudents}</span> Students
+					{profileData.tags?.length > 0 && (
+						<div className="mt-4 grid grid-cols-[max-content_auto] grid-rows-2 items-center gap-x-1.5">
+							<PiChalkboardTeacher className="h-7 w-7" />
+							<div className="text-lg font-medium">Teaches</div>
+							<div className="col-start-2 ml-0.5 flex flex-wrap">
+								{profileData.tags.map((tag, index) => (
+									<Tag tag={tag} key={index} />
+								))}
 							</div>
 						</div>
-					</div>
+					)}
 
-					{/* Total Enrollments */}
-					<div className="mt-8 flex items-center">
-						<BsPersonCheck className="h-10 w-10" />
-						<span className="ml-1 text-base font-medium">
-							Total <span className="font-semibold text-green-600">{profileData.totalCompletedEnrollments}</span>{" "}
-							Enrollments Completed
-						</span>
-					</div>
+					{!!profileData.totalStudents && (
+						<>
+							<div className="mt-8 flex items-center">
+								{/* Rating */}
+								<div className="space-y-1">
+									<div className="ml-0.5 text-lg font-medium">
+										<span className="">Rating</span> {profileData.rating}
+									</div>
+									<div className="flex items-center">
+										<Rating
+											value={profileData.rating}
+											className="max-w-28"
+											readOnly
+											itemStyles={{
+												itemShapes: ThinRoundedStar,
+												activeFillColor: "#4ade80",
+												inactiveFillColor: "white",
+												activeStrokeColor: "#157010",
+												itemStrokeWidth: 2,
+											}}
+										/>
+									</div>
+									<div className="ml-0.5 text-sm font-medium">{profileData.ratedByCount} Reviews</div>
+								</div>
+
+								{/* Total Mentored */}
+								<div className="ml-10 grid grid-cols-[max-content_auto] items-center gap-x-2">
+									<GoPeople className="row-span-2 mb-1 h-auto w-10" />
+									<div className="h-fit self-end text-sm font-semibold leading-3">Mentored</div>
+									<div className="h-fit self-start text-sm font-semibold leading-4">
+										<span className="text-lg text-green-600">{profileData.totalStudents}</span> Students
+									</div>
+								</div>
+							</div>
+
+							{/* Total Enrollments */}
+							<div className="mt-8 flex items-center">
+								<BsPersonCheck className="h-10 w-10" />
+								<span className="ml-1 text-base font-medium">
+									Total <span className="font-semibold text-green-600">{profileData.totalCompletedEnrollments}</span>{" "}
+									Enrollments Completed
+								</span>
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 
 			{/* Description */}
-			<div className="mt-10 max-w-[50rem]">
-				<div className="mb-4 flex items-center text-2xl font-semibold">About Me</div>
-				<p {...getCollapseProps()} className="whitespace-pre-line">
-					{profileData.description}
-				</p>
-				<button
-					className="mt-2 font-semibold text-green-500"
-					{...getToggleProps({
-						onClick: () => setExpanded((prev) => !prev),
-					})}
-				>
-					See More
-				</button>
-			</div>
+			{!!profileData.description && (
+				<div className="mt-10 max-w-[50rem]">
+					<div className="mb-4 flex items-center text-2xl font-semibold">About Me</div>
+					<div {...getCollapseProps()} className="whitespace-pre-line">
+						<p ref={descRef}>{profileData.description}</p>
+					</div>
+					{shouldCollapse && (
+						<button
+							className="mt-2 font-semibold text-green-500"
+							{...getToggleProps({
+								onClick: () => setExpanded((prev) => !prev),
+							})}
+						>
+							{isExpanded ? "See Less" : "See More"}
+						</button>
+					)}
+				</div>
+			)}
 
 			{/* Education */}
 			<div className="mt-8 w-fit min-w-[30rem]">
 				<div className={`flex items-center border-b-2 border-green-400`}>
-					{["education", "qualification"].map((value) => {
+					{["education", "qualification", "interest"].map((value) => {
 						return (
 							<div
 								key={`profileTabs-${value}`}
@@ -214,41 +238,65 @@ export const Profile = () => {
 					})}
 				</div>
 				{activeTab === "education" ? (
-					<ul className="ml-1 mt-4 space-y-2">
-						{profileData.education.map((value, index) => (
-							<li key={`profileEducation-${index}`} className="flex items-center gap-1">
-								<FaCircle className="h-1.5 w-1.5" /> {value.title} - {value.year}
-							</li>
+					<ul className="ml-4 mt-4 grid grid-cols-[repeat(4,max-content)] items-center gap-x-2 gap-y-2">
+						{profileData.educations.map((value, index) => (
+							<Fragment key={`profileEducation-${index}`}>
+								<FaCircle className="mr-2 h-1.5 w-1.5 text-green-400" />
+								<span>{value.title}</span>
+								<span>-</span>
+								<span>{value.year}</span>
+							</Fragment>
 						))}
 					</ul>
 				) : activeTab === "qualification" ? (
-					<ul className="ml-1 mt-4 space-y-2">
-						{profileData.education.map((value, index) => (
-							<li key={`profileQualification-${index}`} className="flex items-center gap-1">
-								<FaCircle className="h-1.5 w-1.5" /> {value.title} - {value.year}
-							</li>
+					<ul className="ml-4 mt-4 grid grid-cols-[repeat(4,max-content)] items-center gap-x-2 gap-y-2">
+						{profileData.qualifications.map((value, index) => (
+							<Fragment key={`profileQualification-${index}`}>
+								<FaCircle className="mr-2 h-1.5 w-1.5 text-green-400" />
+								<span>{value.title}</span>
+								<span>-</span>
+								<span>{value.year}</span>
+							</Fragment>
+						))}
+					</ul>
+				) : activeTab === "interest" ? (
+					<ul className="ml-4 mt-4 flex max-w-[30rem] flex-wrap items-center gap-x-2 gap-y-2">
+						{profileData.interests.map((value) => (
+							<Tag tag={value} key={`profileInterest-${value}`} />
 						))}
 					</ul>
 				) : null}
 			</div>
 
 			{/* Gigs */}
-			<div className="mt-8">
-				<div className="mb-2 flex items-center text-xl font-semibold">Gigs from this Mentor</div>
-				<Carousel>
-					{gigs.map((value) => (
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-					))}
-				</Carousel>
-			</div>
+			{gigs ? (
+				gigs.length > 0 && (
+					<div className="mt-8">
+						<div className="mb-2 flex items-center text-xl font-semibold">Gigs from this Mentor</div>
+						<Carousel>
+							{gigs.map((value) => (
+								<GigCard gig={value} key={`profileGig-${value.id}`} />
+							))}
+						</Carousel>
+					</div>
+				)
+			) : (
+				<Loading />
+			)}
 
 			{/* Reviews */}
-			<div className="mb-60 mt-8 max-w-[50rem]">
-				<div className="mb-4 flex items-center text-xl font-semibold">Some reviews for this Mentor</div>
-				{reviews.map((review, index) => (
-					<ReviewCard review={review} key={`profile-review-${index}`} />
-				))}
-			</div>
+			{reviews ? (
+				reviews.length > 0 && (
+					<div className="mb-60 mt-8 max-w-[50rem]">
+						<div className="mb-4 flex items-center text-xl font-semibold">Some reviews for this Mentor</div>
+						{reviews.map((review, index) => (
+							<ReviewCard review={review} key={`profile-review-${index}`} />
+						))}
+					</div>
+				)
+			) : (
+				<Loading />
+			)}
 		</>
 	);
 };
