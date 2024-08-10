@@ -1,7 +1,8 @@
-import { limitTextLength } from "@/utils/functions";
+import { fullImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/functions";
 import { Review } from "@/utils/types";
+import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 type ReviewProps = {
@@ -17,7 +18,11 @@ const ReviewCard = ({ review }: ReviewProps) => {
 			<div className="grid w-full grid-cols-[max-content_max-content_minmax(max-content,1fr)] items-center gap-3 gap-y-1 rounded-sm max-sm:grid-cols-[max-content_minmax(0,1fr)]">
 				<div className="h-20 w-20" title={`${user.firstName} ${user.lastName}`}>
 					<img
-						src={user.profileImage}
+						src={userProfileImageUrl(user.id)}
+						onError={({ currentTarget }) => {
+							currentTarget.onerror = null;
+							currentTarget.src = defaultProfileImage;
+						}}
 						className="h-full w-full rounded-sm border-4 border-white object-cover object-center shadow dark:border-black"
 						alt={`${user.firstName} ${user.lastName}`}
 					/>
@@ -26,6 +31,7 @@ const ReviewCard = ({ review }: ReviewProps) => {
 					<Link to={`/profile/${user.id}`} className="mb-0.5 text-lg font-semibold hover:underline">
 						{user.firstName} {user.lastName}
 					</Link>
+
 					<div className="ml-0.5 text-sm font-medium">
 						Rated it <span className="font-bold text-green-700">{review.rating}</span>
 					</div>
@@ -47,7 +53,7 @@ const ReviewCard = ({ review }: ReviewProps) => {
 						to={"#"}
 						className="flex h-full w-full max-w-[20rem] cursor-pointer items-start justify-end rounded-sm bg-cover bg-center p-0.5 text-sm max-md:text-xs max-sm:col-span-full max-sm:w-fit max-sm:justify-start max-sm:!bg-none sm:ml-auto"
 						style={{
-							backgroundImage: `url(${gig.coverImage})`,
+							backgroundImage: `url(${gig.coverImage ? fullImageUrl(gig.coverImage) : defaultCoverImage})`,
 						}}
 					>
 						<div className="rounded-sm bg-light-bg bg-opacity-95 px-1 py-0.5 text-right font-medium dark:bg-dark-bg">
@@ -83,6 +89,15 @@ const ReviewCard = ({ review }: ReviewProps) => {
 				) : (
 					review.text
 				)}
+				<div className="mt-2 w-full text-sm font-semibold">
+					{new Date(review.createdAt).toLocaleTimeString(undefined, {
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+						hour: "numeric",
+						minute: "numeric",
+					})}
+				</div>
 			</div>
 		</div>
 	);

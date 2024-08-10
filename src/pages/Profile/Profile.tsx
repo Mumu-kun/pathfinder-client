@@ -13,12 +13,11 @@ import { GigCardData, ProfileData, Review } from "../../utils/types";
 import FloatCard from "./FloatCard";
 
 import axios from "@/api/axios";
-import coverImg from "@/assets/cover.png";
-import profileImg from "@/assets/profile.jpg";
+import Loading from "@/components/Loading";
 import ReviewCard from "@/components/ReviewCard";
 import useAuth from "@/hooks/useAuth";
-import Loading from "@/components/Loading";
-import { boolean } from "yup";
+import { userProfileImageUrl } from "@/utils/functions";
+import { defaultProfileImage } from "@/utils/variables";
 
 export const getProfileData = async (userId: number) => {
 	try {
@@ -26,6 +25,17 @@ export const getProfileData = async (userId: number) => {
 		const data = res.data;
 
 		return data as unknown as ProfileData;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+const getGigCards = async (userId: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/users/${userId}/gigs/card`);
+		const data = res.data;
+
+		return data as unknown as GigCardData[];
 	} catch (error) {
 		console.error(error);
 	}
@@ -47,13 +57,7 @@ export const Profile = () => {
 			price: 1500,
 			rating: 4.3,
 			ratedByCount: 20,
-			coverImage: coverImg,
-			user: {
-				id: userId ?? 1,
-				firstName: "Mustafa",
-				lastName: "Muhaimin",
-				profileImage: profileImg,
-			},
+			coverImage: null,
 		},
 	]);
 
@@ -63,21 +67,19 @@ export const Profile = () => {
 			title: "This was life changing",
 			text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
 			rating: 4.5,
+			createdAt: new Date(),
 			reviewer: {
 				id: 1,
 				firstName: "Mustafa",
 				lastName: "Muhaimin",
-				profileImage: profileImg,
 			},
 			gig: {
 				id: 1,
 				title: "Intro to Python Programming",
-				coverImage: coverImg,
+				coverImage: null,
 			},
 		},
 	]);
-
-	const theme = localStorage.getItem("theme");
 
 	const descRef = useRef<HTMLParagraphElement>(null);
 	const [shouldCollapse, setShouldCollapse] = useState<boolean>(false);
@@ -128,7 +130,11 @@ export const Profile = () => {
 			<div className="mt-12 flex w-full gap-4">
 				{/* Profile Image */}
 				<img
-					src={profileData.profileImage ? profileData.profileImage : profileImg}
+					src={userProfileImageUrl(profileData.id)}
+					onError={({ currentTarget }) => {
+						currentTarget.onerror = null;
+						currentTarget.src = defaultProfileImage;
+					}}
 					alt=""
 					className={`${profileData.totalStudents ? "h-80 w-80" : "h-40 w-40"} object-cover object-center`}
 				/>

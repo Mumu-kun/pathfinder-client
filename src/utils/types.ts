@@ -6,7 +6,6 @@ export type ProfileData = {
 	username: string;
 	firstName: string;
 	lastName: string;
-	profileImage: string;
 	age: number;
 	description: string;
 	tags: string[];
@@ -41,7 +40,6 @@ export type UserShort = {
 	id: number;
 	firstName: string;
 	lastName: string;
-	profileImage: string;
 };
 
 export type Gig = {
@@ -66,7 +64,7 @@ export type GigCardData = {
 	price: number;
 	rating: number;
 	ratedByCount: number;
-	coverImage: string;
+	coverImage: string | null;
 	user?: UserShort;
 };
 
@@ -76,10 +74,11 @@ export type Review = {
 	text: string;
 	rating: number;
 	reviewer: UserShort;
+	createdAt: Date;
 	gig?: {
 		id: number;
 		title: string;
-		coverImage: string;
+		coverImage: string | null;
 	};
 };
 

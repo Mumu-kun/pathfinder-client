@@ -1,6 +1,8 @@
 import { TextInputComponent } from "@/components/FormComponents";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { userProfileImageUrl } from "@/utils/functions";
 import { ProfileData } from "@/utils/types";
+import { defaultProfileImage } from "@/utils/variables";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 
@@ -106,15 +108,17 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 							/>
 						</div>
 					) : (
-						profileData.profileImage && (
-							<div className="col-start-2 h-80 w-80 object-cover object-center">
-								<img
-									src={profileData.profileImage}
-									alt=""
-									className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
-								/>
-							</div>
-						)
+						<div className="col-start-2 h-80 w-80 object-cover object-center">
+							<img
+								src={userProfileImageUrl(profileData.id)}
+								onError={({ currentTarget }) => {
+									currentTarget.onerror = null;
+									currentTarget.src = defaultProfileImage;
+								}}
+								alt=""
+								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
+							/>
+						</div>
 					)}
 
 					<button type="submit" className="solid-btn" disabled={isSubmitting}>
