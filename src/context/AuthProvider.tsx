@@ -1,8 +1,8 @@
 import { AuthUser } from "@/utils/types";
-import { createContext, useState, FC, ReactNode } from "react";
+import { createContext, useState, FC, ReactNode, useEffect } from "react";
 
 type AuthContextProps = {
-	auth: AuthUser | null;
+	auth: AuthUser | null | undefined;
 	setAuth: (auth: any) => void;
 	persist: boolean;
 	setPersist: (persist: boolean) => void;
@@ -16,9 +16,15 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-	const [auth, setAuth] = useState<AuthUser | null>(null);
+	const [auth, setAuth] = useState<AuthUser | null | undefined>();
 	const localStoragePersist = localStorage.getItem("persist_login");
 	const [persist, setPersist] = useState<boolean>(localStoragePersist ? JSON.parse(localStoragePersist) : false);
+
+	useEffect(() => {
+		if (persist) {
+			auth !== null ? localStorage.setItem("auth", JSON.stringify(auth)) : localStorage.removeItem("auth");
+		}
+	}, [auth]);
 
 	return <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>{children}</AuthContext.Provider>;
 };

@@ -6,7 +6,7 @@ import useLogout from "../hooks/useLogout";
 import Loading from "./Loading";
 
 const PersistLogin: React.FC = () => {
-	const { auth, persist } = useAuth();
+	const { auth, persist, setAuth } = useAuth();
 	const refresh = useRefreshToken();
 	const logout = useLogout();
 
@@ -15,9 +15,15 @@ const PersistLogin: React.FC = () => {
 	useEffect(() => {
 		let isMounted = true;
 
-		const verifyRefreshToken = async () => {
+		const reLogin = async () => {
 			try {
-				await refresh();
+				let localAuth = localStorage.getItem("auth");
+				localAuth = localAuth ? JSON.parse(localAuth) : null;
+				setAuth(localAuth);
+
+				if (auth === null) {
+					await refresh();
+				}
 			} catch (err) {
 				console.error(err);
 			} finally {
@@ -27,12 +33,12 @@ const PersistLogin: React.FC = () => {
 			}
 		};
 
-		if (!auth?.accessToken) {
+		if (!auth) {
 			if (!persist) {
 				logout();
 				setLoading(false);
 			} else {
-				verifyRefreshToken();
+				reLogin();
 			}
 		} else {
 			if (isMounted) {

@@ -15,7 +15,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const Register: React.FC = () => {
-	const { setAuth } = useAuth();
+	const { setAuth, setPersist } = useAuth();
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -89,6 +89,7 @@ const Register: React.FC = () => {
 									type="checkbox"
 									id="trust"
 									onChange={(e) => {
+										setPersist(e.target.checked);
 										localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
 									}}
 								/>

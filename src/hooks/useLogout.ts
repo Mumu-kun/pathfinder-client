@@ -9,6 +9,7 @@ const useLogout = () => {
 
 	const logout = async () => {
 		localStorage.removeItem("persist_login");
+		localStorage.removeItem("auth");
 		setAuth(null);
 
 		console.log("Logging out");

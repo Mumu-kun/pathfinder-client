@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { isAxiosError } from "axios";
 
 const Login: React.FC = () => {
-	const { setAuth } = useContext(AuthContext);
+	const { setAuth, setPersist } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -74,6 +74,7 @@ const Login: React.FC = () => {
 									id="trust"
 									className="accent-green-400"
 									onChange={(e) => {
+										setPersist(e.target.checked);
 										localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
 									}}
 								/>
