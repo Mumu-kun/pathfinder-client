@@ -13,9 +13,10 @@ const NotificationIcon = () => {
 
 	useEffect(() => {
 		const getNotifications = async () => {
+			const pageNum = 0;
 			try {
-				const response = await axiosPrivate.get("api/v1/notifications/get");
-				setNotifications(response.data);
+				const response = await axiosPrivate.get(`api/v1/notifications/get?page=${pageNum}`);
+				setNotifications(response.data.content);
 				console.log(response.data);
 			} catch (error) {
 				console.log(error);

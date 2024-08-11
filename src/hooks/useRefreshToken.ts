@@ -16,6 +16,7 @@ const useRefreshToken = () => {
 			);
 
 			setAuth(res.data);
+			return res?.data?.accessToken;
 		} catch (error) {
 			console.error(error);
 		}

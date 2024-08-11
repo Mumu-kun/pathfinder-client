@@ -65,13 +65,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 	// to refetch messages when a new message is sent.
 
 	useEffect(() => {
+		const pageNum = 0;
 		const fetchMessages = async () => {
 			if (!senderId || !receiverId) return;
 
 			try {
-				const response = await axiosPrivate.get(`api/v1/chat/messages/${senderId}/${receiverId}/page=0`);
-				console.log(response.data);
-				setChatMessages(response.data);
+				const response = await axiosPrivate.get(`api/v1/chat/messages/${senderId}/${receiverId}?page=${pageNum}`);
+				console.log(response.data.content);
+				setChatMessages(response.data.content);
 			} catch (error) {
 				console.log(error);
 			}
@@ -143,7 +144,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 					<div className="">
 						<p className="small-headings">{currentContactData.fullName}</p>
 						{chatMessages.length === 0 && <div>No messages to show</div>}
-						{chatMessages.map((message, index) => {
+						{chatMessages.length > 0 && chatMessages.map((message, index) => {
 							const showSenderName = message.senderId !== prevSenderId;
 
 							// Update prevSenderId for next iteration
