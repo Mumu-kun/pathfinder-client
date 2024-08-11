@@ -236,7 +236,7 @@ const GigCreateForm = ({ refreshGigs }: { refreshGigs: () => void }) => {
 					<Field
 						isGrid
 						name="description"
-						placeholder="Description"
+						placeholder="Description (Can Edit Later)"
 						component={TextAreaInputComponent}
 						label="Description"
 						isFullWidth

@@ -159,12 +159,12 @@ export const Profile = () => {
 					</div>
 
 					{/* Tags */}
-					{profileData.tags?.length > 0 && (
+					{profileData.teachTags?.length > 0 && (
 						<div className="mt-4 grid grid-cols-[max-content_auto] grid-rows-2 items-center gap-x-1.5">
 							<PiChalkboardTeacher className="h-7 w-7" />
 							<div className="text-lg font-medium">Teaches</div>
 							<div className="col-start-2 ml-0.5 flex flex-wrap">
-								{profileData.tags.map((tag, index) => (
+								{profileData.teachTags.map((tag, index) => (
 									<Tag tag={tag} key={index} />
 								))}
 							</div>
