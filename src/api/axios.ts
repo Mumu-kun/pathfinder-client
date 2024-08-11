@@ -1,13 +1,12 @@
+import { BASE_URL } from "@/utils/variables";
 import axios from "axios";
 
-const baseURL = "http://localhost:8080";
-
 export default axios.create({
-	baseURL,
+	baseURL: BASE_URL,
 });
 
 export const axiosPrivate = axios.create({
-	baseURL,
+	baseURL: BASE_URL,
 	headers: {
 		"Content-Type": "application/json",
 	},

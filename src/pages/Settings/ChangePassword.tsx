@@ -3,7 +3,7 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { isAxiosError } from "axios";
 import { Field, Form, Formik } from "formik";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import * as Yup from "yup";
 
 const ChangePassword = () => {

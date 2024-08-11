@@ -18,6 +18,7 @@ import ReviewCard from "@/components/ReviewCard";
 import useAuth from "@/hooks/useAuth";
 import { userProfileImageUrl } from "@/utils/functions";
 import { defaultProfileImage } from "@/utils/variables";
+import ProfileGigs from "./ProfileGigs";
 
 export const getProfileData = async (userId: number) => {
 	try {
@@ -45,11 +46,12 @@ export const Profile = () => {
 	const params = useParams();
 	const { auth } = useAuth();
 
-	let userId = params?.id ? parseInt(params?.id) : auth?.userId;
+	let userId = params?.userId ? parseInt(params?.userId) : auth?.userId;
+	let isOwnerProfile = userId === auth?.userId;
 
 	const [profileData, setProfileData] = useState<ProfileData | undefined>();
 
-	const [gigs, setGigs] = useState<GigCardData[]>([
+	const [gigs, setGigs] = useState<GigCardData[] | undefined>([
 		{
 			id: 1,
 			title: "Intro to Python Programming",
@@ -61,7 +63,7 @@ export const Profile = () => {
 		},
 	]);
 
-	const [reviews, setReviews] = useState<Review[]>([
+	const [reviews, setReviews] = useState<Review[] | undefined>([
 		{
 			id: 1,
 			title: "This was life changing",
@@ -105,9 +107,14 @@ export const Profile = () => {
 	const [activeTab, setActiveTab] = useState<string>("education");
 
 	useEffect(() => {
-		getProfileData(auth!.userId).then((data) => {
-			setProfileData(data);
-		});
+		if (userId) {
+			getProfileData(userId).then((data) => {
+				setProfileData(data);
+			});
+			getGigCards(userId).then((data) => {
+				setGigs(data);
+			});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -132,6 +139,8 @@ export const Profile = () => {
 				<img
 					src={userProfileImageUrl(profileData.id)}
 					onError={({ currentTarget }) => {
+						console.log("Error loading image");
+
 						currentTarget.onerror = null;
 						currentTarget.src = defaultProfileImage;
 					}}
@@ -275,20 +284,7 @@ export const Profile = () => {
 			</div>
 
 			{/* Gigs */}
-			{gigs ? (
-				gigs.length > 0 && (
-					<div className="mt-8">
-						<div className="mb-2 flex items-center text-xl font-semibold">Gigs from this Mentor</div>
-						<Carousel>
-							{gigs.map((value) => (
-								<GigCard gig={value} key={`profileGig-${value.id}`} />
-							))}
-						</Carousel>
-					</div>
-				)
-			) : (
-				<Loading />
-			)}
+			<ProfileGigs {...{ gigs, isOwnerProfile }} />
 
 			{/* Reviews */}
 			{reviews ? (
