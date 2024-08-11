@@ -127,6 +127,10 @@ export const Profile = () => {
 		};
 	}, [descRef]);
 
+	if (!userId) {
+		return null;
+	}
+
 	if (!profileData) {
 		return <Loading fullscreen />;
 	}
@@ -236,7 +240,7 @@ export const Profile = () => {
 			)}
 
 			{/* Education */}
-			<div className="mt-8 w-fit min-w-[30rem]">
+			<div className="mt-8 max-w-[30rem]">
 				<div className={`flex items-center border-b-2 border-green-400`}>
 					{["education", "qualification", "interest"].map((value) => {
 						return (
@@ -284,7 +288,14 @@ export const Profile = () => {
 			</div>
 
 			{/* Gigs */}
-			<ProfileGigs {...{ gigs, isOwnerProfile }} />
+			<ProfileGigs
+				{...{ gigs, isOwnerProfile }}
+				refreshGigs={() => {
+					getGigCards(userId).then((data) => {
+						setGigs(data);
+					});
+				}}
+			/>
 
 			{/* Reviews */}
 			{reviews ? (
