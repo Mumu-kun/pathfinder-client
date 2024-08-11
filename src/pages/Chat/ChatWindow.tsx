@@ -6,7 +6,7 @@ import useAuth from "../../hooks/useAuth";
 import { ChatMessageInput, ChatMessage } from "../../utils/types";
 // import axiosPrivate from "../../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import NoContactSelected from "./NoContactSelected";
+import NoContactSelected from "./components/NoContactSelected";
 
 interface ChatWindowProps {
 	messageSent: boolean;
@@ -25,6 +25,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 	const receiverId = id ? parseInt(id) : undefined;
 	const [message, setMessage] = useState<string>("");
 	const axiosPrivate = useAxiosPrivate();
+
+	console.log(auth);
 
 	const chatMessageInput: ChatMessageInput = {
 		senderId: senderId,
@@ -67,7 +69,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 			if (!senderId || !receiverId) return;
 
 			try {
-				const response = await axiosPrivate.get(`api/v1/chat/messages/${senderId}/${receiverId}`);
+				const response = await axiosPrivate.get(`api/v1/chat/messages/${senderId}/${receiverId}/page=0`);
 				console.log(response.data);
 				setChatMessages(response.data);
 			} catch (error) {
