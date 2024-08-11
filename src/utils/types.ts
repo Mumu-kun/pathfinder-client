@@ -51,12 +51,12 @@ export type Gig = {
 	category: string;
 	price: number;
 	rating: number | null;
-	total_orders: number;
+	totalOrders: number;
 	accepted: boolean;
 	seller: User;
-	created_at: Date;
-	gig_cover_image: string | null;
-	gig_video: string | null;
+	createdAt: Date;
+	gigCoverImage: string | null;
+	gigVideo: string | null;
 };
 
 export type GigCardData = {
@@ -126,4 +126,19 @@ export type Notification = {
 	read: boolean;
 	type: string;
 	linkSuffix: string;
+};
+
+export type Enrollment = {
+	id: number;
+	gig: Gig;
+	buyer: User;
+	createdAt: string;
+	deadline: string;
+	completedAt: string | null;
+	price: number;
+	numSessions: number;
+	numSessionsCompleted: number;
+	sessionDurationInMinutes: number;
+	buyerConfirmed: boolean;
+	paid: boolean;
 };
