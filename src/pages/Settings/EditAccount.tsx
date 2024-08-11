@@ -3,8 +3,10 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { userProfileImageUrl } from "@/utils/functions";
 import { ProfileData } from "@/utils/types";
 import { defaultProfileImage } from "@/utils/variables";
+import { isAxiosError } from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import * as Yup from "yup";
 
@@ -19,9 +21,7 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 
 	return (
 		<Formik
-			onSubmit={async (values, { setSubmitting }) => {
-				console.log(values);
-
+			onSubmit={async (values) => {
 				try {
 					await axiosPrivate.patch("/api/v1/users/edit-profile", { ...values, profileImage: undefined });
 					!!values.profileImage &&
@@ -32,8 +32,13 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 								headers: { "Content-Type": "multipart/form-data" },
 							}
 						));
+
+					toast("Account updated successfully", { type: "success" });
 				} catch (error) {
 					console.error(error);
+					if (isAxiosError(error)) {
+						error.response?.status === 400 && toast(error.response.data.message, { type: "error" });
+					}
 				}
 			}}
 			initialValues={{
@@ -43,6 +48,8 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 				profileImage: null,
 			}}
 			validationSchema={Yup.object().shape({
+				firstName: Yup.string().required("Required"),
+				lastName: Yup.string().required("Required"),
 				profileImage: Yup.mixed()
 					.test("fileFormat", "Only Image files are allowed", (value) => {
 						if (value) {
@@ -60,13 +67,34 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 			})}
 		>
 			{({ isSubmitting, setFieldValue, setFieldTouched, validateField }) => (
-				<Form className="grid grid-cols-[max-content_auto] gap-x-8 gap-y-4">
+				<Form className="grid grid-cols-[max-content_auto] place-items-start gap-x-8 gap-y-4">
 					<Field isGrid name="firstName" placeholder="First Name" component={TextInputComponent} label="First Name" />
 
 					<Field isGrid name="lastName" placeholder="Last Name" component={TextInputComponent} label="Last Name" />
 
 					<Field isGrid name="email" placeholder="Email" component={TextInputComponent} label="Email" disabled />
 
+					{profileImageChange ? (
+						<div className="col-start-2 h-60 w-60 object-cover object-center">
+							<img
+								src={profileImageChange}
+								alt=""
+								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
+							/>
+						</div>
+					) : (
+						<div className="col-start-2 h-60 w-60 object-cover object-center">
+							<img
+								src={userProfileImageUrl(profileData.id)}
+								onError={({ currentTarget }) => {
+									currentTarget.onerror = null;
+									currentTarget.src = defaultProfileImage;
+								}}
+								alt=""
+								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
+							/>
+						</div>
+					)}
 					<Field
 						isGrid
 						label="Profile Image"
@@ -99,30 +127,9 @@ const EditAccount = ({ profileData }: EditAccountProps) => {
 					<ErrorMessage name={"profileImage"}>
 						{(msg) => <div className="col-start-2 text-sm text-red-500">{msg}</div>}
 					</ErrorMessage>
-					{profileImageChange ? (
-						<div className="col-start-2 h-80 w-80 object-cover object-center">
-							<img
-								src={profileImageChange}
-								alt=""
-								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
-							/>
-						</div>
-					) : (
-						<div className="col-start-2 h-80 w-80 object-cover object-center">
-							<img
-								src={userProfileImageUrl(profileData.id)}
-								onError={({ currentTarget }) => {
-									currentTarget.onerror = null;
-									currentTarget.src = defaultProfileImage;
-								}}
-								alt=""
-								className="h-full w-full rounded-sm border border-green-400 object-cover object-center shadow dark:border-2"
-							/>
-						</div>
-					)}
 
-					<button type="submit" className="solid-btn" disabled={isSubmitting}>
-						Submit
+					<button type="submit" className="solid-btn col-span-full justify-self-center" disabled={isSubmitting}>
+						Save Account
 					</button>
 				</Form>
 			)}

@@ -26,7 +26,7 @@ export const TextInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm font-bold"} gap-1`}>
+				<label htmlFor={field.name} className={`flex items-center font-semibold ${isGrid ? "" : "mb-2 text-sm"} gap-1`}>
 					<span>{label}</span>
 					<span>:</span>
 				</label>
@@ -42,7 +42,7 @@ export const TextInputComponent = ({
 				/>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>
@@ -94,7 +94,7 @@ export const NumberInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm font-bold"} gap-1`}>
+				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}>
 					<span>{label}</span>
 					<span>:</span>
 				</label>
@@ -110,7 +110,7 @@ export const NumberInputComponent = ({
 				/>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>
@@ -133,7 +133,7 @@ export const TextAreaInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm font-bold"} gap-1`}>
+				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}>
 					<span>{label}</span>
 					<span>:</span>
 				</label>
@@ -148,7 +148,7 @@ export const TextAreaInputComponent = ({
 				></textarea>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>

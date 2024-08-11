@@ -2,13 +2,16 @@ import ErrorPage from "@/components/ErrorPage";
 import Loading from "@/components/Loading";
 import useAuth from "@/hooks/useAuth";
 import { ProfileData } from "@/utils/types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getProfileData } from "../Profile/Profile";
 import EditAccount from "./EditAccount";
 import EditProfile from "./EditProfile";
+import ChangePassword from "./ChangePassword";
+import { ToastContainer } from "react-toastify";
+import ThemeContext from "@/context/ThemeProvide";
 
-const TABS = ["account", "profile", "password", "delete"];
+const TABS = ["account", "profile", "password"];
 
 const tabToElement = (tab: string, props: any) => {
 	switch (tab) {
@@ -19,7 +22,7 @@ const tabToElement = (tab: string, props: any) => {
 			return <EditProfile {...props} />;
 
 		case TABS[2]:
-			return <div>ChangePassword</div>;
+			return <ChangePassword />;
 
 		case TABS[3]:
 			return <div>DeleteAccount</div>;
@@ -32,6 +35,7 @@ const tabToElement = (tab: string, props: any) => {
 export const Settings = () => {
 	const { pathname } = useLocation();
 	const { auth } = useAuth();
+	const { theme } = useContext(ThemeContext);
 	const tab = pathname.split("/")[2];
 
 	const [activeTab, setActiveTab] = useState<string>(tab || TABS[0]);
@@ -50,30 +54,33 @@ export const Settings = () => {
 
 	return (
 		<>
-			<div className="mt-10 text-center text-4xl font-bold text-green-500">Settings</div>
-			<div className="mt-12 grid grid-cols-[minmax(0,max-content)_auto] gap-x-4">
-				<div className="flex">
-					<div className="flex flex-col gap-4">
-						{TABS.map((tab) => {
-							const tabTitle = tab.replace("-", " ");
-							return (
-								<Link
-									to={"/settings/" + tab}
-									key={`tab-${tab}`}
-									className={`rounded-sm px-3 py-1.5 pr-6 font-semibold capitalize transition-all max-md:text-sm ${activeTab === tab ? "bg-green-400 dark:bg-green-500" : "bg-light-secondary hover:bg-green-300 dark:bg-dark-secondary dark:hover:bg-green-600"}`}
-									onClick={() => setActiveTab(tab)}
-								>
-									{tabTitle}
-								</Link>
-							);
-						})}
-					</div>
-					{/* <div className="mx-8 w-1 self-stretch rounded-[100%] bg-green-400"></div> */}
+			<div className="mt-6 text-center text-3xl font-bold text-green-500">Settings</div>
+			<div className="mt-4 grid grid-cols-[minmax(0,max-content)_auto] gap-x-10">
+				<div className="mt-4 flex flex-col gap-4">
+					{TABS.map((tab) => {
+						const tabTitle = tab.replace("-", " ");
+						return (
+							<Link
+								to={"/settings/" + tab}
+								key={`tab-${tab}`}
+								className={`rounded-sm px-3 py-1.5 pr-6 text-sm font-semibold capitalize transition-all ${activeTab === tab ? "bg-green-400 dark:bg-green-500" : "bg-light-secondary hover:bg-green-300 dark:bg-dark-secondary dark:hover:bg-green-600"}`}
+								onClick={() => setActiveTab(tab)}
+							>
+								{tabTitle}
+							</Link>
+						);
+					})}
 				</div>
 
-				<div className="w-full rounded-sm bg-light-secondary px-8 pb-8 pt-6 shadow-md dark:bg-dark-secondary">
-					{!profileData ? <Loading /> : tabToElement(activeTab, { profileData })}
+				<div
+					className="w-full rounded-sm bg-light-secondary px-8 pb-8 pt-10 shadow-md transition-all dark:bg-dark-secondary"
+					style={{
+						minHeight: !profileData ? "30rem" : undefined,
+					}}
+				>
+					{!profileData ? <Loading isTransparent /> : tabToElement(activeTab, { profileData })}
 				</div>
+				<ToastContainer position="bottom-center" theme={theme} />
 			</div>
 		</>
 	);

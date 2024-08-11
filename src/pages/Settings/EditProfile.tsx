@@ -2,11 +2,14 @@ import axios from "@/api/axios";
 import { NumberInputComponent, TextAreaInputComponent, TextInputComponent } from "@/components/FormComponents";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { ProfileData } from "@/utils/types";
+import { isAxiosError } from "axios";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { SingleValue } from "node_modules/react-select/dist/declarations/src";
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import AsyncCreatableSelect from "react-select/async-creatable";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type EditProfileProps = {
@@ -26,12 +29,16 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 				interests: profileData.interests,
 			}}
 			onSubmit={async (values) => {
-				console.log(values);
+				try {
+					await axiosPrivate.patch("/api/v1/users/edit-profile", values);
 
-				const res = await axiosPrivate.patch("/api/v1/users/edit-profile", values);
-				const data = res.data;
-
-				console.log(res);
+					toast("Profile updated successfully", { type: "success" });
+				} catch (error) {
+					console.error(error);
+					if (isAxiosError(error)) {
+						error.response?.status === 400 && toast(error.response.data.message, { type: "error" });
+					}
+				}
 			}}
 			validationSchema={Yup.object().shape({
 				age: Yup.number().min(0, "Please set a valid age.").max(150, "Please set a valid age.").nullable(),
@@ -68,7 +75,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 						name="educations"
 						render={(arrayHelpers) => (
 							<>
-								<label htmlFor={"education"} className={`flex items-center gap-1`}>
+								<label htmlFor={"education"} className={`flex items-center gap-1 font-semibold`}>
 									<span>Education</span>
 									<span>:</span>
 								</label>
@@ -138,7 +145,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 						name="qualifications"
 						render={(arrayHelpers) => (
 							<>
-								<label htmlFor={"qualification"} className={`flex items-center gap-1`}>
+								<label htmlFor={"qualification"} className={`flex items-center gap-1 font-semibold`}>
 									<span>Qualification</span>
 									<span>:</span>
 								</label>
@@ -206,7 +213,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 					<FieldArray name="interests">
 						{(formikHelpers) => (
 							<>
-								<label htmlFor={"interests"} className={`flex items-center gap-1`}>
+								<label htmlFor={"interests"} className={`flex items-center gap-1 font-semibold`}>
 									<span>Interests</span>
 									<span>:</span>
 								</label>
