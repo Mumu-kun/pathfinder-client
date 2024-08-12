@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Field, Form, Formik } from "formik";
 import { TextInputComponent } from "@/components/FormComponents";
 import * as Yup from "yup";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 const RegisterSchema = Yup.object().shape({
 	firstName: Yup.string().required(),
@@ -45,8 +47,11 @@ const Register: React.FC = () => {
 						setAuth(res.data);
 
 						navigate(from === "/login" ? "/" : from, { replace: true });
-					} catch (err) {
-						console.error(err);
+					} catch (error) {
+						if (isAxiosError(error)) {
+							toast(error.response?.data?.message, { type: "error" });
+						}
+						console.error(error);
 						setSubmitting(false);
 					}
 				}}

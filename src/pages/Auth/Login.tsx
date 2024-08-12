@@ -1,12 +1,13 @@
-import React, { useContext, useState } from "react";
+import { TextInputComponent } from "@/components/FormComponents";
+import { isAxiosError } from "axios";
+import { Field, Form, Formik } from "formik";
+import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 import axios from "../../api/axios";
 import AuthContext from "../../context/AuthProvider";
 import { LOGIN_URL } from "../../utils/variables";
-import { Field, Formik, Form } from "formik";
-import { TextInputComponent } from "@/components/FormComponents";
-import * as Yup from "yup";
-import { isAxiosError } from "axios";
 
 const Login: React.FC = () => {
 	const { setAuth, setPersist } = useContext(AuthContext);
@@ -14,8 +15,6 @@ const Login: React.FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from || "/";
-
-	const [errorMessage, setErrorMessage] = useState<string>();
 
 	return (
 		<div className="mx-auto mt-10 max-w-[30rem]">
@@ -27,7 +26,6 @@ const Login: React.FC = () => {
 					password: Yup.string().required("Provide a password"),
 				})}
 				onSubmit={async (values, { setSubmitting }) => {
-					setErrorMessage(undefined);
 					try {
 						const res = await axios.post(LOGIN_URL, values, {
 							headers: { "Content-Type": "application/json" },
@@ -41,7 +39,7 @@ const Login: React.FC = () => {
 						navigate(from, { replace: true });
 					} catch (error) {
 						if (isAxiosError(error) && error.response?.status === 401) {
-							setErrorMessage(error.response?.data?.message);
+							toast(error.response?.data?.message, { type: "error" });
 						}
 						console.error(error);
 						setSubmitting(false);
@@ -67,7 +65,6 @@ const Login: React.FC = () => {
 							isFullWidth={true}
 						/>
 						<div className="flex flex-col items-center justify-center">
-							{errorMessage && <div className="mb-2 text-sm text-red-500">{errorMessage}</div>}
 							<div className="mb-4">
 								<input
 									type="checkbox"

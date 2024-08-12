@@ -9,6 +9,7 @@ type InputComponentProps = {
 	disabled?: boolean;
 	className?: string;
 	noShowError?: boolean;
+	rightContent?: React.ReactNode;
 };
 
 export const TextInputComponent = ({
@@ -26,7 +27,10 @@ export const TextInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center font-semibold ${isGrid ? "" : "mb-2 text-sm"} gap-1`}>
+				<label
+					htmlFor={field.name}
+					className={`flex items-center py-0.5 font-semibold ${isGrid ? "" : "mb-2 text-sm"} gap-1`}
+				>
 					<span>{label}</span>
 					<span>:</span>
 				</label>
@@ -57,6 +61,7 @@ export const NumberInputComponent = ({
 	disabled = false,
 	noShowError = false,
 	className: pClassName = "",
+	rightContent,
 	field,
 	form,
 	...props
@@ -94,20 +99,26 @@ export const NumberInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}>
+				<label
+					htmlFor={field.name}
+					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}
+				>
 					<span>{label}</span>
 					<span>:</span>
 				</label>
 			)}
 			<div className={`${isFullWidth ? "w-full" : "max-w-60"} ${isGrid ? "" : "mb-4"}`}>
-				<input
-					id={field.name}
-					{...field}
-					{...props}
-					onChange={handleInput}
-					disabled={disabled}
-					className={`w-full min-w-0 rounded-sm border border-green-400 bg-light-bg px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
-				/>
+				<div className="flex items-center">
+					<input
+						id={field.name}
+						{...field}
+						{...props}
+						onChange={handleInput}
+						disabled={disabled}
+						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-light-bg px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					/>
+					{rightContent}
+				</div>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
 						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
@@ -133,7 +144,10 @@ export const TextAreaInputComponent = ({
 	return (
 		<>
 			{label && (
-				<label htmlFor={field.name} className={`flex items-center ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}>
+				<label
+					htmlFor={field.name}
+					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}
+				>
 					<span>{label}</span>
 					<span>:</span>
 				</label>

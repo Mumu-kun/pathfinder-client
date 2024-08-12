@@ -40,7 +40,7 @@ const router = createBrowserRouter([
 						element: <ChatPage />,
 					},
 					{
-						path: "profile/:userId?",
+						path: "profile/:userId",
 						element: (
 							<Suspense fallback={<Loading fullscreen />}>
 								<Profile />
@@ -66,6 +66,14 @@ const router = createBrowserRouter([
 							{
 								path: "test",
 								element: <TestPage />,
+							},
+							{
+								path: "profile",
+								element: (
+									<Suspense fallback={<Loading fullscreen />}>
+										<Profile />
+									</Suspense>
+								),
 							},
 							{
 								path: "settings/:tab?",

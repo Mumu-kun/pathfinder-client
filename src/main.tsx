@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import "@smastrom/react-rating/style.css";
+import "react-responsive-modal/styles.css";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthProvider.tsx";
 import { StompProvider } from "./context/StompProvider.tsx";
 import { ThemeProvider } from "./context/ThemeProvide.tsx";

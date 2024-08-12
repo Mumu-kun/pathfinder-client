@@ -81,7 +81,7 @@ const Header = () => {
 	}, []);
 
 	useEffect(() => {
-		isHome && setStuck(Boolean(window.scrollY));
+		isHome ? setStuck(Boolean(window.scrollY)) : setStuck(true);
 	}, [location.pathname]);
 
 	return (
@@ -89,11 +89,11 @@ const Header = () => {
 			onFixedToggle={() => {
 				isHome && setStuck(Boolean(window.scrollY));
 			}}
-			stickyClassName="z-50"
+			stickyClassName=" z-50"
 		>
 			<header
 				id="header"
-				className="flex w-full flex-col items-center bg-light-secondary px-6 pt-3 shadow dark:bg-dark-secondary dark:shadow-gray-700"
+				className="relative z-50 flex w-full flex-col items-center bg-light-secondary px-6 pt-3 shadow dark:bg-dark-secondary dark:shadow-gray-700"
 			>
 				<div
 					className={`header-grid-layout w-full max-w-7xl items-center gap-x-4 transition-all duration-500 ease-in-out ${stuck ? "--stuck-header" : ""} `}

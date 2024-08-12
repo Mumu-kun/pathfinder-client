@@ -8,7 +8,7 @@ export type ProfileData = {
 	lastName: string;
 	age: number;
 	description: string;
-	tags: string[];
+	teachTags: string[];
 	interests: string[];
 	rating: number;
 	ratedByCount: number;

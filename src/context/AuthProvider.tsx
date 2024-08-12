@@ -22,7 +22,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 	useEffect(() => {
 		if (persist) {
-			auth !== null ? localStorage.setItem("auth", JSON.stringify(auth)) : localStorage.removeItem("auth");
+			auth !== null ? auth && localStorage.setItem("auth", JSON.stringify(auth)) : localStorage.removeItem("auth");
 		}
 	}, [auth]);
 

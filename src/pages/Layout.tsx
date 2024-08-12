@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Header from "../components/Header";
 import LimitLayoutWidth from "../components/LimitLayoutWidth";
 import Loading from "../components/Loading";
 import Intro from "./Home/Intro";
+import { ToastContainer } from "react-toastify";
+import ThemeContext from "@/context/ThemeProvide";
 
 const Layout = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
+	const { theme } = useContext(ThemeContext);
 	const location = useLocation();
 	const navigation = useNavigation();
 	const isHome: Boolean = location.pathname === "/";
@@ -37,6 +40,7 @@ const Layout = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
 					</>
 				</LimitLayoutWidth>
 				{/* </div> */}
+				<ToastContainer position="bottom-center" theme={theme} />
 			</div>
 		</>
 	);

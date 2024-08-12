@@ -2,14 +2,12 @@ import ErrorPage from "@/components/ErrorPage";
 import Loading from "@/components/Loading";
 import useAuth from "@/hooks/useAuth";
 import { ProfileData } from "@/utils/types";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getProfileData } from "../Profile/Profile";
+import ChangePassword from "./ChangePassword";
 import EditAccount from "./EditAccount";
 import EditProfile from "./EditProfile";
-import ChangePassword from "./ChangePassword";
-import { ToastContainer } from "react-toastify";
-import ThemeContext from "@/context/ThemeProvide";
 
 const TABS = ["account", "profile", "password"];
 
@@ -35,7 +33,6 @@ const tabToElement = (tab: string, props: any) => {
 export const Settings = () => {
 	const { pathname } = useLocation();
 	const { auth } = useAuth();
-	const { theme } = useContext(ThemeContext);
 	const tab = pathname.split("/")[2];
 
 	const [activeTab, setActiveTab] = useState<string>(tab || TABS[0]);
@@ -80,7 +77,6 @@ export const Settings = () => {
 				>
 					{!profileData ? <Loading isTransparent /> : tabToElement(activeTab, { profileData })}
 				</div>
-				<ToastContainer position="bottom-center" theme={theme} />
 			</div>
 		</>
 	);
