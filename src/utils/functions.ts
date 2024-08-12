@@ -11,3 +11,11 @@ export const userProfileImageUrl = (id: number) => {
 export const fullImageUrl = (filename: string) => {
 	return IMAGE_BASE_URL + filename;
 };
+
+export const disableScroll = () => {
+	document.body.style.overflow = "hidden";
+}
+
+export const enableScroll = () => {
+	document.body.style.overflow = "auto";
+}

@@ -4,6 +4,8 @@ import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Gig } from "@/utils/types";
 import CreateEnrollment from "./components/CreateEnrollment";
+import OfferedEnrollments from "./components/OfferedEnrollments";
+import { disableScroll, enableScroll } from "@/utils/functions";
 
 const Controls: React.FC = () => {
 	const { auth } = useAuth();
@@ -16,13 +18,24 @@ const Controls: React.FC = () => {
 		setCreateAnEnrollmentClicked(true);
 	};
 
+	useEffect(() => {
+		if (createAnEnrollmentClicked) {
+			disableScroll();
+		} else {
+			enableScroll();
+		}
+	}, [createAnEnrollmentClicked]);
+
 	return (
 		<div>
 			{/* TODO - make sure only the seller mode selected users have this option */}
 			<div>
-				<button onClick={createEnrollmentBtnClicked}>Create an Enrollment</button>
+				<button className="solid-btn" onClick={createEnrollmentBtnClicked}>
+					Create an Enrollment
+				</button>
 			</div>
 			{createAnEnrollmentClicked && <CreateEnrollment setCreateAnEnrollmentClicked={setCreateAnEnrollmentClicked} />}
+			<OfferedEnrollments />
 		</div>
 	);
 };

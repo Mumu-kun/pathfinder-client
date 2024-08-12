@@ -182,7 +182,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 						</form>
 					</div>
 					<div className="pb-16"></div>
-					<div ref={messagesEndRef}></div>
+					{/* <div ref={messagesEndRef}></div> */}
 				</div>
 			)}
 		</div>

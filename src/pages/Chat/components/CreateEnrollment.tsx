@@ -22,7 +22,8 @@ const CreateEnrollmentSchema = Yup.object().shape({
 const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollmentClicked }) => {
 	const { auth } = useAuth();
 	const userId = auth?.userId;
-	const { contactId } = useParams();
+	const { id } = useParams();
+	const contactId = id ? parseInt(id) : undefined;
 	const axiosPrivate = useAxiosPrivate();
 	const [usersGigs, setUsersGigs] = useState<Gig[]>([]);
 
@@ -30,8 +31,9 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 		// gigs will be needed to select a gig to create an enrollment.
 		const getUsersGigs = async () => {
 			try {
-				const response = await axiosPrivate.get(`api/v1/public/gigs/${userId}`);
+				const response = await axiosPrivate.get(`api/v1/public/gigs/seller/${userId}`);
 				setUsersGigs(response.data);
+				console.log(response.data);
 			} catch (error) {
 				console.log(error);
 			}
@@ -39,9 +41,17 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 
 		getUsersGigs();
 	}, [userId]);
+
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-			<div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
+		<div className="modal-grand-parent">
+			<div className="modal-parent">
+				<div className="flex items-center justify-between">
+					<p className="small-headings text-left">Offer an Enrollment</p>
+					<button onClick={() => setCreateAnEnrollmentClicked(false)} className="solid-cancel-btn-sm">
+						X
+					</button>
+				</div>
+
 				<Formik
 					initialValues={{
 						price: "",
@@ -54,9 +64,11 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 					validateOnBlur
 					onSubmit={async (values, { setSubmitting }) => {
 						try {
+							const offsetDeadline = new Date(values.deadline).toISOString();
+
 							const response = await axiosPrivate.post(
 								`api/v1/enrollments/create/${values.gigId}`,
-								{ ...values, buyerId: contactId },
+								{ ...values, deadline: offsetDeadline, buyerId: contactId },
 								{
 									headers: { "Content-Type": "application/json" },
 									withCredentials: true,
@@ -77,12 +89,16 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 								label="Select a Gig"
 								className="mb-4 w-full rounded border border-gray-300 p-2"
 							>
-								<option value="">Select a gig</option>
-								{usersGigs.map((gig) => (
-									<option key={gig.id} value={gig.id}>
-										{gig.title}
-									</option>
-								))}
+								<option disabled value="">
+									Select a gig
+								</option>
+								{usersGigs.length > 0 &&
+									usersGigs.map((gig) => (
+										<option key={gig.id} value={gig.id}>
+											{/* TODO: show image here, like fiverr. */}
+											<p>{gig.title}</p>
+										</option>
+									))}
 							</Field>
 							<Field
 								name="price"
@@ -109,13 +125,15 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 								name="deadline"
 								placeholder="Deadline"
 								label="Deadline"
-								type="date"
+								type="datetime-local"
 								component={TextInputComponent}
 								className="mb-4 w-full rounded border border-gray-300 p-2"
 							/>
-							<button type="submit" disabled={isSubmitting} className="mt-4 w-full rounded bg-blue-500 p-2 text-white">
-								Submit
-							</button>
+							<div className="flex items-center justify-center">
+								<button type="submit" disabled={isSubmitting} className="solid-btn">
+									Submit
+								</button>
+							</div>
 						</Form>
 					)}
 				</Formik>

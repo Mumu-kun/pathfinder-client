@@ -34,6 +34,7 @@ export type User = {
 	email?: string;
 	role?: string;
 	username?: string;
+	fullName?: string;
 };
 
 export type UserShort = {

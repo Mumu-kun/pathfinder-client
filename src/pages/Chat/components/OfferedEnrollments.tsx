@@ -5,7 +5,7 @@ import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Enrollment } from "@/utils/types";
 import { useParams } from "react-router-dom";
-import { setIn } from "formik";
+import { disableScroll, enableScroll } from "@/utils/functions";
 
 const OfferedEnrollments: React.FC = () => {
 	const { auth } = useAuth();
@@ -14,61 +14,164 @@ const OfferedEnrollments: React.FC = () => {
 	const contactId = id ? parseInt(id) : undefined;
 
 	const axiosPrivate = useAxiosPrivate();
-	const [incompleteEnrollment, setIncompleteEnrollment] = useState<Enrollment | null>(null);
+	const [incompleteEnrollmentAsBuyer, setIncompleteEnrollmentAsBuyer] = useState<Enrollment | null>(null);
+	const [incompleteEnrollmentAsSeller, setIncompleteEnrollmentAsSeller] = useState<Enrollment | null>(null);
 
 	// there can only be one incomplete enrollment taking place at a time, between two users.
 	useEffect(() => {
-		const getIncompleteEnrollment = async () => {
+		const getIncompleteEnrollmentAsBuyer = async () => {
 			try {
 				const response = await axiosPrivate.get(
 					`api/v1/enrollments/get/incomplete/seller/${contactId}/buyer/${userId}`
 				);
-				setIncompleteEnrollment(response.data);
+				console.log(response.data);
+				setIncompleteEnrollmentAsBuyer(response.data);
 			} catch (error) {
 				console.log(error);
 			}
 		};
 
-		getIncompleteEnrollment();
+		const getIncompleteEnrollmentAsSeller = async () => {
+			try {
+				const response = await axiosPrivate.get(
+					`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`
+				);
+				console.log(response.data);
+				setIncompleteEnrollmentAsSeller(response.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		getIncompleteEnrollmentAsBuyer();
+		getIncompleteEnrollmentAsSeller();
 	}, [userId]);
 
 	const [confirmEnrollmentModal, setConfirmEnrollmentModal] = useState<boolean>(false);
+	const [declineEnrollmentModal, setDeclineEnrollmentModal] = useState<boolean>(false);
 
 	const confirmEnrollment = async (enrollmentId: number) => {
 		try {
-			const response = await axiosPrivate.post(`api/v1/enrollments/buyer-confirms/${enrollmentId}`);
-			setIncompleteEnrollment(response.data);
+			const response = await axiosPrivate.put(`api/v1/enrollments/buyer-confirms/${enrollmentId}`);
+			setIncompleteEnrollmentAsBuyer(response.data);
 			setConfirmEnrollmentModal(false);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	const declineEnrollment = async (enrollmentId: number) => {
+		try {
+			const response = await axiosPrivate.delete(`api/v1/enrollments/buyer-declines/${enrollmentId}`);
+			setIncompleteEnrollmentAsBuyer(response.data);
+			setDeclineEnrollmentModal(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		if (confirmEnrollmentModal) {
+			disableScroll();
+		} else {
+			enableScroll();
+		}
+	}, [confirmEnrollmentModal, declineEnrollmentModal]);
+
 	return (
 		<div>
-			{incompleteEnrollment && (
-				<div>
-					{incompleteEnrollment.buyerConfirmed == false && (
+			{incompleteEnrollmentAsBuyer && (
+				<div className="m-2 rounded-md bg-light-secondary p-2 dark:bg-dark-secondary">
+					{" "}
+					{incompleteEnrollmentAsBuyer.buyerConfirmed == false && (
 						<div>
-							<p>You have not confirmed this enrollment yet.</p>
+							<p>
+								{incompleteEnrollmentAsBuyer.gig.seller.fullName} has offered you an enrollment. Confirm it to begin the
+								sessions.
+							</p>
 
-							<p>{incompleteEnrollment.gig.title}</p>
-							<p>{incompleteEnrollment.price}</p>
+							<p>{incompleteEnrollmentAsBuyer.gig.title}</p>
+							<p>{incompleteEnrollmentAsBuyer.price}</p>
 							{/* TODO: other data here */}
-							<button onClick={() => setConfirmEnrollmentModal(true)}>Confirm Enrollment</button>
+							<div className="flex items-center justify-center">
+								<button className="solid-cancel-btn mr-1" onClick={() => setDeclineEnrollmentModal(true)}>
+									Decline Enrollment
+								</button>
+								<button className="solid-btn ml-1" onClick={() => setConfirmEnrollmentModal(true)}>
+									Accept Enrollment
+								</button>
+							</div>
+
 							{confirmEnrollmentModal && (
-								<div>
-									<p>Are you sure you want to confirm this enrollment?</p>
-									<button onClick={() => confirmEnrollment(incompleteEnrollment.id)}>Yes</button>
-									<button onClick={() => setConfirmEnrollmentModal(false)}>No</button>
+								<div className="modal-grand-parent">
+									<div className="modal-parent">
+										<div>
+											<p className="small-headings">Are you sure you want to accept this enrollment?</p>
+											<p className="p-2 text-center font-bold">You will be redirected to the payment page.</p>
+											<div className="flex items-center justify-center">
+												<button className="solid-cancel-btn m-1" onClick={() => setConfirmEnrollmentModal(false)}>
+													No
+												</button>
+												<button
+													className="solid-btn m-1"
+													onClick={() => confirmEnrollment(incompleteEnrollmentAsBuyer.id)}
+												>
+													Yes
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
+
+							{declineEnrollmentModal && (
+								<div className="modal-grand-parent">
+									<div className="modal-parent">
+										<div>
+											<p className="small-headings">Are you sure you want to decline this enrollment?</p>
+											<p className="p-2 text-center font-bold">
+												You can always negotiate and ask {incompleteEnrollmentAsBuyer.gig.seller.fullName} for another
+												offer.
+											</p>
+											<div className="flex items-center justify-center">
+												<button className="solid-btn m-1" onClick={() => setDeclineEnrollmentModal(false)}>
+													No
+												</button>
+												<button
+													className="solid-cancel-btn m-1"
+													onClick={() => declineEnrollment(incompleteEnrollmentAsBuyer.id)}
+												>
+													Yes
+												</button>
+											</div>
+										</div>
+									</div>
 								</div>
 							)}
 						</div>
 					)}
-					{incompleteEnrollment.buyerConfirmed && <div>
-                        {/* Enrollment data here */}
-                        {/* opt for creating sessions */}
-                        </div>}
+					{incompleteEnrollmentAsBuyer.buyerConfirmed && (
+						<div>
+							{/* Enrollment data here */}
+							{/* opt for creating sessions */}
+						</div>
+					)}
+				</div>
+			)}
+			{incompleteEnrollmentAsSeller && (
+				<div className="m-2 rounded-md bg-light-secondary p-2 dark:bg-dark-secondary">
+					{incompleteEnrollmentAsSeller.buyerConfirmed == false && (
+						<div>
+							<p>
+								You have offered the following enrollment. You can begin the sessions once{" "}
+								{incompleteEnrollmentAsSeller?.buyer?.fullName} accepts the enrollment.
+							</p>
+							<div>
+								<p>{incompleteEnrollmentAsSeller.gig.title}</p>
+								<p>{incompleteEnrollmentAsSeller.price}</p>
+							</div>
+						</div>
+					)}
 				</div>
 			)}
 		</div>
