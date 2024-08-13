@@ -16,6 +16,10 @@ const ModeContext = createContext<ModeContextProps>({
 export const ModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const savedMode = localStorage.getItem("mode") as Mode | null;
 
+    if(!savedMode) {
+        localStorage.setItem("mode", "buyer");
+    }
+
     const [mode, setMode] = useState<Mode>(savedMode || "buyer");
 
     const changeMode = (mode: Mode) => {
