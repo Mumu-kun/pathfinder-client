@@ -1,4 +1,4 @@
-import ThemeContext, { Theme } from "@/context/ThemeProvide";
+import ThemeContext, { Theme } from "@/context/ThemeProvider";
 import React, { useContext } from "react";
 
 const ChangeTheme: React.FC = () => {

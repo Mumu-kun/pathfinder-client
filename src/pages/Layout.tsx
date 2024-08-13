@@ -5,7 +5,7 @@ import LimitLayoutWidth from "../components/LimitLayoutWidth";
 import Loading from "../components/Loading";
 import Intro from "./Home/Intro";
 import { ToastContainer } from "react-toastify";
-import ThemeContext from "@/context/ThemeProvide";
+import ThemeContext from "@/context/ThemeProvider";
 
 const Layout = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
 	const { theme } = useContext(ThemeContext);
