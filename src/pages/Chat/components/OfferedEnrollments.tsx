@@ -6,6 +6,7 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Enrollment } from "@/utils/types";
 import { useParams } from "react-router-dom";
 import { disableScroll, enableScroll } from "@/utils/functions";
+import EnrollmentView from "./EnrollmentView";
 
 const OfferedEnrollments: React.FC = () => {
 	const { auth } = useAuth();
@@ -45,7 +46,7 @@ const OfferedEnrollments: React.FC = () => {
 
 		getIncompleteEnrollmentAsBuyer();
 		getIncompleteEnrollmentAsSeller();
-	}, [userId]);
+	}, [userId, contactId]);
 
 	const [confirmEnrollmentModal, setConfirmEnrollmentModal] = useState<boolean>(false);
 	const [declineEnrollmentModal, setDeclineEnrollmentModal] = useState<boolean>(false);
@@ -152,8 +153,7 @@ const OfferedEnrollments: React.FC = () => {
 					)}
 					{incompleteEnrollmentAsBuyer.buyerConfirmed && (
 						<div>
-							{/* Enrollment data here */}
-							{/* opt for creating sessions */}
+							<EnrollmentView viewType="buyer" enrollment={incompleteEnrollmentAsBuyer} />
 						</div>
 					)}
 				</div>
@@ -163,6 +163,7 @@ const OfferedEnrollments: React.FC = () => {
 					{incompleteEnrollmentAsSeller.buyerConfirmed == false && (
 						<div>
 							<p>
+								<p className="small-headings">Unconfirmed Enrollment!</p>
 								You have offered the following enrollment. You can begin the sessions once{" "}
 								{incompleteEnrollmentAsSeller?.buyer?.fullName} accepts the enrollment.
 							</p>
@@ -170,6 +171,12 @@ const OfferedEnrollments: React.FC = () => {
 								<p>{incompleteEnrollmentAsSeller.gig.title}</p>
 								<p>{incompleteEnrollmentAsSeller.price}</p>
 							</div>
+						</div>
+					)}
+
+					{incompleteEnrollmentAsSeller.buyerConfirmed && (
+						<div>
+							<EnrollmentView viewType="seller" enrollment={incompleteEnrollmentAsSeller} />
 						</div>
 					)}
 				</div>

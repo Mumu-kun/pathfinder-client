@@ -5,7 +5,6 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Gig } from "@/utils/types";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { TextInputComponent, NumberInputComponent } from "@/components/FormComponents";
 
 interface createEnrollmentProps {
 	setCreateAnEnrollmentClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -100,7 +99,7 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 										name="gigId"
 										as="select"
 										label="Select a Gig"
-										className="mb-4 w-full rounded border border-gray-300 p-2"
+										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
 									>
 										<option disabled value="">
 											Select a gig
@@ -118,32 +117,32 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 										placeholder="Price"
 										label="Price"
 										type="number"
-										className="mb-4 w-full rounded border border-gray-300 p-2"
+										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
 									/>
 									<Field
 										name="numSessions"
 										placeholder="Number of Sessions"
 										label="Number of Sessions"
 										type="number"
-										className="mb-4 w-full rounded border border-gray-300 p-2"
+										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
 									/>
 									<Field
 										name="sessionDurationInMinutes"
 										placeholder="Session Duration In Minutes"
 										label="Session Duration In Minutes"
 										type="number"
-										className="mb-4 w-full rounded border border-gray-300 p-2"
+										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
 									/>
 									<Field
 										name="deadline"
 										placeholder="Deadline"
 										label="Deadline"
 										type="datetime-local"
-										className="mb-4 w-full rounded border border-gray-300 p-2"
+										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
 									/>
 									<div className="flex items-center justify-center">
 										<button type="submit" disabled={isSubmitting} className="solid-btn">
-											Submit
+											Offer Enrollment
 										</button>
 									</div>
 								</Form>

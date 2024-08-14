@@ -133,6 +133,7 @@ export type Enrollment = {
 	gig: Gig;
 	buyer: User;
 	createdAt: string;
+	startedAt: string;
 	deadline: string;
 	completedAt: string | null;
 	price: number;
@@ -141,4 +142,21 @@ export type Enrollment = {
 	sessionDurationInMinutes: number;
 	buyerConfirmed: boolean;
 	paid: boolean;
+};
+
+type CancelledBy = "BUYER" | "SELLER" | "SYSTEM";
+
+export type Session = {
+	id: number;
+	createdAt: string;
+	scheduledAt: string;
+	completedAt: string | null;
+	completed: boolean;
+	sessionType: "offline" | "online";
+	enrollment: Enrollment;
+	buyerConfirmed: boolean;
+	cancelled: boolean;
+	cancelledBy: CancelledBy;
+	cancellationReason: string | null;
+	cancelledAt: string | null;
 };
