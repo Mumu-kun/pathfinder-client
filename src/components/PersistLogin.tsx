@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import Loading from "./Loading";
 
-const PersistLogin: React.FC = () => {
+const PersistLogin = ({ children }: { children: React.ReactNode }) => {
 	const { auth, persist, setAuth } = useAuth();
 	const refresh = useRefreshToken();
 	const logout = useLogout();
@@ -52,14 +52,14 @@ const PersistLogin: React.FC = () => {
 	}, []);
 
 	if (!persist) {
-		return <Outlet />;
+		return <>{children}</>;
 	}
 
 	if (loading) {
 		return <Loading fullscreen />;
 	}
 
-	return <Outlet />;
+	return <>{children}</>;
 };
 
 export default PersistLogin;

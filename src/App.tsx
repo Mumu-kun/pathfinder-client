@@ -1,6 +1,5 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PersistLogin from "./components/PersistLogin.tsx";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
 import RequireAuth from "./components/RequireAuth.tsx";
 import Login from "./pages/Auth/Login.tsx";
@@ -24,23 +23,47 @@ const router = createBrowserRouter([
 		errorElement: <ErrorPage showHeader />,
 		children: [
 			{
-				element: <PersistLogin />,
-				errorElement: <ErrorPage />,
+				path: "/",
+				element: <Home />,
+			},
+			{
+				path: "gig/:id",
+				element: <Gig />,
+			},
+			{
+				path: "interaction/user/:id",
+				element: <ChatPage />,
+			},
+			{
+				path: "profile/:userId",
+				element: (
+					<Suspense fallback={<Loading fullscreen />}>
+						<Profile />
+					</Suspense>
+				),
+			},
+			{
+				element: <RedirectIfLoggedIn />,
 				children: [
 					{
-						path: "/",
-						element: <Home />,
+						path: "login",
+						element: <Login />,
 					},
 					{
-						path: "gig/:id",
-						element: <Gig />,
+						path: "register",
+						element: <Register />,
+					},
+				],
+			},
+			{
+				element: <RequireAuth />,
+				children: [
+					{
+						path: "test",
+						element: <TestPage />,
 					},
 					{
-						path: "interaction/user/:id",
-						element: <ChatPage />,
-					},
-					{
-						path: "profile/:userId",
+						path: "profile",
 						element: (
 							<Suspense fallback={<Loading fullscreen />}>
 								<Profile />
@@ -48,42 +71,12 @@ const router = createBrowserRouter([
 						),
 					},
 					{
-						element: <RedirectIfLoggedIn />,
-						children: [
-							{
-								path: "login",
-								element: <Login />,
-							},
-							{
-								path: "register",
-								element: <Register />,
-							},
-						],
-					},
-					{
-						element: <RequireAuth />,
-						children: [
-							{
-								path: "test",
-								element: <TestPage />,
-							},
-							{
-								path: "profile",
-								element: (
-									<Suspense fallback={<Loading fullscreen />}>
-										<Profile />
-									</Suspense>
-								),
-							},
-							{
-								path: "settings/:tab?",
-								element: (
-									<Suspense fallback={<Loading fullscreen />}>
-										<Settings />
-									</Suspense>
-								),
-							},
-						],
+						path: "settings/:tab?",
+						element: (
+							<Suspense fallback={<Loading fullscreen />}>
+								<Settings />
+							</Suspense>
+						),
 					},
 				],
 			},

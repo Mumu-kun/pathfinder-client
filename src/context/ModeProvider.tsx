@@ -1,4 +1,5 @@
-import { createContext, FC, ReactNode, useState } from "react";
+import useAuth from "@/hooks/useAuth";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
 
 // skipping mod/ admin for now.
 export type Mode = "buyer" | "seller";
@@ -14,23 +15,29 @@ const ModeContext = createContext<ModeContextProps>({
 });
 
 export const ModeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const savedMode = localStorage.getItem("mode") as Mode | null;
+	const { auth } = useAuth();
 
-    if(!savedMode) {
-        localStorage.setItem("mode", "buyer");
-    }
+	const savedMode = localStorage.getItem("mode") as Mode | null;
 
-    const [mode, setMode] = useState<Mode>(savedMode || "buyer");
+	if (!savedMode) {
+		localStorage.setItem("mode", "buyer");
+	}
 
-    const changeMode = (mode: Mode) => {
-        console.log("mode changed");
+	const [mode, setMode] = useState<Mode>(savedMode || "buyer");
 
-        localStorage.setItem("mode", mode);
+	const changeMode = (mode: Mode) => {
+		console.log("mode changed");
 
-        setMode(mode);
-    };
+		localStorage.setItem("mode", mode);
 
-    return <ModeContext.Provider value={{ mode, changeMode }}>{children}</ModeContext.Provider>;
+		setMode(mode);
+	};
+
+	useEffect(() => {
+		if (auth === null) changeMode("buyer");
+	}, [auth, mode]);
+
+	return <ModeContext.Provider value={{ mode, changeMode }}>{children}</ModeContext.Provider>;
 };
 
 export default ModeContext;
