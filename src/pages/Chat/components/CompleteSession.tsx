@@ -22,9 +22,19 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (markSessionCompletedClicked) {
+			disableScroll();
+		} else {
+			enableScroll();
+		}
+	}, [markSessionCompletedClicked]);
+
 	return (
 		<div>
-			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn">Mark Session as Completed</button>
+			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn">
+				Mark Session as Completed
+			</button>
 			{markSessionCompletedClicked && (
 				<div className="modal-grand-parent">
 					<div className="modal-parent">

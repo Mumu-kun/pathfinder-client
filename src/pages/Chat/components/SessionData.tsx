@@ -52,7 +52,7 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 
 	const declineSession = async (sessionId: number) => {
 		try {
-			const response = await axiosPrivate.put(`api/v1/sessions/buyer-declines/${sessionId}`);
+			await axiosPrivate.put(`api/v1/sessions/buyer-declines/${sessionId}`);
 			setRunningSession(null);
 			setDeclineSessionModal(false);
 		} catch (error) {

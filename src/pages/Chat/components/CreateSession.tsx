@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Session, Enrollment } from "@/utils/types";
+import React from "react";
+import { Session } from "@/utils/types";
 
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -16,7 +16,11 @@ interface CreateSessionProps {
 	setScheduleSessionClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreateSession: React.FC<CreateSessionProps> = ({enrollmentId, setRunningSession, setScheduleSessionClicked }) => {
+const CreateSession: React.FC<CreateSessionProps> = ({
+	enrollmentId,
+	setRunningSession,
+	setScheduleSessionClicked,
+}) => {
 	const axiosPrivate = useAxiosPrivate();
 
 	return (

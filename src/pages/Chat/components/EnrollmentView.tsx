@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useContext, version } from "react";
 import { Enrollment } from "@/utils/types";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import AuthContext from "@/context/AuthProvider";
 import SessionData from "./SessionData";
 import EnrollmentCompletedView from "./EnrollmentCompletedView";
 
@@ -13,10 +11,6 @@ interface EnrollmentViewProps {
 }
 
 const EnrollmentView: React.FC<EnrollmentViewProps> = ({ viewType, enrollment }) => {
-	const axiosPrivate = useAxiosPrivate();
-	const { auth } = useContext(AuthContext);
-	const userId = auth?.userId;
-
 	console.log(enrollment);
 
 	return (

@@ -9,6 +9,7 @@ const EnrollmentCompletedView: React.FC<EnrollmentCompletedViewProps> = ({ enrol
 	return (
 		<div>
 			<p className="small-headings.">Enrollment has ended. Voila!!</p>
+			<p>Session completed - {enrollment.numSessions}.</p>
 		</div>
 	);
 };
