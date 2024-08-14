@@ -59,13 +59,13 @@ const HeaderAuthLinks = (props: Props) => {
 							className={`flex flex-col items-center justify-center bg-light-bg p-2 text-right transition-all dark:bg-dark-bg`}
 						>
 							<ChangeMode />
+							<ChangeTheme />
 							<Link to="/profile" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
 								Profile
 							</Link>
 							<Link to="/settings" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
 								Settings
 							</Link>
-							<ChangeTheme />
 							<button
 								onClick={() => {
 									logout();

@@ -5,12 +5,12 @@ const ChangeMode: React.FC = () => {
 	const { mode, changeMode } = useContext(ModeContext);
 
 	const handleModeChange = (mode: Mode) => {
-        console.log("change mode called");
+		console.log("change mode called");
 		changeMode(mode);
 	};
 
 	return (
-		<div>
+		<div className="my-1">
 			{mode == "buyer" ? (
 				<div>
 					<button className="outline-btn" onClick={() => handleModeChange("seller")}>
