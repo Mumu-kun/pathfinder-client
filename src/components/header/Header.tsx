@@ -1,53 +1,14 @@
 import ModeContext from "@/context/ModeProvider";
 import useAuth from "@/hooks/useAuth";
 import { useContext, useEffect, useState } from "react";
-import { FaCaretDown } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { useMediaQuery } from "usehooks-ts";
 import ChatIcon from "../chat/ChatIcon";
 import NotificationIcon from "../chat/NotificationIcon";
-import Dropdown from "../Dropdown";
-import SearchBar from "../SearchBar";
+import AuxLinkDropdown from "./AuxLinkDropdown";
 import HeaderAuthLinks from "./HeaderAuthLinks";
-
-type AuxLinkDropdownProps = {
-	title: string;
-	options: { text: string; url: string }[];
-	isOpenClassName?: string;
-	className?: string;
-	itemClassName?: string;
-};
-
-const AuxLinkDropdown = ({
-	title,
-	options,
-	isOpenClassName,
-	className: pClassName = "",
-	itemClassName = "",
-}: AuxLinkDropdownProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
-
-	return (
-		<Dropdown
-			head={
-				<div className={`flex select-none items-center gap-0.5 ${pClassName} ${isOpen ? isOpenClassName : ""}`}>
-					{title}
-					<FaCaretDown className="h-3 w-3" />
-				</div>
-			}
-			{...{ isOpen, setIsOpen }}
-		>
-			<div className={`flex flex-col rounded-b-sm bg-light-bg transition-all dark:bg-dark-bg`}>
-				{options.map((option, index) => (
-					<Link key={index} to={option.url} className={`p-2 text-sm font-semibold ${itemClassName}`}>
-						{option.text}
-					</Link>
-				))}
-			</div>
-		</Dropdown>
-	);
-};
+import SearchBar from "./SearchBar";
 
 const Header = () => {
 	const location = useLocation();
@@ -77,7 +38,7 @@ const Header = () => {
 				id="header"
 				className="relative z-50 flex w-full flex-col items-center bg-light-secondary px-6 pt-3 shadow dark:bg-dark-secondary dark:shadow-gray-700"
 				style={{
-					paddingBottom: !isBuyerMode ? "0.5rem" : "0",
+					paddingBottom: !isBuyerMode ? "1rem" : "0",
 				}}
 			>
 				<div
@@ -99,15 +60,32 @@ const Header = () => {
 
 					{/* NavLinks */}
 					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-2 max-md:text-xs">
+						{isBuyerMode ? (
+							<>
+								<Link to="/" className="px-2 font-bold">
+									{isMediaMD ? "md" : "About Us"}
+								</Link>
+								<Link to="/" className="px-2 font-bold">
+									{isMediaMD ? "md" : "Contact"}
+								</Link>
+							</>
+						) : (
+							<>
+								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+									Dashboard
+								</Link>
+								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+									Gigs
+								</Link>
+								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+									Enrollments
+								</Link>
+							</>
+						)}
+
 						{auth && <NotificationIcon />}
 						{auth && <ChatIcon />}
 
-						<Link to="/" className="px-2 font-bold">
-							{isMediaMD ? "md" : "About Us"}
-						</Link>
-						<Link to="/" className="px-2 font-bold">
-							{isMediaMD ? "md" : "Contact"}
-						</Link>
 						<HeaderAuthLinks />
 					</div>
 				</div>

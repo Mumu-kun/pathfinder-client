@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
-import RequireAuth from "./components/RequireAuth.tsx";
+import RedirectIfLoggedIn from "./components/wrappers/RedirectIfLoggedIn.tsx";
+import RequireAuth from "./components/wrappers/RequireAuth.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 import Gig from "./pages/Gig/GigPage.tsx";

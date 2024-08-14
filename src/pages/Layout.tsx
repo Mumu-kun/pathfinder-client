@@ -3,9 +3,9 @@ import { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Header from "../components/header/Header";
-import LimitLayoutWidth from "../components/LimitLayoutWidth";
+import LimitLayoutWidth from "../components/wrappers/LimitLayoutWidth";
 import Loading from "../components/Loading";
-import PersistLogin from "@/components/PersistLogin";
+import PersistLogin from "@/components/wrappers/PersistLogin";
 
 const Layout = ({ children }: { children?: JSX.Element | JSX.Element[] }) => {
 	const { theme } = useContext(ThemeContext);

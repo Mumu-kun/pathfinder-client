@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Gig, Review } from "../../utils/types";
 import axios from "../../api/axios";
 import Loading from "@/components/Loading";
-import { UnlimitLayoutWidth } from "@/components/LimitLayoutWidth";
+import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
 import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 import ZoomableImg from "@/components/misc/ZoomableImg";
@@ -18,6 +18,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { boolean } from "yup";
 import Carousel from "@/components/Carousel";
 import useAuth from "@/hooks/useAuth";
+import Markdown from "react-markdown";
 
 const GigPage: React.FC = () => {
 	const { id } = useParams();
@@ -153,14 +154,16 @@ const GigPage: React.FC = () => {
 
 					<div className="w-full rounded">
 						<h3 className="medium-headings mb-2 text-left">About the gig</h3>
-						<div>
-							{gig.description}
-							Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt unde alias at itaque harum facere
-							reprehenderit incidunt dolores quibusdam quam nobis officia aliquam debitis earum ex, eligendi saepe, nam
-							adipisci? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestiae ipsa sequi? Expedita
-							sequi distinctio ea iusto ducimus nihil, ipsam, voluptas quam cupiditate, facilis libero minima quaerat
-							adipisci saepe dolor?
-						</div>
+						<Markdown className={`prose max-sm:prose-sm dark:prose-invert`}>
+							{gig.description +
+								`
+								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt unde alias at itaque harum facere
+								reprehenderit incidunt dolores quibusdam quam nobis officia aliquam debitis earum ex, eligendi saepe,
+								nam adipisci? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestiae ipsa sequi?
+								Expedita sequi distinctio ea iusto ducimus nihil, ipsam, voluptas quam cupiditate, facilis libero minima
+								quaerat adipisci saepe dolor?
+								`}
+						</Markdown>
 					</div>
 
 					{isMD && <FAQBlock {...gig} />}
@@ -208,10 +211,10 @@ const CallToEnroll = ({ sticky = false, isSeller, ...gig }: Gig & { isSeller: bo
 			className={`flex-[0_0_18rem] rounded bg-light-secondary p-4 shadow dark:bg-dark-secondary ${sticky ? "sticky top-[8rem] z-10" : ""}`}
 		>
 			<h3 className="small-headings mb-2 p-0 text-left text-2xl">What You Get :</h3>
-			<div className="mb-2">
+			<Markdown className={`prose max-sm:prose-sm dark:prose-invert`}>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam officiis quia perferendis, dolorem quasi soluta
 				impedit eum quibusdam accusamus hic inventore minus? Dolorem facilis ratione deserunt amet veritatis ea error.
-			</div>
+			</Markdown>
 			<div className="flex items-center justify-between gap-4">
 				<div className="flex items-center text-xl font-semibold">
 					<FaBangladeshiTakaSign className="pb-0.5 pt-1" /> {gig.price}
