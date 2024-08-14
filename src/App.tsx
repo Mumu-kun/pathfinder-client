@@ -13,6 +13,8 @@ import ChatPage from "./pages/Chat/ChatPage.tsx";
 
 import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
+import SetMode from "./components/wrappers/SetMode.tsx";
+import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -77,6 +79,24 @@ const router = createBrowserRouter([
 								<Settings />
 							</Suspense>
 						),
+					},
+					{
+						element: <SetMode mode={"seller"} />,
+						children: [
+							{
+								path: "manage/gigs",
+								children: [
+									{
+										path: "",
+										element: <ManageGigs />,
+									},
+									{
+										path: ":id",
+										element: <div>Manage Gig id</div>,
+									},
+								],
+							},
+						],
 					},
 				],
 			},

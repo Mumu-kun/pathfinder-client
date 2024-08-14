@@ -1,6 +1,6 @@
-import ModeContext from "@/context/ModeProvider";
 import useAuth from "@/hooks/useAuth";
-import { useContext, useEffect, useState } from "react";
+import useMode from "@/hooks/useMode";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { useMediaQuery } from "usehooks-ts";
@@ -15,7 +15,7 @@ const Header = () => {
 	const isHome: Boolean = location.pathname === "/";
 
 	const { auth } = useAuth();
-	const { mode } = useContext(ModeContext);
+	const { mode } = useMode();
 	const isBuyerMode = mode === "buyer";
 
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
@@ -55,7 +55,7 @@ const Header = () => {
 					{isBuyerMode ? (
 						<SearchBar {...{ stuck }} className={`h-full max-lg:col-span-full max-lg:row-[2]`} />
 					) : (
-						<div></div>
+						<div className="max-lg:hidden"></div>
 					)}
 
 					{/* NavLinks */}
@@ -74,7 +74,7 @@ const Header = () => {
 								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
 									Dashboard
 								</Link>
-								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+								<Link to={"/manage/gigs"} className="px-2 font-bold hover:text-green-500">
 									Gigs
 								</Link>
 								<Link to={"#"} className="px-2 font-bold hover:text-green-500">

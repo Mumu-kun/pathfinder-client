@@ -52,7 +52,7 @@ const Dropdown = ({ head, children, isOpen, setIsOpen, rightAlign = false, dropd
 		<div ref={ref} className={`relative cursor-pointer transition-all`}>
 			<div {...getToggleProps({ onClick: () => setIsOpen((prev) => !prev) })}>{head}</div>
 			<div
-				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
+				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full z-50 min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
 				{...getCollapseProps()}
 				onClick={() => {
 					setIsOpen(false);

@@ -29,7 +29,7 @@ export const getProfileData = async (userId: number) => {
 	}
 };
 
-const getGigCards = async (userId: number) => {
+export const getGigCards = async (userId: number) => {
 	try {
 		const res = await axios.get(`/api/v1/public/users/${userId}/gigs/card`);
 		const data = res.data;

@@ -1,4 +1,4 @@
-import { fullImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/functions";
+import { coverImageUrl, fullImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/functions";
 import { Review } from "@/utils/types";
 import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
@@ -70,7 +70,7 @@ const ReviewCard = ({ review }: ReviewProps) => {
 						to={"#"}
 						className="flex h-full w-full max-w-[20rem] cursor-pointer items-start justify-end rounded-sm bg-cover bg-center p-0.5 text-sm max-md:text-xs max-sm:col-span-full max-sm:w-fit max-sm:justify-start max-sm:!bg-none sm:ml-auto"
 						style={{
-							backgroundImage: `url(${gig.coverImage ? fullImageUrl(gig.coverImage) : defaultCoverImage})`,
+							backgroundImage: `url(${coverImageUrl(gig.coverImage)})`,
 						}}
 					>
 						<div className="rounded-sm bg-light-bg bg-opacity-95 px-1 py-0.5 text-right font-medium dark:bg-dark-bg">

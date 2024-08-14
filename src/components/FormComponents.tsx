@@ -29,7 +29,7 @@ export const TextInputComponent = ({
 			{label && (
 				<label
 					htmlFor={field.name}
-					className={`flex items-center py-0.5 font-semibold ${isGrid ? "" : "mb-2 text-sm"} gap-1`}
+					className={`flex items-center py-0.5 font-semibold ${isGrid ? "" : "mb-2 text-sm"} gap-1 max-md:text-sm`}
 				>
 					<span>{label}</span>
 					<span>:</span>
@@ -101,7 +101,7 @@ export const NumberInputComponent = ({
 			{label && (
 				<label
 					htmlFor={field.name}
-					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}
+					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold max-md:text-sm`}
 				>
 					<span>{label}</span>
 					<span>:</span>
@@ -146,7 +146,7 @@ export const TextAreaInputComponent = ({
 			{label && (
 				<label
 					htmlFor={field.name}
-					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold`}
+					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold max-md:text-sm`}
 				>
 					<span>{label}</span>
 					<span>:</span>

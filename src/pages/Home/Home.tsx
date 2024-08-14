@@ -7,7 +7,7 @@ import Intro from "./Intro";
 
 const Home: React.FC = () => {
 	return (
-		<div className="mt-80">
+		<>
 			<UnlimitLayoutWidth>
 				<Intro />
 			</UnlimitLayoutWidth>
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
 			<Link to="/profile" className="solid-btn">
 				Profile
 			</Link>
-		</div>
+		</>
 	);
 };
 
