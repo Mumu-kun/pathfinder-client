@@ -6,8 +6,6 @@ import { FaCircle } from "react-icons/fa";
 import { GoPeople } from "react-icons/go";
 import { PiChalkboardTeacher } from "react-icons/pi";
 import { useParams } from "react-router-dom";
-import Carousel from "../../components/Carousel";
-import GigCard from "../../components/GigCard";
 import Tag from "../../components/Tag";
 import { GigCardData, ProfileData, Review } from "../../utils/types";
 import FloatCard from "./FloatCard";
@@ -132,7 +130,7 @@ export const Profile = () => {
 	}
 
 	if (!profileData) {
-		return <Loading fullscreen />;
+		return <Loading />;
 	}
 
 	return (
@@ -222,7 +220,7 @@ export const Profile = () => {
 			{/* Description */}
 			{!!profileData.description && (
 				<div className="mt-10 max-w-[50rem]">
-					<div className="mb-4 flex items-center text-2xl font-semibold">About Me</div>
+					<div className="medium-headings mb-2 text-left">About Me</div>
 					<div {...getCollapseProps()} className="whitespace-pre-line">
 						<p ref={descRef}>{profileData.description}</p>
 					</div>
@@ -246,7 +244,7 @@ export const Profile = () => {
 						return (
 							<div
 								key={`profileTabs-${value}`}
-								className={`w-fit cursor-pointer rounded-t-sm px-2 py-0.5 text-lg font-semibold capitalize transition-all duration-200 ${activeTab === value ? "bg-green-400" : "hover:bg-green-200 dark:hover:bg-green-700"}`}
+								className={`small-headings w-fit cursor-pointer rounded-t-sm px-2 py-0.5 capitalize transition-all duration-200 ${activeTab === value ? "bg-green-400" : "hover:bg-green-200 dark:hover:bg-green-700"}`}
 								onClick={() => {
 									setActiveTab(value);
 								}}
@@ -301,7 +299,7 @@ export const Profile = () => {
 			{reviews ? (
 				reviews.length > 0 && (
 					<div className="mb-60 mt-8 max-w-[50rem]">
-						<div className="mb-4 flex items-center text-xl font-semibold">Some reviews for this Mentor</div>
+						<div className="medium-headings mb-2 text-left">Some reviews for this Mentor</div>
 						{reviews.map((review, index) => (
 							<ReviewCard review={review} key={`profile-review-${index}`} />
 						))}

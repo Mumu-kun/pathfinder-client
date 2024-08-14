@@ -12,7 +12,10 @@ type GigCardProps = {
 
 const GigCard = ({ gig }: GigCardProps) => {
 	return (
-		<div className="grid grid-cols-[repeat(12,2rem)] grid-rows-[repeat(6,2rem)] gap-1 rounded-sm bg-light-secondary shadow dark:bg-dark-secondary">
+		<Link
+			to={`/gig/${gig.id}`}
+			className="grid cursor-pointer grid-cols-[repeat(12,2rem)] grid-rows-[repeat(6,2rem)] gap-1 rounded-sm bg-light-secondary shadow dark:bg-dark-secondary"
+		>
 			<img
 				src={gig.coverImage ? fullImageUrl(gig.coverImage) : defaultCoverImage}
 				className="col-span-full row-[1/span_3] h-full w-full rounded-t-sm object-cover object-center"
@@ -23,7 +26,7 @@ const GigCard = ({ gig }: GigCardProps) => {
 				<div className="col-[4/-1] row-start-3 self-end">
 					<div className="w-fit translate-y-1.5 rounded-sm bg-white px-1 py-0.5 text-xs dark:bg-dark-bg">
 						From{" "}
-						<Link to={`/profile/${gig.user.id}`} className="font-medium hover:underline">
+						<Link to={`/profile/${gig.user.id}`} className="small-headings font-medium hover:underline">
 							{gig.user.firstName} {gig.user.lastName}
 						</Link>
 					</div>
@@ -88,7 +91,7 @@ const GigCard = ({ gig }: GigCardProps) => {
 				<GrCurrency className="h-full w-fit" />
 				<div className="text-base font-semibold">{gig.price}Tk/Hr</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

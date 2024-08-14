@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type TagProps = {
 	tag: string;
 	disabled?: boolean;
+	className?: string;
 };
 
-const Tag = ({ tag, disabled = false }: TagProps) => {
+const Tag = ({ tag, disabled = false, className: pClassName }: TagProps) => {
 	const navigate = useNavigate();
 	const [isDisabled, setIsDisabled] = useState<boolean>(disabled);
 	return (
 		<div
-			className={`text-xss mr-2 inline-block rounded-sm border-2 border-dashed border-green-400 bg-white px-1 py-0.5 font-medium text-green-600 dark:bg-dark-secondary ${!isDisabled ? "cursor-pointer hover:border-solid" : "cursor-default"}`}
+			className={`mr-2 inline-block rounded-sm border-2 border-dashed border-green-400 bg-white px-1 py-0.5 text-xss font-medium text-green-600 dark:bg-dark-secondary ${!isDisabled ? "cursor-pointer hover:border-solid" : "cursor-default"} ${pClassName}`}
 			onMouseEnter={(e) => {
 				e.altKey && setIsDisabled(true);
 			}}
@@ -19,7 +20,7 @@ const Tag = ({ tag, disabled = false }: TagProps) => {
 				console.log(e);
 				e.altKey && setIsDisabled(true);
 			}}
-			onMouseLeave={(e) => {
+			onMouseLeave={() => {
 				!disabled && setIsDisabled(false);
 			}}
 			onClick={(e) => {
