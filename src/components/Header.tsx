@@ -12,6 +12,7 @@ import { userProfileImageUrl } from "@/utils/functions";
 import profileImg from "@/assets/profile.jpg";
 import ChatIcon from "./chat/ChatIcon";
 import NotificationIcon from "./chat/NotificationIcon";
+import ChangeMode from "./ChangeMode";
 
 type AuxLinkDropdownProps = {
 	title: string;
@@ -110,7 +111,6 @@ const Header = () => {
 
 					{/* NavLinks */}
 					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-2 max-md:text-xs">
-						<ChangeTheme />
 						{auth && <NotificationIcon />}
 						{auth && <ChatIcon />}
 
@@ -149,7 +149,10 @@ const Header = () => {
 									dropdownClassName="mt-2 min-w-20 rounded-md"
 									rightAlign
 								>
-									<div className={`flex flex-col bg-light-bg text-right transition-all dark:bg-dark-bg`}>
+									<div
+										className={`flex flex-col items-center justify-center bg-light-bg p-2 text-right transition-all dark:bg-dark-bg`}
+									>
+										<ChangeMode />
 										<Link
 											to="/profile"
 											className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
@@ -162,6 +165,7 @@ const Header = () => {
 										>
 											Settings
 										</Link>
+										<ChangeTheme />
 										<button
 											onClick={() => {
 												logout();

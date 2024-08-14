@@ -1,4 +1,4 @@
-import ThemeContext from "@/context/ThemeProvide";
+import ThemeContext from "@/context/ThemeProvider";
 import { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";

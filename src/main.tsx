@@ -7,14 +7,17 @@ import "react-responsive-modal/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthProvider.tsx";
 import { StompProvider } from "./context/StompProvider.tsx";
-import { ThemeProvider } from "./context/ThemeProvide.tsx";
+import { ThemeProvider } from "./context/ThemeProvider.tsx";
+import { ModeProvider } from "./context/ModeProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<AuthProvider>
 			<StompProvider>
 				<ThemeProvider>
-					<App />
+					<ModeProvider>
+						<App />
+					</ModeProvider>
 				</ThemeProvider>
 			</StompProvider>
 		</AuthProvider>

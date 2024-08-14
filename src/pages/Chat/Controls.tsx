@@ -26,6 +26,8 @@ const Controls: React.FC = () => {
 		}
 	}, [createAnEnrollmentClicked]);
 
+	
+
 	return (
 		<div>
 			{/* TODO - make sure only the seller mode selected users have this option */}
