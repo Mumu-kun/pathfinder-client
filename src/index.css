@@ -40,15 +40,15 @@ body {
 
 @layer base {
 	.large-headings {
-		@apply anton-sc-regular p-3 text-center text-lg font-bold sm:text-5xl;
+		@apply anton-sc-regular text-center text-lg font-bold sm:text-5xl;
 	}
 
 	.medium-headings {
-		@apply anton-sc-regular p-3 text-center text-base font-bold sm:text-3xl;
+		@apply anton-sc-regular text-center text-base font-bold sm:text-2xl;
 	}
 
 	.small-headings {
-		@apply anton-sc-regular p-3 text-center text-sm font-bold sm:text-lg;
+		@apply anton-sc-regular text-center text-sm font-bold sm:text-lg;
 	}
 
 	.normal-text {

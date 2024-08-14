@@ -38,7 +38,7 @@ const ProfileGigs = ({ gigs, refreshGigs, isOwnerProfile }: ProfileGigsProps) =>
 		<div className="mt-8">
 			{gigs.length > 0 && (
 				<>
-					<div className="mb-2 flex items-center text-xl font-semibold">Gigs from this Mentor</div>
+					<div className="medium-headings mb-2 text-left">Gigs from this Mentor</div>
 					<Carousel>
 						{gigs.map((value) => (
 							<GigCard gig={value} key={`profileGig-${value.id}`} />

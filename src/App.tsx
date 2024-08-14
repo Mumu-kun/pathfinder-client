@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PersistLogin from "./components/PersistLogin.tsx";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";

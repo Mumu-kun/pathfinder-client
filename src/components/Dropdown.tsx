@@ -54,6 +54,9 @@ const Dropdown = ({ head, children, isOpen, setIsOpen, rightAlign = false, dropd
 			<div
 				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
 				{...getCollapseProps()}
+				onClick={() => {
+					setIsOpen(false);
+				}}
 			>
 				{children}
 			</div>

@@ -2,7 +2,7 @@ import { fullImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/func
 import { Review } from "@/utils/types";
 import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 type ReviewProps = {
@@ -12,6 +12,23 @@ type ReviewProps = {
 const ReviewCard = ({ review }: ReviewProps) => {
 	const { gig, reviewer: user } = review;
 	const [reviewExpanded, setReviewExpanded] = useState<boolean>(false);
+
+	const textRef = useRef<HTMLDivElement>(null);
+	const [textCharLim, setTextCharLim] = useState<number>(
+		textRef.current ? ((textRef.current.clientWidth - 16) / 8) * 5 : 500
+	);
+
+	useEffect(() => {
+		const resizeHandler = () => {
+			textRef.current && setTextCharLim(((textRef.current.clientWidth - 16) / 8) * 5);
+		};
+
+		window.addEventListener("resize", resizeHandler);
+
+		return () => {
+			window.removeEventListener("resize", resizeHandler);
+		};
+	}, []);
 
 	return (
 		<div className="w-full rounded-sm bg-light-secondary p-2 shadow dark:bg-dark-secondary">
@@ -62,11 +79,11 @@ const ReviewCard = ({ review }: ReviewProps) => {
 					</Link>
 				)}
 			</div>
-			<div className="mt-2 overflow-hidden rounded-sm bg-light-bg p-2 dark:bg-dark-bg">
-				{review.text.length > 500 ? (
+			<div ref={textRef} className="mt-2 overflow-hidden rounded-sm bg-light-bg p-2 dark:bg-dark-bg">
+				{review.text.length > textCharLim * 1.25 ? (
 					!reviewExpanded ? (
 						<>
-							{limitTextLength(review.text, 500)}
+							{limitTextLength(review.text, textCharLim)}
 							{"... "}
 							<span
 								className="cursor-pointer font-semibold text-green-600 hover:underline"

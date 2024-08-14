@@ -1,3 +1,4 @@
+import { disableScroll, enableScroll } from "@/utils/functions";
 import { useEffect } from "react";
 import { ScaleLoader } from "react-spinners";
 
@@ -15,6 +16,18 @@ const Loading = ({
 	deleteMe = () => {},
 }: LoadingProps) => {
 	useEffect(() => {
+		if (fullscreen) {
+			disableScroll();
+		}
+
+		return () => {
+			if (fullscreen) {
+				enableScroll();
+			}
+		};
+	}, []);
+
+	useEffect(() => {
 		if (!isLoading) {
 			setTimeout(deleteMe, 300);
 		}
@@ -22,7 +35,7 @@ const Loading = ({
 
 	return (
 		<div
-			className={`flex h-full w-full animate-fadeIn items-center justify-center bg-gray-500 ${isTransparent ? "bg-opacity-0" : "bg-opacity-50"} transition-opacity duration-300 ${fullscreen ? "fixed left-0 top-0 z-10" : ""} ${!isLoading ? "opacity-0" : ""}`}
+			className={`flex h-full w-full flex-1 animate-fadeIn items-center justify-center self-stretch bg-zinc-200 dark:bg-zinc-950 ${isTransparent ? "bg-opacity-0" : "bg-opacity-50"} transition-opacity duration-300 ${fullscreen ? "fixed inset-0 z-10" : ""} ${!isLoading ? "opacity-0" : ""}`}
 			onTransitionEnd={() => {
 				deleteMe();
 			}}

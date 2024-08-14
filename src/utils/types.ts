@@ -56,6 +56,7 @@ export type Gig = {
 	createdAt: Date;
 	gigCoverImage: string | null;
 	gigVideo: string | null;
+	tags: any[];
 };
 
 export type GigCardData = {
