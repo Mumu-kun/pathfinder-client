@@ -161,3 +161,12 @@ export type Session = {
 	cancellationReason: string | null;
 	cancelledAt: string | null;
 };
+
+export type Transaction = {
+	id: number;
+	tranxId: string;
+	enrollment: Enrollment;
+	amount: number;
+	paidAt: string;
+	paymentConfirmed: boolean;
+}

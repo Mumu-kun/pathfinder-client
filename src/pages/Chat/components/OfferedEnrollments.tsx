@@ -51,10 +51,12 @@ const OfferedEnrollments: React.FC = () => {
 	const [confirmEnrollmentModal, setConfirmEnrollmentModal] = useState<boolean>(false);
 	const [declineEnrollmentModal, setDeclineEnrollmentModal] = useState<boolean>(false);
 
+	const [paymentGatewayUrl, setPaymentGatewayUrl] = useState<string>("");
 	const confirmEnrollment = async (enrollmentId: number) => {
 		try {
 			const response = await axiosPrivate.put(`api/v1/enrollments/buyer-confirms/${enrollmentId}`);
-			setIncompleteEnrollmentAsBuyer(response.data);
+			console.log(response.data);
+			setPaymentGatewayUrl(response.data);
 			setConfirmEnrollmentModal(false);
 		} catch (error) {
 			console.log(error);
@@ -78,6 +80,12 @@ const OfferedEnrollments: React.FC = () => {
 			enableScroll();
 		}
 	}, [confirmEnrollmentModal, declineEnrollmentModal]);
+
+	useEffect(() => {
+		if (paymentGatewayUrl) {
+			window.location.href = paymentGatewayUrl;
+		}
+	}, [paymentGatewayUrl]);
 
 	return (
 		<div>

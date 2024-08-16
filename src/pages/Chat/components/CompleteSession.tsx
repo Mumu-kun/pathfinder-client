@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Session } from "@/utils/types";
 import { enableScroll, disableScroll } from "@/utils/functions";
+import Loading from "@/components/Loading";
 
 interface CompleteSessionProps {
 	session: Session;
@@ -11,11 +12,13 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 	const axiosPrivate = useAxiosPrivate();
 
 	const [markSessionCompletedClicked, setMarkSessionCompletedClicked] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
 
 	const completeSession = async (sessionId: number) => {
 		try {
+            setLoading(true);
 			const response = await axiosPrivate.put(`api/v1/sessions/complete/${sessionId}`);
-			console.log(response.data);
+			setLoading(false);
 			setMarkSessionCompletedClicked(false);
 		} catch (error) {
 			console.log(error);
