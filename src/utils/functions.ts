@@ -1,4 +1,4 @@
-import { BASE_URL, IMAGE_BASE_URL } from "./variables";
+import { BASE_URL, defaultCoverImage, IMAGE_BASE_URL } from "./variables";
 
 export const limitTextLength = (text: string, charCount: number): string => {
 	return text.substring(0, charCount);
@@ -9,13 +9,21 @@ export const userProfileImageUrl = (id: number) => {
 };
 
 export const fullImageUrl = (filename: string) => {
-	return IMAGE_BASE_URL + filename;
+	return BASE_URL + IMAGE_BASE_URL + filename;
+};
+
+export const coverImageUrl = (filename: string | null) => {
+	if (!filename) {
+		return defaultCoverImage;
+	}
+
+	return BASE_URL + IMAGE_BASE_URL + filename;
 };
 
 export const disableScroll = () => {
 	document.body.style.overflow = "hidden";
-}
+};
 
 export const enableScroll = () => {
 	document.body.style.overflow = "auto";
-}
+};

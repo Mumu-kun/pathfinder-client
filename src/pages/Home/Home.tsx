@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Categories from "./Categories";
 import ChangeTheme from "../../components/ChangeTheme";
-import { UnlimitLayoutWidth } from "@/components/LimitLayoutWidth";
+import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import Intro from "./Intro";
 
 const Home: React.FC = () => {
 	return (
-		<div className="mt-80">
+		<>
 			<UnlimitLayoutWidth>
 				<Intro />
 			</UnlimitLayoutWidth>
@@ -34,7 +34,7 @@ const Home: React.FC = () => {
 			<Link to="/profile" className="solid-btn">
 				Profile
 			</Link>
-		</div>
+		</>
 	);
 };
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const RedirectIfLoggedIn: React.FC = () => {

@@ -1,13 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { Gig, Enrollment } from "@/utils/types";
+import useMode from "@/hooks/useMode";
+import { disableScroll, enableScroll } from "@/utils/functions";
+import { Enrollment } from "@/utils/types";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import CreateEnrollment from "./components/CreateEnrollment";
 import OfferedEnrollments from "./components/OfferedEnrollments";
-import { disableScroll, enableScroll } from "@/utils/functions";
-import ModeContext from "@/context/ModeProvider";
-import Loading from "@/components/Loading";
 
 const Controls: React.FC = () => {
 	const { auth } = useAuth();
@@ -16,7 +15,7 @@ const Controls: React.FC = () => {
 	const contactId = id ? parseInt(id) : undefined;
 	const axiosPrivate = useAxiosPrivate();
 	const [createAnEnrollmentClicked, setCreateAnEnrollmentClicked] = useState<boolean>(false);
-	const { mode } = useContext(ModeContext);
+	const { mode } = useMode();
 
 	const createEnrollmentBtnClicked = () => {
 		setCreateAnEnrollmentClicked(true);

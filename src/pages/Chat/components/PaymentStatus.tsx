@@ -63,7 +63,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 									</Link>
 								</div>
 							)}
-							{status === "failed" && !transaction.paymentConfirmed && (
+							{status === "fail" && !transaction.paymentConfirmed && (
 								<div>
 									<div className="m-10 text-left">
 										{/* TODO: Add confetti */}

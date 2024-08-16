@@ -1,16 +1,17 @@
 import ModeContext, { Mode } from "@/context/ModeProvider";
+import useMode from "@/hooks/useMode";
 import React, { useContext } from "react";
 
 const ChangeMode: React.FC = () => {
-	const { mode, changeMode } = useContext(ModeContext);
+	const { mode, changeMode } = useMode();
 
 	const handleModeChange = (mode: Mode) => {
-        console.log("change mode called");
+		console.log("change mode called");
 		changeMode(mode);
 	};
 
 	return (
-		<div>
+		<div className="my-1">
 			{mode == "buyer" ? (
 				<div>
 					<button className="outline-btn" onClick={() => handleModeChange("seller")}>

@@ -51,16 +51,16 @@ export const Settings = () => {
 
 	return (
 		<>
-			<div className="mt-6 text-center text-3xl font-bold text-green-500">Settings</div>
-			<div className="mt-4 grid grid-cols-[minmax(0,max-content)_auto] gap-x-10">
-				<div className="mt-4 flex flex-col gap-4">
+			<div className="semilarge-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Settings</div>
+			<div className="flex py-8 max-md:flex-col">
+				<div className="flex gap-4 md:flex-col">
 					{TABS.map((tab) => {
 						const tabTitle = tab.replace("-", " ");
 						return (
 							<Link
 								to={"/settings/" + tab}
 								key={`tab-${tab}`}
-								className={`rounded-sm px-3 py-1.5 pr-6 text-sm font-semibold capitalize transition-all ${activeTab === tab ? "bg-green-400 dark:bg-green-500" : "bg-light-secondary hover:bg-green-300 dark:bg-dark-secondary dark:hover:bg-green-600"}`}
+								className={`rounded-l-sm px-3 py-1.5 pr-8 text-sm font-semibold capitalize transition-all ${activeTab === tab ? "bg-green-400 dark:bg-green-500" : "hover:bg-green-300 dark:hover:bg-green-600"}`}
 								onClick={() => setActiveTab(tab)}
 							>
 								{tabTitle}
@@ -69,8 +69,12 @@ export const Settings = () => {
 					})}
 				</div>
 
+				<div className="mr-8 min-h-[30rem] w-0.5 bg-zinc-300 max-md:hidden dark:bg-zinc-700"></div>
+
+				<div className="mt-4 h-[1px] bg-zinc-300 md:hidden dark:bg-zinc-700"></div>
+
 				<div
-					className="w-full rounded-sm bg-light-secondary px-8 pb-8 pt-10 shadow-md transition-all dark:bg-dark-secondary"
+					className="w-full transition-all max-md:pt-5 md:px-8"
 					style={{
 						minHeight: !profileData ? "30rem" : undefined,
 					}}

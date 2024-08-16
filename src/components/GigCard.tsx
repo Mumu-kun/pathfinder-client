@@ -1,10 +1,10 @@
+import { coverImageUrl, userProfileImageUrl } from "@/utils/functions";
+import { defaultProfileImage } from "@/utils/variables";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
 import { GrCurrency } from "react-icons/gr";
+import { Link } from "react-router-dom";
 import { GigCardData } from "../utils/types";
 import Tag from "./Tag";
-import { Link } from "react-router-dom";
-import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
-import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 
 type GigCardProps = {
 	gig: GigCardData;
@@ -17,7 +17,7 @@ const GigCard = ({ gig }: GigCardProps) => {
 			className="grid cursor-pointer grid-cols-[repeat(12,2rem)] grid-rows-[repeat(6,2rem)] gap-1 rounded-sm bg-light-secondary shadow dark:bg-dark-secondary"
 		>
 			<img
-				src={gig.coverImage ? fullImageUrl(gig.coverImage) : defaultCoverImage}
+				src={coverImageUrl(gig.coverImage)}
 				className="col-span-full row-[1/span_3] h-full w-full rounded-t-sm object-cover object-center"
 				alt=""
 			/>

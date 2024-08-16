@@ -1,8 +1,7 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PersistLogin from "./components/PersistLogin.tsx";
-import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn.tsx";
-import RequireAuth from "./components/RequireAuth.tsx";
+import RedirectIfLoggedIn from "./components/wrappers/RedirectIfLoggedIn.tsx";
+import RequireAuth from "./components/wrappers/RequireAuth.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 import Gig from "./pages/Gig/GigPage.tsx";
@@ -14,6 +13,8 @@ import ChatPage from "./pages/Chat/ChatPage.tsx";
 
 import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
+import SetMode from "./components/wrappers/SetMode.tsx";
+import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
@@ -25,19 +26,59 @@ const router = createBrowserRouter([
 		errorElement: <ErrorPage showHeader />,
 		children: [
 			{
-				element: <PersistLogin />,
-				errorElement: <ErrorPage />,
+				path: "/",
+				element: <Home />,
+			},
+			{
+				path: "gig/:id",
+				element: <Gig />,
+			},
+			{
+				path: "profile/:userId",
+				element: (
+					<Suspense fallback={<Loading fullscreen />}>
+						<Profile />
+					</Suspense>
+				),
+			},
+			{
+				element: <RedirectIfLoggedIn />,
 				children: [
 					{
-						path: "/",
-						element: <Home />,
+						path: "login",
+						element: <Login />,
 					},
 					{
-						path: "gig/:id",
-						element: <Gig />,
+						path: "register",
+						element: <Register />,
+					},
+				],
+			},
+			{
+				element: <RequireAuth />,
+				children: [
+					{
+						path: "test",
+						element: <TestPage />,
 					},
 					{
-						path: "profile/:userId",
+						path: "interaction/user/:id",
+						element: <ChatPage />,
+					},
+					{
+						path: "payment/success",
+						element: <PaymentStatus status="success" />,
+					},
+					{
+						path: "payment/fail",
+						element: <PaymentStatus status="fail" />,
+					},
+					{
+						path: "payment/cancel",
+						element: <PaymentStatus status="cancel" />,
+					},
+					{
+						path: "profile",
 						element: (
 							<Suspense fallback={<Loading fullscreen />}>
 								<Profile />
@@ -45,56 +86,28 @@ const router = createBrowserRouter([
 						),
 					},
 					{
-						element: <RedirectIfLoggedIn />,
-						children: [
-							{
-								path: "login",
-								element: <Login />,
-							},
-							{
-								path: "register",
-								element: <Register />,
-							},
-						],
+						path: "settings/:tab?",
+						element: (
+							<Suspense fallback={<Loading fullscreen />}>
+								<Settings />
+							</Suspense>
+						),
 					},
 					{
-						element: <RequireAuth />,
+						element: <SetMode mode={"seller"} />,
 						children: [
 							{
-								path: "test",
-								element: <TestPage />,
-							},
-							{
-								path: "interaction/user/:id",
-								element: <ChatPage />,
-							},
-							{
-								path: "payment/success",
-								element: <PaymentStatus status="success"/>,
-							},
-							{
-								path: "payment/fail",
-								element: <PaymentStatus status="fail"/>,
-							},
-							{
-								path: "payment/cancel",
-								element: <PaymentStatus status="cancel"/>,
-							},
-							{
-								path: "profile",
-								element: (
-									<Suspense fallback={<Loading fullscreen />}>
-										<Profile />
-									</Suspense>
-								),
-							},
-							{
-								path: "settings/:tab?",
-								element: (
-									<Suspense fallback={<Loading fullscreen />}>
-										<Settings />
-									</Suspense>
-								),
+								path: "manage/gigs",
+								children: [
+									{
+										path: "",
+										element: <ManageGigs />,
+									},
+									{
+										path: ":id",
+										element: <div>Manage Gig id</div>,
+									},
+								],
 							},
 						],
 					},
