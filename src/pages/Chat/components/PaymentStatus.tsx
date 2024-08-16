@@ -4,6 +4,8 @@ import { Transaction } from "@/utils/types";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Loading from "@/components/Loading";
 import ErrorPage from "@/components/ErrorPage";
+import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 
 interface PaymentStatusProps {
 	status: String;
@@ -38,6 +40,8 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 
 		makeSureValidTransaction();
 	}, [transactionId]);
+
+	const {width , height} = useWindowSize();
 	return (
 		<div>
 			{loading ? (
@@ -48,7 +52,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 						<div>
 							{status === "success" && transaction.paymentConfirmed && (
 								<div className="m-10 text-left">
-									{/* TODO: Add confetti */}
+									<Confetti width={width} height={height} />
 									<p className="text-4xl font-semibold p-1 pb-10">Payment Successful</p>
 									<p className="text-xl font-semibold p-1">Transaction Id: {transaction.tranxId}</p>
 									<p className="text-xl font-semibold p-1">Amount: {transaction.amount}</p>
