@@ -5,7 +5,6 @@ import { ProfileData } from "@/utils/types";
 import { isAxiosError } from "axios";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { SingleValue } from "node_modules/react-select/dist/declarations/src";
-import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import AsyncCreatableSelect from "react-select/async-creatable";

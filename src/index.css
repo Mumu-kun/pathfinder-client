@@ -92,11 +92,11 @@ body {
 	}
 
 	.solid-btn {
-		@apply rounded-md border-2 border-green-500 bg-green-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.solid-cancel-btn {
-		@apply rounded-md border-2 border-red-500 bg-red-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply cursor-pointer rounded-md border-2 border-red-500 bg-red-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.outline-btn {

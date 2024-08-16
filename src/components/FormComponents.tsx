@@ -9,6 +9,7 @@ type InputComponentProps = {
 	disabled?: boolean;
 	className?: string;
 	noShowError?: boolean;
+	leftContent?: React.ReactNode;
 	rightContent?: React.ReactNode;
 };
 
@@ -42,7 +43,7 @@ export const TextInputComponent = ({
 					{...field}
 					{...props}
 					disabled={disabled}
-					className={`w-full min-w-0 rounded-sm border border-green-400 bg-light-bg px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 				/>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
@@ -61,6 +62,7 @@ export const NumberInputComponent = ({
 	disabled = false,
 	noShowError = false,
 	className: pClassName = "",
+	leftContent,
 	rightContent,
 	field,
 	form,
@@ -109,13 +111,14 @@ export const NumberInputComponent = ({
 			)}
 			<div className={`${isFullWidth ? "w-full" : "max-w-60"} ${isGrid ? "" : "mb-4"}`}>
 				<div className="flex items-center">
+					{leftContent}
 					<input
 						id={field.name}
 						{...field}
 						{...props}
 						onChange={handleInput}
 						disabled={disabled}
-						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-light-bg px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 					/>
 					{rightContent}
 				</div>
@@ -158,7 +161,7 @@ export const TextAreaInputComponent = ({
 					{...field}
 					{...props}
 					disabled={disabled}
-					className={`w-full min-w-0 rounded-sm border border-green-400 bg-light-bg px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 				></textarea>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>

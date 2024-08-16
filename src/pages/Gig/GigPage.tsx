@@ -1,82 +1,91 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Gig, Review } from "../../utils/types";
-import axios from "../../api/axios";
+import Carousel from "@/components/Carousel";
 import Loading from "@/components/Loading";
+import ZoomableImg from "@/components/misc/ZoomableImg";
+import ReviewCard from "@/components/ReviewCard";
+import Tag from "@/components/Tag";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
+import useAuth from "@/hooks/useAuth";
 import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
 import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
-import ZoomableImg from "@/components/misc/ZoomableImg";
-import { RxSlash } from "react-icons/rx";
-import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
+import {
+	MDXEditor,
+	MDXEditorMethods,
+	headingsPlugin,
+	listsPlugin,
+	quotePlugin,
+	thematicBreakPlugin,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import React, { useEffect, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
-import { IoChatboxEllipsesOutline, IoChatboxEllipsesSharp } from "react-icons/io5";
-import Tag from "@/components/Tag";
-import FAQQuestion from "./FAQQuestion";
-import ReviewCard from "@/components/ReviewCard";
+import { IoChatboxEllipsesSharp } from "react-icons/io5";
+import { RxSlash } from "react-icons/rx";
+import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
-import { boolean } from "yup";
-import Carousel from "@/components/Carousel";
-import useAuth from "@/hooks/useAuth";
-import Markdown from "react-markdown";
+import axios from "../../api/axios";
+import { Gig, Review } from "../../utils/types";
+import FAQQuestion from "./FAQQuestion";
 
-const GigPage: React.FC = () => {
-	const { id } = useParams();
+type props = {
+	gig?: Gig;
+	setEditMode?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const getGig = async (id: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/gigs/${id}`);
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const getGigReviews = async (id: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/gigs/${id}/reviews`);
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const testReviews = [
+	{
+		id: 1,
+		title: "This was life changing",
+		text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
+		rating: 4.5,
+		createdAt: new Date(),
+		reviewer: {
+			id: 1,
+			firstName: "Mustafa",
+			lastName: "Muhaimin",
+		},
+		gig: {
+			id: 1,
+			title: "Intro to Python Programming",
+			coverImage: null,
+		},
+	},
+];
+
+const GigPage = ({ gig: propGig, setEditMode }: props) => {
+	const id: number = Number(useParams().id);
 	const { auth } = useAuth();
+
+	const [gig, setGig] = useState<Gig | undefined>(propGig);
 
 	const isMD = useMediaQuery("(max-width: 768px)");
 
-	const [gig, setGig] = useState<Gig | undefined>();
-
-	const getGig = async () => {
-		try {
-			const res = await axios.get(`/api/v1/public/gigs/${id}`);
-			setGig(res.data);
-			console.log(res.data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const [reviews, setReviews] = useState<Review[] | undefined>([
-		{
-			id: 1,
-			title: "This was life changing",
-			text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-			rating: 4.5,
-			createdAt: new Date(),
-			reviewer: {
-				id: 1,
-				firstName: "Mustafa",
-				lastName: "Muhaimin",
-			},
-			gig: {
-				id: 1,
-				title: "Intro to Python Programming",
-				coverImage: null,
-			},
-		},
-	]);
-	const getGigReviews = async () => {
-		try {
-			const res = await axios.get(`/api/v1/public/gigs/${id}/reviews`);
-			setReviews(res.data);
-			console.log(res.data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	const getSimilarGigs = async () => {
-		// TODO
-	};
+	const [reviews, setReviews] = useState<Review[] | undefined>(testReviews);
 
 	useEffect(() => {
-		getGig();
-		getGigReviews();
+		!propGig && getGig(id).then((data) => setGig(data));
+		// getGigReviews(id).then((data) => setGigReviews(data)););
 	}, [id]);
 
-	// TODO: handle loading.
 	if (!gig) {
 		return <Loading />;
 	}
@@ -89,18 +98,33 @@ const GigPage: React.FC = () => {
 			<UnlimitLayoutWidth>
 				<div className="flex aspect-[6/1] w-full items-center overflow-hidden">
 					<ZoomableImg
-						src={gig.gigCoverImage ? fullImageUrl(gig.gigCoverImage) : defaultCoverImage}
+						src={
+							gig.gigCoverImage
+								? gig.gigCoverImage.startsWith("data:image/")
+									? gig.gigCoverImage
+									: fullImageUrl(gig.gigCoverImage)
+								: defaultCoverImage
+						}
 						alt={gig.title}
 						className="w-full overflow-hidden object-cover"
 					/>
 				</div>
 			</UnlimitLayoutWidth>
 
-			<div className="-mt-[2vw] mb-4 w-fit rounded bg-light-secondary px-4 py-2 shadow dark:bg-dark-secondary">
-				<div className="medium-headings pr-8 pt-2">{gig.title}</div>
-				<Link to={"#"} className="font-medium hover:underline">
-					{gig.category}
-				</Link>
+			<div className="-mt-[2vw] flex justify-between">
+				<div className="mb-4 w-fit rounded bg-light-secondary px-4 py-2 shadow dark:bg-dark-secondary">
+					<div className="medium-headings pr-8 pt-2">{gig.title}</div>
+					<Link to={"#"} className="font-medium hover:underline">
+						{gig.category}
+					</Link>
+				</div>
+				<div className="space-x-4">
+					{propGig && (
+						<button className="solid-btn" onClick={() => setEditMode && setEditMode(true)}>
+							Edit Details
+						</button>
+					)}
+				</div>
 			</div>
 			<div className="grid grid-cols-[auto_max-content] gap-4">
 				<div className="space-y-4">
@@ -134,54 +158,41 @@ const GigPage: React.FC = () => {
 						</div>
 					</div>
 
-					<Carousel>
-						<video src={gig.gigVideo ?? ""} controls className="w-full" />
-					</Carousel>
+					{!!gig.gigVideo && <video src={gig.gigVideo} controls className="w-full" />}
 
 					{isMD && (
 						<div className={`flex gap-4 max-sm:flex-col`}>
-							<CallToEnroll {...gig} isSeller={isSeller} />
-							<div className="self-start rounded bg-light-secondary p-3 shadow dark:bg-dark-secondary">
-								<h3 className="small-headings p-0 text-left">Topics Covered :</h3>
-								<div className="mt-2 flex flex-wrap">
-									{gig.tags.map((tag) => (
-										<Tag key={tag} tag={tag.name} className="my-0.5" />
-									))}
-								</div>
-							</div>
+							<TagsBlock {...{ gig }} className="flex-1 sm:self-start" />
+							<CallToEnroll {...{ gig, isSeller }} />
 						</div>
 					)}
 
 					<div className="w-full rounded">
 						<h3 className="medium-headings mb-2 text-left">About the gig</h3>
-						<Markdown className={`prose max-sm:prose-sm dark:prose-invert`}>
-							{gig.description +
-								`
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt unde alias at itaque harum facere
-								reprehenderit incidunt dolores quibusdam quam nobis officia aliquam debitis earum ex, eligendi saepe,
-								nam adipisci? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam molestiae ipsa sequi?
-								Expedita sequi distinctio ea iusto ducimus nihil, ipsam, voluptas quam cupiditate, facilis libero minima
-								quaerat adipisci saepe dolor?
-								`}
-						</Markdown>
+						<MDXEditor
+							markdown={gig.description ?? " "}
+							contentEditableClassName={`prose prose-sm dark:prose-invert`}
+							plugins={[
+								headingsPlugin({
+									allowedHeadingLevels: [2, 3, 4],
+								}),
+								listsPlugin(),
+								quotePlugin(),
+								thematicBreakPlugin(),
+							]}
+							readOnly
+						/>
 					</div>
 
-					{isMD && <FAQBlock {...gig} />}
+					{isMD && <FAQBlock {...{ gig }} />}
 				</div>
 
 				{/* Sidebar */}
 				{!isMD && (
 					<div className="w-[18rem] space-y-4">
-						<CallToEnroll {...gig} sticky isSeller={isSeller} />
-						<div className="rounded bg-light-secondary p-3 shadow dark:bg-dark-secondary">
-							<h3 className="small-headings p-0 text-left">Topics Covered :</h3>
-							<div className="mt-2 flex flex-wrap">
-								{gig.tags.map((tag) => (
-									<Tag key={tag} tag={tag.name} className="my-0.5" />
-								))}
-							</div>
-						</div>
-						<FAQBlock {...gig} />
+						<CallToEnroll {...{ gig, isSeller }} sticky />
+						<TagsBlock {...{ gig }} />
+						<FAQBlock {...{ gig }} />
 					</div>
 				)}
 			</div>
@@ -205,16 +216,22 @@ const GigPage: React.FC = () => {
 
 export default GigPage;
 
-const CallToEnroll = ({ sticky = false, isSeller, ...gig }: Gig & { isSeller: boolean; sticky?: boolean }) => {
+const CallToEnroll = ({ gig, sticky = false, isSeller }: { gig: Gig; isSeller: boolean; sticky?: boolean }) => {
+	const ref = React.useRef<MDXEditorMethods>(null);
+
 	return (
 		<div
-			className={`flex-[0_0_18rem] rounded bg-light-secondary p-4 shadow dark:bg-dark-secondary ${sticky ? "sticky top-[8rem] z-10" : ""}`}
+			className={`w-[18rem] rounded bg-light-secondary p-4 shadow max-sm:self-center dark:bg-dark-secondary ${sticky ? "sticky top-[8rem] z-10" : ""}`}
 		>
 			<h3 className="small-headings mb-2 p-0 text-left text-2xl">What You Get :</h3>
-			<Markdown className={`prose max-sm:prose-sm dark:prose-invert`}>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam officiis quia perferendis, dolorem quasi soluta
-				impedit eum quibusdam accusamus hic inventore minus? Dolorem facilis ratione deserunt amet veritatis ea error.
-			</Markdown>
+			<MDXEditor
+				ref={ref}
+				markdown={gig.offerText ?? ""}
+				readOnly
+				plugins={[headingsPlugin({ allowedHeadingLevels: [4] }), listsPlugin()]}
+				contentEditableClassName="prose prose-sm dark:prose-invert px-2 pt-0"
+			/>
+
 			<div className="flex items-center justify-between gap-4">
 				<div className="flex items-center text-xl font-semibold">
 					<FaBangladeshiTakaSign className="pb-0.5 pt-1" /> {gig.price}
@@ -232,27 +249,27 @@ const CallToEnroll = ({ sticky = false, isSeller, ...gig }: Gig & { isSeller: bo
 	);
 };
 
-const FAQBlock = ({ ...gig }: Gig) => {
+const TagsBlock = ({ gig, className = "" }: { gig: Gig; className?: string }) => {
+	return (
+		<div className={`rounded bg-light-secondary p-3 shadow dark:bg-dark-secondary ${className}`}>
+			<h3 className="small-headings p-0 text-left">Topics Covered :</h3>
+			<div className="mt-2 flex flex-wrap">
+				{gig.tags.map((tag) => (
+					<Tag key={tag} tag={tag} className="my-0.5" />
+				))}
+			</div>
+		</div>
+	);
+};
+
+const FAQBlock = ({ gig }: { gig: Gig }) => {
 	return (
 		<div className="rounded bg-light-secondary p-3 shadow dark:bg-dark-secondary">
 			<h3 className="small-headings p-0 text-left">FAQ :</h3>
 			<div className="mt-2 space-y-2">
-				<FAQQuestion
-					question="What is the duration of the course?"
-					answer="Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus consequatur, sunt sequi corrupti consectetur ratione assumenda sed adipisci praesentium saepe eius autem accusamus quis dignissimos suscipit nulla repudiandae! Mollitia, ut."
-				/>
-				<FAQQuestion
-					question="What is the duration of the course?"
-					answer="Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus consequatur, sunt sequi corrupti consectetur ratione assumenda sed adipisci praesentium saepe eius autem accusamus quis dignissimos suscipit nulla repudiandae! Mollitia, ut."
-				/>
-				<FAQQuestion
-					question="What is the duration of the course?"
-					answer="Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus consequatur, sunt sequi corrupti consectetur ratione assumenda sed adipisci praesentium saepe eius autem accusamus quis dignissimos suscipit nulla repudiandae! Mollitia, ut."
-				/>
-				<FAQQuestion
-					question="What is the duration of the course?"
-					answer="Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus consequatur, sunt sequi corrupti consectetur ratione assumenda sed adipisci praesentium saepe eius autem accusamus quis dignissimos suscipit nulla repudiandae! Mollitia, ut."
-				/>
+				{gig.faqs?.map((faq, index) => (
+					<FAQQuestion key={`faq-${index}`} question={faq.question} answer={faq.answer} />
+				))}
 			</div>
 		</div>
 	);

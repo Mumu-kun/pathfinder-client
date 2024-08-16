@@ -4,7 +4,7 @@ import Loading from "@/components/Loading";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { getGigCards } from "@/pages/Profile/Profile";
-import { coverImageUrl, fullImageUrl } from "@/utils/functions";
+import { coverImageUrl, fullImageUrl, sleep } from "@/utils/functions";
 import { Gig, GigCardData } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
@@ -23,6 +23,8 @@ const ManageGigs = (props: Props) => {
 		try {
 			const res = await axiosPrivate.get(`api/v1/public/users/${auth!.userId}/gigs`);
 
+			await sleep(500);
+
 			setGigs(res.data);
 		} catch (error) {
 			console.log(error);
@@ -37,22 +39,24 @@ const ManageGigs = (props: Props) => {
 		<>
 			<div className="semilarge-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Manage Gigs</div>
 
-			<div className="grid grid-cols-[5rem_auto_repeat(6,max-content)] gap-x-4 text-sm">
+			<div className="grid grid-cols-[5rem_1fr_repeat(6,auto)] gap-x-4 text-sm">
 				<div className="col-span-full my-2 grid grid-cols-subgrid border-b border-zinc-300 py-2 font-bold">
 					<div></div>
-					<div>Gig</div>
+					<div className="mr-auto">Gig</div>
 					<div>Visits</div>
 					<div>Ongoing</div>
 					<div>Completed</div>
 					<div>Earning</div>
 					<div>Rating</div>
-					<div></div>
+					<div>
+						<FaAngleDown className="invisible" />
+					</div>
 				</div>
 				{gigs ? (
 					gigs.map((gig) => (
 						<div className="col-span-full grid grid-cols-subgrid items-center py-1" key={`manageGig-${gig.id}`}>
 							<img src={coverImageUrl(gig.gigCoverImage)} alt="" className="aspect-[2/1] object-cover" />
-							<Link to={`/gigs/${gig.id}`} className="hover:underline">
+							<Link to={`/gig/${gig.id}`} className="hover:underline">
 								{gig.title}
 							</Link>
 							<div className="text-center">0</div>
@@ -66,7 +70,12 @@ const ManageGigs = (props: Props) => {
 								dropdownClassName="mt-2 min-w-20 rounded-md flex flex-col bg-light-bg text-center transition-all dark:bg-dark-bg"
 							>
 								<div className="self-stretch px-2 py-1 hover:bg-green-400 hover:text-white">Publish</div>
-								<div className="self-stretch px-2 py-1 hover:bg-yellow-400 hover:text-white">Edit</div>
+								<Link to={`/gig/${gig.id}`} className="block self-stretch px-2 py-1 hover:bg-zinc-400 hover:text-white">
+									View
+								</Link>
+								<Link to={`${gig.id}`} className="block self-stretch px-2 py-1 hover:bg-yellow-400 hover:text-white">
+									Edit
+								</Link>
 								<div className="self-stretch px-2 py-1 hover:bg-red-400 hover:text-white">Delete</div>
 							</Dropdown>
 						</div>

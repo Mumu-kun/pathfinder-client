@@ -46,17 +46,26 @@ export type UserShort = {
 export type Gig = {
 	id: number;
 	title: string;
-	description: string;
 	category: string;
+	description: string;
+	offerText: string;
 	price: number;
-	rating: number | null;
+	gigCoverImage: string | null;
+	gigVideo: string | null;
+	tags: string[];
+	faqs: FAQ[];
+	rating: number;
+	totalReviews: number;
+	totalCompleted: number;
 	totalOrders: number;
 	accepted: boolean;
 	seller: User;
 	createdAt: Date;
-	gigCoverImage: string | null;
-	gigVideo: string | null;
-	tags: any[];
+};
+
+export type FAQ = {
+	question: string;
+	answer: string;
 };
 
 export type GigCardData = {

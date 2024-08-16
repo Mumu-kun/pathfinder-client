@@ -4,7 +4,6 @@ import RedirectIfLoggedIn from "./components/wrappers/RedirectIfLoggedIn.tsx";
 import RequireAuth from "./components/wrappers/RequireAuth.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
-import Gig from "./pages/Gig/GigPage.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Layout from "./pages/Layout.tsx";
 import TestPage from "./pages/TestPage.tsx";
@@ -18,6 +17,8 @@ import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
+const GigPage = lazy(() => import("@/pages/Gig/GigPage.tsx"));
+const EditGigPage = lazy(() => import("@/pages/SellerPages/ManageGigs/EditGigPage.tsx"));
 
 const router = createBrowserRouter([
 	{
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "gig/:id",
-				element: <Gig />,
+				element: (
+					<Suspense fallback={<Loading fullscreen />}>
+						<GigPage />
+					</Suspense>
+				),
 			},
 			{
 				path: "interaction/user/:id",
@@ -92,7 +97,11 @@ const router = createBrowserRouter([
 									},
 									{
 										path: ":id",
-										element: <div>Manage Gig id</div>,
+										element: (
+											<Suspense fallback={<Loading fullscreen />}>
+												<EditGigPage />
+											</Suspense>
+										),
 									},
 								],
 							},

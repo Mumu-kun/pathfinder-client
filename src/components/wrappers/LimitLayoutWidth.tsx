@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const LimitLayoutWidth = ({ children }: { children?: React.ReactNode }) => {
@@ -9,10 +10,21 @@ const LimitLayoutWidth = ({ children }: { children?: React.ReactNode }) => {
 };
 
 export const UnlimitLayoutWidth = ({ children }: { children?: React.ReactNode }) => {
+	const [delayed, setDelayed] = useState(false);
+
 	const div = document.getElementById("unlimit-width");
 
+	useEffect(() => {
+		if (!div) {
+			setDelayed(true);
+			setTimeout(() => setDelayed(false), 300);
+		} else {
+			setDelayed(false);
+		}
+	}, [delayed]);
+
 	if (!div) {
-		return children;
+		return null;
 	}
 
 	return createPortal(children, div);

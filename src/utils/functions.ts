@@ -27,3 +27,7 @@ export const disableScroll = () => {
 export const enableScroll = () => {
 	document.body.style.overflow = "auto";
 };
+
+export const sleep = async (ms: number) => {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+};
