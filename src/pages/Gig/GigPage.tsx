@@ -72,7 +72,7 @@ const testReviews = [
 ];
 
 const GigPage = ({ gig: propGig, setEditMode }: props) => {
-	const id: number = Number(useParams().id);
+	const id: number = Number(useParams().id ?? propGig?.id);
 	const { auth } = useAuth();
 
 	const [gig, setGig] = useState<Gig | undefined>(propGig);
@@ -83,7 +83,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 
 	useEffect(() => {
 		!propGig && getGig(id).then((data) => setGig(data));
-		// getGigReviews(id).then((data) => setGigReviews(data)););
+		id && getGigReviews(id).then((data) => setReviews(data));
 	}, [id]);
 
 	if (!gig) {

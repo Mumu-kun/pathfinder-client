@@ -2,8 +2,10 @@ import { NumberInputComponent, TextAreaInputComponent, TextInputComponent } from
 import Loading from "@/components/Loading";
 import ZoomableImg from "@/components/misc/ZoomableImg";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
+import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import GigPage, { getGig } from "@/pages/Gig/GigPage";
+import { fullImageUrl, sleep } from "@/utils/functions";
 import { Gig } from "@/utils/types";
 import { defaultCoverImage } from "@/utils/variables";
 import {
@@ -28,7 +30,7 @@ import { ErrorMessage, Field, FieldArray, FieldProps, Form, Formik } from "formi
 import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Select, { SingleValue } from "react-select";
 import Creatable from "react-select/creatable";
 import { toast } from "react-toastify";
@@ -51,8 +53,26 @@ const validationSchema = Yup.object().shape({
 		.min(3, "At least three FAQs required"),
 });
 
-const EditGigPage = () => {
-	const id: number = Number(useParams().id);
+const isDetailsUpdated = (values: Gig, gig: Gig) => {
+	return (
+		values.title !== gig.title ||
+		values.category !== gig.category ||
+		JSON.stringify(values.tags) !== JSON.stringify(gig.tags) ||
+		values.description !== gig.description ||
+		values.offerText !== gig.offerText ||
+		values.price !== gig.price ||
+		JSON.stringify(values.faqs) !== JSON.stringify(gig.faqs)
+	);
+};
+
+type props = {
+	formType: "create" | "edit";
+};
+
+const GigFormPage = ({ formType }: props) => {
+	let id: number = Number(useParams().id);
+	const { auth } = useAuth();
+	const navigate = useNavigate();
 	const [gig, setGig] = useState<Gig | undefined>();
 
 	const [editMode, setEditMode] = useState<boolean>(true);
@@ -80,9 +100,24 @@ const EditGigPage = () => {
 	}, []);
 
 	useEffect(() => {
-		getGig(id).then((gig) => {
-			setGig(gig);
-		});
+		formType === "edit"
+			? getGig(id).then((gig) => {
+					setGig(gig);
+				})
+			: setGig({
+					title: "",
+					category: "",
+					tags: [],
+					description: "",
+					offerText: "",
+					price: undefined,
+					faqs: [],
+					seller: {
+						id: auth?.userId ?? 0,
+						firstName: auth?.firstName ?? "",
+						lastName: auth?.lastName ?? "",
+					},
+				} as unknown as Gig);
 	}, [id]);
 
 	if (!gig) {
@@ -92,7 +127,7 @@ const EditGigPage = () => {
 	return (
 		<Formik
 			initialValues={gig}
-			onSubmit={async (values, { validateForm }) => {
+			onSubmit={async (values, { validateForm, resetForm }) => {
 				validateForm(values);
 				const gigRequest = {
 					title: values.title,
@@ -104,16 +139,59 @@ const EditGigPage = () => {
 					faqs: values.faqs,
 				};
 
-				console.log(gigRequest);
-
 				try {
-					await axiosPrivate.patch(`/api/v1/gigs/${id}`, gigRequest);
+					if (formType === "create") {
+						const res = await axiosPrivate.post("/api/v1/gigs/create", gigRequest);
+						id = res.data.id;
+						toast.success("Gig created successfully");
+					} else if (isDetailsUpdated(values, gig)) {
+						await axiosPrivate.patch(`/api/v1/gigs/${id}`, gigRequest);
+						toast.success("Gig updated successfully");
+					} else if (!newCoverImage && !gigVideo) {
+						toast.info("No changes made");
+						return;
+					}
 
-					toast.success("Gig updated successfully");
+					if (newCoverImage) {
+						const formData = new FormData();
+						formData.append("file", newCoverImage);
+						await axiosPrivate.post(`/api/v1/gigs/${id}/cover-image`, formData, {
+							headers: {
+								"Content-Type": "multipart/form-data",
+							},
+						});
+						toast.success("Cover image updated successfully");
+					}
+
+					if (gigVideo) {
+						const formData = new FormData();
+						formData.append("file", gigVideo);
+						await axiosPrivate.post(`/api/v1/gigs/${id}/gig-video`, formData, {
+							headers: {
+								"Content-Type": "multipart/form-data",
+							},
+						});
+						toast.success("Gig video updated successfully");
+					}
+
+					resetForm();
+
+					if (formType === "create") {
+						await sleep(2000);
+						navigate(`/manage/gigs`);
+					}
 				} catch (error) {
 					console.error(error);
 					if (isAxiosError(error)) {
-						error.response?.status === 400 && toast(error.response.data.message, { type: "error" });
+						if (error.response?.status === 400) {
+							toast(error.response.data.message, { type: "error" });
+						}
+
+						const fieldErrors: { [key: string]: string } = error.response?.data?.fieldErrors;
+
+						Object.values(fieldErrors).forEach((error) => {
+							toast.error(error);
+						});
 					}
 				}
 			}}
@@ -123,8 +201,6 @@ const EditGigPage = () => {
 			validateOnMount
 		>
 			{({ isSubmitting, values, setFieldValue, setFieldTouched, errors, touched }) => {
-				console.log(values);
-
 				if (!editMode) {
 					return <GigPage gig={{ ...gig, ...values }} setEditMode={setEditMode} />;
 				}
@@ -134,7 +210,13 @@ const EditGigPage = () => {
 						<UnlimitLayoutWidth>
 							<div className="flex aspect-[6/1] w-full items-center overflow-hidden">
 								<ZoomableImg
-									src={values.gigCoverImage ? values.gigCoverImage : defaultCoverImage}
+									src={
+										values.gigCoverImage
+											? values.gigCoverImage.startsWith("data:image/")
+												? values.gigCoverImage
+												: fullImageUrl(values.gigCoverImage)
+											: defaultCoverImage
+									}
 									alt={values.title}
 									className="w-full overflow-hidden object-cover"
 								/>
@@ -301,6 +383,11 @@ const EditGigPage = () => {
 									setFieldValue("gigVideo", undefined);
 									setFieldTouched("gigVideo", true);
 
+									if (!file) {
+										setGigVideo(null);
+										return;
+									}
+
 									if (["video/mp4", "video/webm"].indexOf(file.type) === -1) {
 										toast.error("Please select a .mp4 or .webm video file.");
 
@@ -316,6 +403,9 @@ const EditGigPage = () => {
 										e.target.value = "";
 										return;
 									}
+									console.log(file);
+
+									setGigVideo(file);
 
 									const fileReader = new FileReader();
 									fileReader.onload = () => {
@@ -454,7 +544,7 @@ const EditGigPage = () => {
 										</label>
 										<div className="grid w-full max-w-[40rem] grid-cols-[1fr,max-content] gap-x-3 gap-y-1">
 											{values.faqs?.map((_, index) => (
-												<div className="col-span-full grid grid-cols-subgrid gap-y-1">
+												<div className="col-span-full grid grid-cols-subgrid gap-y-1" key={`faq-${index}`}>
 													<Field
 														isGrid
 														isFullWidth
@@ -505,16 +595,8 @@ const EditGigPage = () => {
 									</>
 								)}
 							</FieldArray>
-							<button
-								type="submit"
-								className="solid-btn col-span-full justify-self-center"
-								disabled={isSubmitting}
-								onClick={() => {
-									console.log(errors);
-									console.log(touched);
-								}}
-							>
-								Save Details
+							<button type="submit" className="solid-btn col-span-full justify-self-center" disabled={isSubmitting}>
+								{formType === "edit" ? "Save Changes" : "Create Gig"}
 							</button>
 						</Form>
 					</>
@@ -524,4 +606,4 @@ const EditGigPage = () => {
 	);
 };
 
-export default EditGigPage;
+export default GigFormPage;

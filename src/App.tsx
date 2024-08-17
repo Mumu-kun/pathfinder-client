@@ -19,7 +19,7 @@ import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
 const GigPage = lazy(() => import("@/pages/Gig/GigPage.tsx"));
-const EditGigPage = lazy(() => import("@/pages/SellerPages/ManageGigs/EditGigPage.tsx"));
+const GigFormPage = lazy(() => import("@/pages/SellerPages/ManageGigs/GigFormPage.tsx"));
 
 const router = createBrowserRouter([
 	{
@@ -109,10 +109,18 @@ const router = createBrowserRouter([
 										element: <ManageGigs />,
 									},
 									{
-										path: ":id",
+										path: "create",
 										element: (
 											<Suspense fallback={<Loading fullscreen />}>
-												<EditGigPage />
+												<GigFormPage formType="create" />
+											</Suspense>
+										),
+									},
+									{
+										path: ":id/edit",
+										element: (
+											<Suspense fallback={<Loading fullscreen />}>
+												<GigFormPage formType="edit" />
 											</Suspense>
 										),
 									},
