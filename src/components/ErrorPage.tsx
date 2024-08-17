@@ -28,7 +28,7 @@ const ErrorPage = ({
 		return (
 			<div className="flex flex-1 flex-col items-center justify-center gap-4">
 				<h1 className="anton-regular text-9xl">{errorCode}</h1>
-				<p className="text-3xl font-semibold">{errorMessage}</p>
+				<p className="text-3xl font-semibold text-center">{errorMessage}</p>
 				<Link to="/" className="solid-btn">
 					Go back to home
 				</Link>

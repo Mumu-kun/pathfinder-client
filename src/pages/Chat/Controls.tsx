@@ -30,15 +30,19 @@ const Controls: React.FC = () => {
 	}, [createAnEnrollmentClicked]);
 
 	const [runningEnrollment, setRunningEnrollment] = useState<Enrollment | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
 		const findRunningEnrollment = async () => {
 			try {
 				if (mode == "buyer") return;
+
+				setLoading(true);
 				const response = await axiosPrivate.get(
 					`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`
 				);
 				setRunningEnrollment(response.data);
+				setLoading(false);
 				console.log(response.data);
 			} catch (error) {
 				console.log(error);
@@ -49,7 +53,7 @@ const Controls: React.FC = () => {
 	}, [userId, contactId]);
 
 	return (
-		<div>
+		<div className="">
 			{userId !== contactId && (
 				<div>
 					<div>

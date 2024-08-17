@@ -14,6 +14,7 @@ import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
 import SetMode from "./components/wrappers/SetMode.tsx";
 import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
+import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -36,10 +37,6 @@ const router = createBrowserRouter([
 						<GigPage />
 					</Suspense>
 				),
-			},
-			{
-				path: "interaction/user/:id",
-				element: <ChatPage />,
 			},
 			{
 				path: "profile/:userId",
@@ -68,6 +65,22 @@ const router = createBrowserRouter([
 					{
 						path: "test",
 						element: <TestPage />,
+					},
+					{
+						path: "interaction/user/:id",
+						element: <ChatPage />,
+					},
+					{
+						path: "payment/success",
+						element: <PaymentStatus status="success" />,
+					},
+					{
+						path: "payment/fail",
+						element: <PaymentStatus status="fail" />,
+					},
+					{
+						path: "payment/cancel",
+						element: <PaymentStatus status="cancel" />,
 					},
 					{
 						path: "profile",
