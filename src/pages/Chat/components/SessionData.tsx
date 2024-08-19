@@ -4,6 +4,7 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import CreateSession from "./CreateSession";
 import { enableScroll, disableScroll } from "@/utils/functions";
 import CompleteSession from "./CompleteSession";
+import useStomp from "@/hooks/useStomp";
 
 interface sesssionDataProps {
 	enrollment: Enrollment;
@@ -14,18 +15,27 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 	const [runningSession, setRunningSession] = useState<Session | null>(null);
 	const axiosPrivate = useAxiosPrivate();
 
+	const { receivedNotification } = useStomp();
+
+	const getRunningRessions = async () => {
+		try {
+			const response = await axiosPrivate.get(`api/v1/sessions/running/enrollment/${enrollment.id}`);
+			console.log(response.data);
+			setRunningSession(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
-		const getRunningRessions = async () => {
-			try {
-				const response = await axiosPrivate.get(`api/v1/sessions/running/enrollment/${enrollment.id}`);
-				console.log(response.data);
-				setRunningSession(response.data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
 		getRunningRessions();
 	}, [enrollment, viewType]);
+
+	useEffect(() => {
+		if (receivedNotification?.type === "SESSION") {
+			getRunningRessions();
+		}
+	}, [receivedNotification]);
 
 	const [scheduleSessionClicked, setScheduleSessionClicked] = useState<boolean>(false);
 

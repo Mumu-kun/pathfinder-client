@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CreateEnrollment from "./components/CreateEnrollment";
 import OfferedEnrollments from "./components/OfferedEnrollments";
+import useStomp from "@/hooks/useStomp";
 
 const Controls: React.FC = () => {
 	const { auth } = useAuth();
@@ -16,6 +17,7 @@ const Controls: React.FC = () => {
 	const axiosPrivate = useAxiosPrivate();
 	const [createAnEnrollmentClicked, setCreateAnEnrollmentClicked] = useState<boolean>(false);
 	const { mode } = useMode();
+	const { receivedNotification } = useStomp();
 
 	const createEnrollmentBtnClicked = () => {
 		setCreateAnEnrollmentClicked(true);
@@ -32,25 +34,29 @@ const Controls: React.FC = () => {
 	const [runningEnrollment, setRunningEnrollment] = useState<Enrollment | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
+	const findRunningEnrollment = async () => {
+		try {
+			if (mode == "buyer") return;
+
+			setLoading(true);
+			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`);
+			setRunningEnrollment(response.data);
+			setLoading(false);
+			console.log(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
-		const findRunningEnrollment = async () => {
-			try {
-				if (mode == "buyer") return;
-
-				setLoading(true);
-				const response = await axiosPrivate.get(
-					`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`
-				);
-				setRunningEnrollment(response.data);
-				setLoading(false);
-				console.log(response.data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
 		findRunningEnrollment();
 	}, [userId, contactId]);
+
+	useEffect(() => {
+		if (receivedNotification?.type === "ENROLLMENT") {
+			findRunningEnrollment();
+		}
+	}, [receivedNotification]);
 
 	return (
 		<div className="">
