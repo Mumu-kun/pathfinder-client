@@ -9,6 +9,7 @@ import { coverImageUrl, disableScroll, enableScroll } from "@/utils/functions";
 import EnrollmentView from "./EnrollmentView";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { PiChalkboardTeacher, PiTimer, PiTimerBold } from "react-icons/pi";
+import useStomp from "@/hooks/useStomp";
 
 const OfferedEnrollments: React.FC = () => {
 	const { auth } = useAuth();
@@ -16,36 +17,41 @@ const OfferedEnrollments: React.FC = () => {
 	const { id } = useParams();
 	const contactId = id ? parseInt(id) : undefined;
 
+	const { receivedNotification } = useStomp();
+
 	const axiosPrivate = useAxiosPrivate();
 	const [incompleteEnrollmentAsBuyer, setIncompleteEnrollmentAsBuyer] = useState<Enrollment | null>(null);
 	const [incompleteEnrollmentAsSeller, setIncompleteEnrollmentAsSeller] = useState<Enrollment | null>(null);
 
 	// there can only be one incomplete enrollment taking place at a time, between two users.
+	const getIncompleteEnrollmentAsBuyer = async () => {
+		try {
+			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${contactId}/buyer/${userId}`);
+			console.log(response.data);
+			setIncompleteEnrollmentAsBuyer(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const getIncompleteEnrollmentAsSeller = async () => {
+		try {
+			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`);
+			console.log(response.data);
+			setIncompleteEnrollmentAsSeller(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
-		const getIncompleteEnrollmentAsBuyer = async () => {
-			try {
-				const response = await axiosPrivate.get(
-					`api/v1/enrollments/get/incomplete/seller/${contactId}/buyer/${userId}`
-				);
-				console.log(response.data);
-				setIncompleteEnrollmentAsBuyer(response.data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
+		if (receivedNotification?.type === "ENROLLMENT") {
+			getIncompleteEnrollmentAsBuyer();
+			getIncompleteEnrollmentAsSeller();
+		}
+	}, [receivedNotification]);
 
-		const getIncompleteEnrollmentAsSeller = async () => {
-			try {
-				const response = await axiosPrivate.get(
-					`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`
-				);
-				console.log(response.data);
-				setIncompleteEnrollmentAsSeller(response.data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
-
+	useEffect(() => {
 		getIncompleteEnrollmentAsBuyer();
 		getIncompleteEnrollmentAsSeller();
 	}, [userId, contactId]);
