@@ -52,8 +52,8 @@ const NotificationIcon = () => {
 	};
 
 	return (
-		<div className="text-xl">
-			<div onClick={notificationIconClicked}>
+		<div className="text-xl" title="Notification">
+			<div onClick={notificationIconClicked} className="cursor-pointer">
 				{hasUnreadNotifications ? (
 					<div className="relative flex animate-bounce items-center justify-center">
 						<i className="bx bx-bell"></i>

@@ -117,15 +117,16 @@ export type ChatMessageInput = {
 };
 
 export type ChatMessage = {
-	id: number;
-	chatId: string;
+	// id: number;
+	// chatId: string;
 	message: string;
-	senderId: number;
+	// senderId: number;
 	senderFullName: string;
-	receiverId: number;
-	receiverFullName: string;
+	// receiverId: number;
+	// receiverFullName: string;
 	timeStamp: string;
 	read: boolean;
+	[other: string]: any;
 };
 
 export type Notification = {
@@ -178,4 +179,4 @@ export type Transaction = {
 	amount: number;
 	paidAt: string;
 	paymentConfirmed: boolean;
-}
+};

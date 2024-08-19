@@ -40,7 +40,7 @@ const Loading = ({
 				deleteMe();
 			}}
 		>
-			<ScaleLoader color={"rgb(34 197 94)"} loading={true} width={10} />
+			<ScaleLoader color={"rgb(34 197 94)"} loading={true} width={10} className="p-6" />
 		</div>
 	);
 };

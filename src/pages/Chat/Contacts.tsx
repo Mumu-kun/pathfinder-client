@@ -4,12 +4,14 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ChatRoom } from "@/utils/types";
 import useStomp from "@/hooks/useStomp";
+import { defaultProfileImage } from "@/utils/variables";
+import { userProfileImageUrl } from "@/utils/functions";
 
 interface ContactsProps {
 	messageSent: boolean;
 }
 
-const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
+const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
 	const { id } = useParams();
 	const urlId = id ? parseInt(id) : undefined;
 	const { auth } = useAuth();
@@ -24,7 +26,7 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
 	const [messageReceivedState, setMessageRecivedState] = useState<boolean>(false);
 
 	useEffect(() => {
-		console.log('useeffect ran');
+		console.log("useeffect ran");
 		const getContacts = async () => {
 			try {
 				const response = await axiosPrivate.get(`api/v1/chat-room/all/${userId}`);
@@ -36,7 +38,7 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
 		};
 
 		getContacts();
-	}, [userId, urlId, messageSent, messageReceivedState]);	
+	}, [userId, urlId, messageSent, messageReceivedState]);
 
 	// fixed-(gojamil diya). Should be good enough if we add loading. BUG 1 - when im in a chat room and a new message received for that chatroom, the chat shows read(int the list)
 	// but if i go to a diff chat room and come back, it shows unread.
@@ -80,37 +82,44 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent}) => {
 	}, [receivedMessage]);
 
 	return (
-		<div>
-			<p className="text-center text-2xl">Contacts</p>
-			<div>
+		<div className="w-[20rem] border-r-2">
+			<p className="medium-headings text-center">Contacts</p>
+			<div className="my-2 space-y-1 px-2">
 				{chatRooms.map((chatRoom) => {
+					const recipientId = chatRoom.firstUserId == userId ? chatRoom.secondUserId : chatRoom.firstUserId;
+
 					return (
-						<div key={chatRoom.id}>
-							<Link
-								to={
-									userId == chatRoom.firstUserId
-										? { pathname: `/interaction/user/${chatRoom.secondUserId}` }
-										: { pathname: `/interaction/user/${chatRoom.firstUserId}` }
-								}
-							>
+						<div
+							key={chatRoom.id}
+							className={`border-b border-light-secondary hover:bg-light-secondary dark:border-dark-secondary dark:hover:bg-dark-secondary ${urlId == recipientId ? "rounded-md bg-light-secondary dark:bg-dark-secondary" : ""} transition-all`}
+						>
+							<Link to={{ pathname: `/interaction/user/${recipientId}` }} className="flex items-center gap-2 px-2 py-2">
 								{/* // here the 3rd condition makes sure when I click on a new unseen chat, it becomes seen on the frontend right away. */}
+								<img
+									src={userProfileImageUrl(recipientId)}
+									onError={({ currentTarget }) => {
+										currentTarget.onerror = null;
+										currentTarget.src = defaultProfileImage;
+									}}
+									className={`h-10 w-10 rounded-full object-cover object-center ${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "outline outline-2 outline-red-500"}`}
+									title={chatRoom.firstUserId == userId ? chatRoom.secondUserFullName : chatRoom.firstUserFullName}
+								/>
 								<div
-									className={`${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "font-bold"}`}
+									className={`${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "font-bold"} min-w-0 flex-1`}
 								>
 									{chatRoom.firstUserId == userId ? (
-										<p className="text-left text-lg">{chatRoom.secondUserFullName}</p>
+										<p className="text-left font-medium">{chatRoom.secondUserFullName}</p>
 									) : (
-										<p className="text-left text-lg">{chatRoom.firstUserFullName}</p>
+										<p className="text-left font-medium">{chatRoom.firstUserFullName}</p>
 									)}
 
 									{chatRoom?.lastMessage?.senderId == userId ? (
-										<p>Me: {chatRoom?.lastMessage?.message}</p>
+										<p className="w-full truncate text-sm">Me: {chatRoom?.lastMessage?.message}</p>
 									) : (
-										<p>{chatRoom?.lastMessage?.message}</p>
+										<p className="w-full truncate text-sm">{chatRoom?.lastMessage?.message}</p>
 									)}
 								</div>
 							</Link>
-							<hr />
 						</div>
 					);
 				})}
