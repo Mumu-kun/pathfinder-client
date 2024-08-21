@@ -14,6 +14,7 @@ import NoContactSelected from "./components/NoContactSelected";
 interface ChatWindowProps {
 	messageSent: boolean;
 	setMessageSent: React.Dispatch<React.SetStateAction<boolean>>;
+	isHidden?: boolean;
 }
 
 interface CurrentContactData {
@@ -21,7 +22,7 @@ interface CurrentContactData {
 	profileImage?: string;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, isHidden = false }) => {
 	const { auth } = useAuth();
 	const senderId = auth?.userId;
 	const { id } = useParams();
@@ -141,12 +142,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent }) 
 	}, [chatMessages]);
 
 	return (
-		<div className="flex flex-1 flex-col self-stretch">
+		<div
+			className="flex flex-1 flex-col self-stretch"
+			style={{
+				display: isHidden ? "none" : undefined,
+			}}
+		>
 			{senderId == receiverId ? (
 				<NoContactSelected />
 			) : (
 				<>
-					<p className="medium-headings">{currentContactData.fullName}</p>
+					<p className="medium-headings h-8">{currentContactData.fullName}</p>
 					<div
 						className="flex min-h-0 flex-1 flex-col-reverse overflow-auto pl-4 pr-2 pt-2 scrollbar-thin"
 						id="scrollableDiv"

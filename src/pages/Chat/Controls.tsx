@@ -8,8 +8,15 @@ import { useParams } from "react-router-dom";
 import CreateEnrollment from "./components/CreateEnrollment";
 import OfferedEnrollments from "./components/OfferedEnrollments";
 import useStomp from "@/hooks/useStomp";
+import { FaListCheck } from "react-icons/fa6";
+import { useBoolean } from "usehooks-ts";
 
-const Controls: React.FC = () => {
+type ControlsProps = {
+	isControlsExpanded: boolean;
+	toggleControlsExpanded: () => void;
+};
+
+const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: toggleExpanded }: ControlsProps) => {
 	const { auth } = useAuth();
 	const userId = auth?.userId;
 	const { id } = useParams();
@@ -59,10 +66,25 @@ const Controls: React.FC = () => {
 	}, [receivedNotification]);
 
 	return (
-		<div className="ml-2 w-[24rem] border-l-2">
-			<p className="medium-headings text-center">Controls</p>
+		<>
+			<div className="mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4" onClick={toggleExpanded}>
+				<FaListCheck className="h-5 w-5" />
+				<p
+					className="medium-headings text-center"
+					style={{
+						display: isExpanded ? "block" : "none",
+					}}
+				>
+					Controls
+				</p>
+			</div>
 			{userId !== contactId && (
-				<div>
+				<div
+					className="min-w-[20rem]"
+					style={{
+						display: isExpanded ? "block" : "none",
+					}}
+				>
 					<div>
 						{mode === "seller" && runningEnrollment == null && (
 							<div>
@@ -78,7 +100,7 @@ const Controls: React.FC = () => {
 					<OfferedEnrollments />
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 

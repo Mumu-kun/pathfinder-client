@@ -4,12 +4,13 @@
 // right - some info. enrollment/session, create/accept, enrollment/session related info will be here.
 
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import ChatWindow from "./ChatWindow";
 import Contacts from "./Contacts";
 import Controls from "./Controls";
+import { useBoolean, useMediaQuery } from "usehooks-ts";
 
 const ChatPage: React.FC = () => {
 	const { id } = useParams();
@@ -25,20 +26,97 @@ const ChatPage: React.FC = () => {
 	// to fetch the chat rooms again.
 	const [messageSent, setMessageSent] = useState<boolean>(false);
 
+	const isMediaSM = useMediaQuery("(min-width: 640px)");
+	const isMediaLG = useMediaQuery("(min-width: 800px)");
+
+	const {
+		value: isContactsExpanded,
+		toggle: toggleContactsExpanded,
+		setValue: setContactsExpanded,
+	} = useBoolean(!isMediaSM);
+
+	const {
+		value: isControlsExpanded,
+		toggle: toggleControlsExpanded,
+		setValue: setControlsExpanded,
+	} = useBoolean(!isMediaLG);
+
+	const mediaState: string = isMediaLG ? "LG" : isMediaSM ? "SM" : "XS";
+
+	useEffect(() => {
+		if (!isMediaLG) {
+			setControlsExpanded(false);
+			if (!isMediaSM) {
+				setContactsExpanded(false);
+			}
+		}
+	}, [isMediaSM, isMediaLG]);
+
 	return (
 		<UnlimitLayoutWidth>
 			{/* <p className="text-center text-2xl">ChatPage</p> */}
 			<div className="flex min-h-0 flex-1 py-4">
-				{/* <div className="w-[200px] overflow-y-scroll"> */}
-				<Contacts messageSent={messageSent} />
-				{/* </div> */}
+				<div
+					className="border-r-2"
+					style={{
+						flex: isContactsExpanded ? (!isMediaSM ? "1" : "0 0 16rem") : "none",
+					}}
+				>
+					<Contacts
+						messageSent={messageSent}
+						{...{
+							isContactsExpanded,
+							toggleContactsExpanded: () => {
+								if (mediaState !== "XS") {
+									toggleContactsExpanded();
 
-				<ChatWindow messageSent={messageSent} setMessageSent={setMessageSent} />
+									return;
+								}
+
+								toggleContactsExpanded();
+								setControlsExpanded(false);
+							},
+						}}
+					/>
+				</div>
+
+				<ChatWindow
+					messageSent={messageSent}
+					setMessageSent={setMessageSent}
+					isHidden={
+						mediaState === "SM"
+							? isControlsExpanded
+							: mediaState === "XS"
+								? isControlsExpanded || isContactsExpanded
+								: false
+					}
+				/>
 
 				{/* <div> */}
 				{/* // todo: let the seller create an enrollment.
                     // todo: let buyer see the created enrollment. */}
-				<Controls />
+				<div
+					className="ml-2 flex flex-col items-center border-l-2"
+					style={{
+						flex: !isMediaLG && isControlsExpanded ? "1" : "none",
+					}}
+				>
+					<Controls
+						{...{
+							isControlsExpanded,
+							toggleControlsExpanded: () => {
+								if (mediaState !== "XS") {
+									toggleControlsExpanded();
+
+									return;
+								}
+
+								toggleControlsExpanded();
+								setContactsExpanded(false);
+							},
+						}}
+					/>
+				</div>
 				{/* </div> */}
 			</div>
 		</UnlimitLayoutWidth>

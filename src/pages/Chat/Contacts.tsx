@@ -6,12 +6,19 @@ import { ChatRoom } from "@/utils/types";
 import useStomp from "@/hooks/useStomp";
 import { defaultProfileImage } from "@/utils/variables";
 import { userProfileImageUrl } from "@/utils/functions";
+import { useBoolean } from "usehooks-ts";
 
 interface ContactsProps {
 	messageSent: boolean;
+	isContactsExpanded: boolean;
+	toggleContactsExpanded: () => void;
 }
 
-const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
+const Contacts: React.FC<ContactsProps> = ({
+	messageSent,
+	isContactsExpanded: isExpanded,
+	toggleContactsExpanded: toggleExpanded,
+}) => {
 	const { id } = useParams();
 	const urlId = id ? parseInt(id) : undefined;
 	const { auth } = useAuth();
@@ -82,8 +89,18 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
 	}, [receivedMessage]);
 
 	return (
-		<div className="w-[20rem] border-r-2">
-			<p className="medium-headings text-center">Contacts</p>
+		<>
+			<div className="mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4" onClick={toggleExpanded}>
+				<i className="bx bx-message-rounded-dots text-2xl"></i>
+				<p
+					className="medium-headings text-center"
+					style={{
+						display: isExpanded ? "block" : "none",
+					}}
+				>
+					Contacts
+				</p>
+			</div>
 			<div className="my-2 space-y-1 px-2">
 				{chatRooms.map((chatRoom) => {
 					const recipientId = chatRoom.firstUserId == userId ? chatRoom.secondUserId : chatRoom.firstUserId;
@@ -106,6 +123,9 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
 								/>
 								<div
 									className={`${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "font-bold"} min-w-0 flex-1`}
+									style={{
+										display: isExpanded ? "block" : "none",
+									}}
 								>
 									{chatRoom.firstUserId == userId ? (
 										<p className="text-left font-medium">{chatRoom.secondUserFullName}</p>
@@ -124,7 +144,7 @@ const Contacts: React.FC<ContactsProps> = ({ messageSent }) => {
 					);
 				})}
 			</div>
-		</div>
+		</>
 	);
 };
 

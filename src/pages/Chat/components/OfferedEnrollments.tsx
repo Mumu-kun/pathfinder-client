@@ -98,11 +98,10 @@ const OfferedEnrollments: React.FC = () => {
 	return (
 		<div>
 			{incompleteEnrollmentAsBuyer && (
-				<div className="m-2 overflow-hidden rounded-md bg-light-bg pb-4 shadow dark:bg-dark-secondary">
-					{" "}
+				<div className="m-2 overflow-hidden rounded-md bg-light-bg px-1 pb-4 shadow dark:bg-dark-secondary">
 					{incompleteEnrollmentAsBuyer.buyerConfirmed == false && (
 						<div>
-							<p className="bg-light-secondary py-2 text-center font-semibold dark:bg-dark-secondary">
+							<p className="bg-light-secondary py-2 text-center text-sm font-semibold dark:bg-dark-secondary">
 								<span className="font-bold">{incompleteEnrollmentAsBuyer.gig.seller.fullName}</span> has offered you an
 								enrollment.
 							</p>
@@ -142,10 +141,10 @@ const OfferedEnrollments: React.FC = () => {
 							{/* TODO: other data here */}
 							<div className="flex items-center justify-center">
 								<button className="solid-cancel-btn mr-1" onClick={() => setDeclineEnrollmentModal(true)}>
-									Decline Enrollment
+									Decline
 								</button>
 								<button className="solid-btn ml-1" onClick={() => setConfirmEnrollmentModal(true)}>
-									Accept Enrollment
+									Accept
 								</button>
 							</div>
 
@@ -205,17 +204,54 @@ const OfferedEnrollments: React.FC = () => {
 				</div>
 			)}
 			{incompleteEnrollmentAsSeller && (
-				<div className="m-2 rounded-md bg-light-secondary p-2 dark:bg-dark-secondary">
+				<div className="m-2 overflow-hidden rounded-md bg-light-bg shadow dark:bg-dark-secondary">
 					{incompleteEnrollmentAsSeller.buyerConfirmed == false && (
 						<div>
-							<p>
+							{/* <p className="bg-light-secondary py-2 text-center font-semibold dark:bg-dark-secondary">
 								<p className="small-headings">Unconfirmed Enrollment!</p>
 								You have offered the following enrollment. You can begin the sessions once{" "}
 								{incompleteEnrollmentAsSeller?.buyer?.fullName} accepts the enrollment.
+							</p> */}
+							<p className="bg-light-secondary px-1 py-2 text-center text-sm font-semibold dark:bg-dark-secondary">
+								<p>You have offered the following enrollment.</p>
+								<p>You can begin the sessions once</p>
+								<p>
+									<span className="font-bold">{incompleteEnrollmentAsSeller?.buyer?.fullName}</span> accepts the
+									enrollment.
+								</p>
 							</p>
-							<div>
-								<p>{incompleteEnrollmentAsSeller.gig.title}</p>
-								<p>{incompleteEnrollmentAsSeller.price}</p>
+
+							<div className="overflow-hidden">
+								<img
+									src={coverImageUrl(incompleteEnrollmentAsSeller.gig.gigCoverImage)}
+									className="col-span-full aspect-[6/1] w-full object-cover"
+								/>
+								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
+									<p className="medium-headings text-left">{incompleteEnrollmentAsSeller.gig.title}</p>
+									<div className="flex items-center justify-self-end text-xl font-semibold">
+										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsSeller.price}
+									</div>
+									<div className="flex items-center">
+										<PiChalkboardTeacher className="mr-1 mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsSeller.numSessions}{" "}
+										Session
+										{incompleteEnrollmentAsSeller.numSessions > 1 && "s"}
+									</div>
+									<div className="flex items-center justify-self-end">
+										<PiTimerBold className="mr-1 mt-0.5 h-5 w-5" />
+										{incompleteEnrollmentAsSeller.sessionDurationInMinutes} Min
+										{incompleteEnrollmentAsSeller.sessionDurationInMinutes > 1 && "s"} Each
+									</div>
+									<div className="col-span-full my-1 text-sm">
+										Deadline :{" "}
+										{new Date(incompleteEnrollmentAsSeller.deadline).toLocaleTimeString(undefined, {
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+											hour: "numeric",
+											minute: "numeric",
+										})}
+									</div>
+								</div>
 							</div>
 						</div>
 					)}
