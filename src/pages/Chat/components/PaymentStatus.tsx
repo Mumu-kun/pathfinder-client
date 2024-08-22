@@ -41,7 +41,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 		makeSureValidTransaction();
 	}, [transactionId]);
 
-	const {width , height} = useWindowSize();
+	const { width, height } = useWindowSize();
 	return (
 		<div>
 			{loading ? (
@@ -49,27 +49,42 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 			) : (
 				<div>
 					{transaction ? (
-						<div>
+						<div className="">
 							{status === "success" && transaction.paymentConfirmed && (
-								<div className="m-10 text-left">
+								<div className="m-10 rounded-md bg-light-secondary p-5 pb-8 text-left dark:bg-dark-secondary">
 									<Confetti width={width} height={height} />
-									<p className="text-4xl font-semibold p-1 pb-10">Payment Successful</p>
-									<p className="text-xl font-semibold p-1">Transaction Id: {transaction.tranxId}</p>
-									<p className="text-xl font-semibold p-1">Amount: {transaction.amount}</p>
-									<p className="text-xl font-semibold p-1 pb-10">Gig: {transaction.enrollment.gig.title}</p>
+									<p className="p-1 pb-10 text-4xl font-semibold">Payment Successful</p>
+									<p className="p-1 text-xl">
+										Transaction Id: <span className="font-semibold">{transaction.tranxId}</span>
+									</p>
+									<p className="p-1 text-xl">
+										Amount: <span className="font-semibold">{transaction.amount} BDT </span>
+									</p>
+									<p className="p-1 pb-10 text-xl">
+										Gig: <span className="font-semibold">{transaction.enrollment.gig.title}</span>
+									</p>
 
-									<p className="text-3xl font-bold p-2">Good luck learning!</p>
+									<p className="p-2 text-3xl font-bold">Good luck learning!</p>
 									<Link
-										className="solid-btn"
+										className="solid-btn m-2"
 										to={{ pathname: `/interaction/user/${transaction.enrollment.gig.seller.id}` }}
 									>
 										Visit Enrollment
 									</Link>
 								</div>
 							)}
+							{status == "success" && !transaction.paymentConfirmed && (
+								<div className="mt-20">
+									<ErrorPage
+										errorCode={404}
+										errorMessage="Invalid Transaction Id and/or payment status. You weren't supposed to edit this url.. nerd!"
+									/>
+								</div>
+							)}
+
 							{status === "fail" && !transaction.paymentConfirmed && (
 								<div>
-									<div className="m-10 text-left">
+									<div className="m-10 rounded-md bg-light-secondary p-5 pb-8 text-left dark:bg-dark-secondary">
 										{/* TODO: Add confetti */}
 										<p className="text-4xl font-semibold">Payment Failed.</p>
 										<p className="text-xl font-semibold">
@@ -80,7 +95,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 										<p className="text-xl font-semibold">Gig: {transaction.enrollment.gig.title}</p>
 
 										<Link
-											className="solid-btn"
+											className="solid-btn m-2"
 											to={{ pathname: `/interaction/user/${transaction.enrollment.gig.seller.id}` }}
 										>
 											Visit Enrollment
@@ -88,10 +103,20 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 									</div>
 								</div>
 							)}
+
+							{status == "fail" && transaction.paymentConfirmed && (
+								<div className="mt-20">
+									<ErrorPage
+										errorCode={404}
+										errorMessage="Invalid Transaction Id and/or payment status. You weren't supposed to edit this url.. nerd!"
+									/>
+								</div>
+							)}
+
 							{status == "cancel" && !transaction.paymentConfirmed && (
 								<div>
 									<div>
-										<div className="m-10 text-left">
+										<div className="m-10 rounded-md bg-light-secondary p-5 pb-8 text-left dark:bg-dark-secondary">
 											{/* TODO: Add confetti */}
 											<p className="text-4xl font-semibold">Payment cancelled.</p>
 											<p className="text-xl font-semibold">
@@ -102,7 +127,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 											<p className="text-xl font-semibold">Gig: {transaction.enrollment.gig.title}</p>
 
 											<Link
-												className="solid-btn"
+												className="solid-btn m-2"
 												to={{ pathname: `/interaction/user/${transaction.enrollment.gig.seller.id}` }}
 											>
 												Visit Enrollment
@@ -111,12 +136,20 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 									</div>
 								</div>
 							)}
+							{status == "cancel" && transaction.paymentConfirmed && (
+								<div className="mt-20">
+									<ErrorPage
+										errorCode={404}
+										errorMessage="Invalid Transaction Id and/or payment status. You weren't supposed to edit this url.. nerd!"
+									/>
+								</div>
+							)}
 						</div>
 					) : (
 						<div className="mt-20">
 							<ErrorPage
 								errorCode={404}
-								errorMessage="Invalid Transaction Id. You weren't supposed to manually visit this url lol."
+								errorMessage="Invalid Transaction Id. You weren't supposed to edit this url.. nerd!"
 							/>
 						</div>
 					)}
