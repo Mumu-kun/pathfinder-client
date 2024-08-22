@@ -59,7 +59,8 @@ const Controls: React.FC = () => {
 	}, [receivedNotification]);
 
 	return (
-		<div className="">
+		<div className="ml-2 w-[24rem] border-l-2">
+			<p className="medium-headings text-center">Controls</p>
 			{userId !== contactId && (
 				<div>
 					<div>

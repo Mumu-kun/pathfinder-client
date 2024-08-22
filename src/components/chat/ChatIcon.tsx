@@ -16,16 +16,17 @@ const ChatIcon: React.FC = () => {
 	const [hasUnreadMessages, setHasUnreadMessages] = React.useState<boolean>(false);
 	const [latestMessageContactId, setLatestMessageContactId] = React.useState<number | undefined>(userId);
 
-	useEffect(() => {
-		const getUnreadMessages = async () => {
-			try {
-				const response = await axiosPrivate.get(`api/v1/chat/messages/has-unread-messages/${userId}`);
-				setHasUnreadMessages(response.data);
-			} catch (error) {
-				console.log(error);
-			}
-		};
+	const getUnreadMessages = async () => {
+		try {
+			const response = await axiosPrivate.get(`api/v1/chat/messages/has-unread-messages/${userId}`);
 
+			setHasUnreadMessages(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
 		getUnreadMessages();
 	}, [receivedMessage, userId, chatContactId]);
 
@@ -36,8 +37,8 @@ const ChatIcon: React.FC = () => {
 	}, [receivedMessage]);
 
 	return (
-		<div>
-			<Link to={{ pathname: `/interaction/user/${latestMessageContactId}` }}>
+		<div onClick={() => setHasUnreadMessages(false)}>
+			<Link to={{ pathname: `/interaction/user/${latestMessageContactId}` }} title="Chat">
 				<div className="text-xl">
 					{hasUnreadMessages ? (
 						<div className="relative flex animate-bounce items-center justify-center">

@@ -66,10 +66,7 @@ const router = createBrowserRouter([
 						path: "test",
 						element: <TestPage />,
 					},
-					{
-						path: "interaction/user/:id",
-						element: <ChatPage />,
-					},
+
 					{
 						path: "payment/success",
 						element: <PaymentStatus status="success" />,
@@ -127,6 +124,21 @@ const router = createBrowserRouter([
 								],
 							},
 						],
+					},
+				],
+			},
+		],
+	},
+	{
+		element: <Layout isScreenHeight />,
+		errorElement: <ErrorPage showHeader />,
+		children: [
+			{
+				element: <RequireAuth />,
+				children: [
+					{
+						path: "interaction/user/:id",
+						element: <ChatPage />,
 					},
 				],
 			},

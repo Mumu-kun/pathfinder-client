@@ -5,8 +5,10 @@ import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Enrollment } from "@/utils/types";
 import { useParams } from "react-router-dom";
-import { disableScroll, enableScroll } from "@/utils/functions";
+import { coverImageUrl, disableScroll, enableScroll } from "@/utils/functions";
 import EnrollmentView from "./EnrollmentView";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { PiChalkboardTeacher, PiTimer, PiTimerBold } from "react-icons/pi";
 import useStomp from "@/hooks/useStomp";
 
 const OfferedEnrollments: React.FC = () => {
@@ -96,17 +98,47 @@ const OfferedEnrollments: React.FC = () => {
 	return (
 		<div>
 			{incompleteEnrollmentAsBuyer && (
-				<div className="m-2 rounded-md bg-light-secondary p-2 dark:bg-dark-secondary">
+				<div className="m-2 overflow-hidden rounded-md bg-light-bg pb-4 shadow dark:bg-dark-secondary">
 					{" "}
 					{incompleteEnrollmentAsBuyer.buyerConfirmed == false && (
 						<div>
-							<p>
-								{incompleteEnrollmentAsBuyer.gig.seller.fullName} has offered you an enrollment. Confirm it to begin the
-								sessions.
+							<p className="bg-light-secondary py-2 text-center font-semibold dark:bg-dark-secondary">
+								<span className="font-bold">{incompleteEnrollmentAsBuyer.gig.seller.fullName}</span> has offered you an
+								enrollment.
 							</p>
 
-							<p>{incompleteEnrollmentAsBuyer.gig.title}</p>
-							<p>{incompleteEnrollmentAsBuyer.price}</p>
+							<div className="overflow-hidden">
+								<img
+									src={coverImageUrl(incompleteEnrollmentAsBuyer.gig.gigCoverImage)}
+									className="col-span-full aspect-[6/1] w-full object-cover"
+								/>
+								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
+									<p className="medium-headings text-left">{incompleteEnrollmentAsBuyer.gig.title}</p>
+									<div className="flex items-center justify-self-end text-xl font-semibold">
+										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsBuyer.price}
+									</div>
+									<div className="flex items-center">
+										<PiChalkboardTeacher className="mr-1 mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsBuyer.numSessions}{" "}
+										Session
+										{incompleteEnrollmentAsBuyer.numSessions > 1 && "s"}
+									</div>
+									<div className="flex items-center justify-self-end">
+										<PiTimerBold className="mr-1 mt-0.5 h-5 w-5" />
+										{incompleteEnrollmentAsBuyer.sessionDurationInMinutes} Min
+										{incompleteEnrollmentAsBuyer.sessionDurationInMinutes > 1 && "s"} Each
+									</div>
+									<div className="col-span-full my-1 text-sm">
+										Deadline :{" "}
+										{new Date(incompleteEnrollmentAsBuyer.deadline).toLocaleTimeString(undefined, {
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+											hour: "numeric",
+											minute: "numeric",
+										})}
+									</div>
+								</div>
+							</div>
 							{/* TODO: other data here */}
 							<div className="flex items-center justify-center">
 								<button className="solid-cancel-btn mr-1" onClick={() => setDeclineEnrollmentModal(true)}>
