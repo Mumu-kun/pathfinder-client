@@ -23,22 +23,13 @@ import { RxSlash } from "react-icons/rx";
 import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Gig, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
 
 type props = {
 	gig?: Gig;
 	setEditMode?: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export const getGig = async (id: number) => {
-	try {
-		const res = await axios.get(`/api/v1/public/gigs/${id}`);
-
-		return res.data;
-	} catch (err) {
-		console.log(err);
-	}
 };
 
 const getGigReviews = async (id: number) => {
@@ -74,12 +65,27 @@ const testReviews = [
 const GigPage = ({ gig: propGig, setEditMode }: props) => {
 	const id: number = Number(useParams().id ?? propGig?.id);
 	const { auth } = useAuth();
+	const axiosPrivate = useAxiosPrivate();
 
 	const [gig, setGig] = useState<Gig | undefined>(propGig);
 
 	const isMD = useMediaQuery("(max-width: 768px)");
 
 	const [reviews, setReviews] = useState<Review[] | undefined>(testReviews);
+
+	const getGig = async (id: number) => {
+		try {
+			if (auth) {
+				const res = await axiosPrivate.get(`/api/v1/gigs/get/${id}`);
+				return res.data;
+			} else {
+				const res = await axios.get(`/api/v1/public/gigs/${id}`);
+				return res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	useEffect(() => {
 		!propGig && getGig(id).then((data) => setGig(data));
