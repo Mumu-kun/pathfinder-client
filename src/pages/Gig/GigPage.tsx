@@ -1,10 +1,10 @@
-import Carousel from "@/components/Carousel";
 import Loading from "@/components/Loading";
 import ZoomableImg from "@/components/misc/ZoomableImg";
-import ReviewCard from "@/components/ReviewCard";
+import ReviewBlock from "@/components/review/ReviewBlock";
 import Tag from "@/components/Tag";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import useAuth from "@/hooks/useAuth";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
 import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
 import {
@@ -25,21 +25,10 @@ import { useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
 import { Gig, Page, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
-import ReviewBlock from "@/components/review/ReviewBlock";
 
 type props = {
 	gig?: Gig;
 	setEditMode?: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export const getGig = async (id: number) => {
-	try {
-		const res = await axios.get(`/api/v1/public/gigs/${id}`);
-
-		return res.data;
-	} catch (err) {
-		console.log(err);
-	}
 };
 
 const getGigReviews = async (id: number) => {
@@ -75,6 +64,7 @@ const testReviews = [
 const GigPage = ({ gig: propGig, setEditMode }: props) => {
 	const id: number = Number(useParams().id ?? propGig?.id);
 	const { auth } = useAuth();
+	const axiosPrivate = useAxiosPrivate();
 
 	const [gig, setGig] = useState<Gig | undefined>(propGig);
 
@@ -87,6 +77,20 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 		number: 1,
 		last: true,
 	});
+
+	const getGig = async (id: number) => {
+		try {
+			if (auth) {
+				const res = await axiosPrivate.get(`/api/v1/gigs/get/${id}`);
+				return res.data;
+			} else {
+				const res = await axios.get(`/api/v1/public/gigs/${id}`);
+				return res.data;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	useEffect(() => {
 		!propGig && getGig(id).then((data) => setGig(data));

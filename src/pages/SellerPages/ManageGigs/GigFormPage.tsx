@@ -1,10 +1,11 @@
+import axios from "@/api/axios";
 import { NumberInputComponent, TextAreaInputComponent, TextInputComponent } from "@/components/FormComponents";
 import Loading from "@/components/Loading";
 import ZoomableImg from "@/components/misc/ZoomableImg";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import GigPage, { getGig } from "@/pages/Gig/GigPage";
+import GigPage from "@/pages/Gig/GigPage";
 import { fullImageUrl, sleep } from "@/utils/functions";
 import { Gig } from "@/utils/types";
 import { defaultCoverImage } from "@/utils/variables";
@@ -35,6 +36,16 @@ import Select, { SingleValue } from "react-select";
 import Creatable from "react-select/creatable";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+
+export const getGig = async (id: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/gigs/${id}`);
+
+		return res.data;
+	} catch (err) {
+		console.log(err);
+	}
+};
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Title is required"),
