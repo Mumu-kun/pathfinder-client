@@ -65,7 +65,7 @@ body {
 
 	.header-grid-layout {
 		@apply grid;
-
+		row-gap: 0.25rem;
 		grid-template-columns: 10rem minmax(0, var(--stuck-width, 0px)) minmax(max-content, 1fr);
 		grid-template-rows: auto auto;
 	}
@@ -105,6 +105,14 @@ body {
 
 	.solid-cancel-btn-sm {
 		@apply rounded-md border-2 border-red-500 bg-red-500 px-1 py-[0.5] text-xs font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+	}
+
+	.hover-effect-no-shadow {
+		@apply transition-all duration-100 hover:-translate-y-0.5 active:translate-y-0;
+	}
+
+	.hover-effect {
+		@apply hover-effect-no-shadow hover:shadow-md active:shadow-none;
 	}
 
 	.modal-parent {

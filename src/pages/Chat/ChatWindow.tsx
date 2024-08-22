@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 import useStomp from "@/hooks/useStomp";
 import { Field, Form, Formik } from "formik";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ChatMessage, ChatMessageInput } from "../../utils/types";
@@ -152,7 +152,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 				<NoContactSelected />
 			) : (
 				<>
-					<p className="medium-headings h-8">{currentContactData.fullName}</p>
+					<Link to={`/profile/${senderId}`} className="medium-headings h-8 hover:underline">
+						{currentContactData.fullName}
+					</Link>
 					<div
 						className="flex min-h-0 flex-1 flex-col-reverse overflow-auto pl-4 pr-2 pt-2 scrollbar-thin"
 						id="scrollableDiv"

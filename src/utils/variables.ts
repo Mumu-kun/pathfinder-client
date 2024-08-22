@@ -1,5 +1,5 @@
 import profileImage from "@/assets/profile.jpg";
-import coverImage from "@/assets/cover.png";
+import coverImage from "@/assets/cover.jpg";
 
 export const BASE_URL = "http://localhost:8080";
 export const LOGIN_URL = "/api/v1/auth/authenticate";

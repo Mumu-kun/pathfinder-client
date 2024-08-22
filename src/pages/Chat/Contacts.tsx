@@ -103,17 +103,17 @@ const Contacts: React.FC<ContactsProps> = ({
 			</div>
 			<div className="my-2 space-y-1 px-2">
 				{chatRooms.map((chatRoom) => {
-					const recipientId = chatRoom.firstUserId == userId ? chatRoom.secondUserId : chatRoom.firstUserId;
+					const senderId = chatRoom.firstUserId == userId ? chatRoom.secondUserId : chatRoom.firstUserId;
 
 					return (
 						<div
 							key={chatRoom.id}
-							className={`border-b border-light-secondary hover:bg-light-secondary dark:border-dark-secondary dark:hover:bg-dark-secondary ${urlId == recipientId ? "rounded-md bg-light-secondary dark:bg-dark-secondary" : ""} transition-all`}
+							className={`border-b border-light-secondary hover:bg-light-secondary dark:border-dark-secondary dark:hover:bg-dark-secondary ${urlId == senderId ? "rounded-md bg-light-secondary dark:bg-dark-secondary" : ""} transition-all`}
 						>
-							<Link to={{ pathname: `/interaction/user/${recipientId}` }} className="flex items-center gap-2 px-2 py-2">
+							<Link to={{ pathname: `/interaction/user/${senderId}` }} className="flex items-center gap-2 px-2 py-2">
 								{/* // here the 3rd condition makes sure when I click on a new unseen chat, it becomes seen on the frontend right away. */}
 								<img
-									src={userProfileImageUrl(recipientId)}
+									src={userProfileImageUrl(senderId)}
 									onError={({ currentTarget }) => {
 										currentTarget.onerror = null;
 										currentTarget.src = defaultProfileImage;

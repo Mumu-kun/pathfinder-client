@@ -23,8 +23,9 @@ import { RxSlash } from "react-icons/rx";
 import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
-import { Gig, Review } from "../../utils/types";
+import { Gig, Page, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
+import ReviewBlock from "@/components/review/ReviewBlock";
 
 type props = {
 	gig?: Gig;
@@ -79,7 +80,13 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 
 	const isMD = useMediaQuery("(max-width: 768px)");
 
-	const [reviews, setReviews] = useState<Review[] | undefined>(testReviews);
+	const [reviews, setReviews] = useState<Page<Review> | undefined>({
+		content: testReviews,
+		totalPages: 1,
+		totalElements: 1,
+		number: 1,
+		last: true,
+	});
 
 	useEffect(() => {
 		!propGig && getGig(id).then((data) => setGig(data));
@@ -201,8 +208,14 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 			{reviews ? (
 				<div className="mb-60 mt-8 max-w-[50rem]">
 					<div className="medium-headings mb-2 text-left">Reviews</div>
-					{reviews.length > 0 ? (
-						reviews.map((review, index) => <ReviewCard review={review} key={`profile-review-${index}`} />)
+					{reviews.totalElements > 0 ? (
+						<ReviewBlock
+							reviews={reviews}
+							setReviews={setReviews}
+							rating={gig.rating}
+							ratedByCount={gig.totalReviews}
+							baseUrl={`/api/v1/public/gigs/${id}/reviews`}
+						/>
 					) : (
 						<div className="flex h-10 items-center">No reviews yet.</div>
 					)}

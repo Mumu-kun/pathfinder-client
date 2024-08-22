@@ -180,3 +180,11 @@ export type Transaction = {
 	paidAt: string;
 	paymentConfirmed: boolean;
 };
+
+export type Page<T> = {
+	content: T[];
+	totalElements: number;
+	totalPages: number;
+	last: boolean;
+	number: number;
+};

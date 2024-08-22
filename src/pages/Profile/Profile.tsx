@@ -5,18 +5,19 @@ import { BsPersonCheck } from "react-icons/bs";
 import { FaCircle } from "react-icons/fa";
 import { GoPeople } from "react-icons/go";
 import { PiChalkboardTeacher } from "react-icons/pi";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Tag from "../../components/Tag";
-import { GigCardData, ProfileData, Review } from "../../utils/types";
+import { GigCardData, Page, ProfileData, Review } from "../../utils/types";
 import FloatCard from "./FloatCard";
 
 import axios from "@/api/axios";
 import Loading from "@/components/Loading";
-import ReviewCard from "@/components/ReviewCard";
+import ReviewBlock from "@/components/review/ReviewBlock";
 import useAuth from "@/hooks/useAuth";
 import { userProfileImageUrl } from "@/utils/functions";
 import { defaultProfileImage } from "@/utils/variables";
 import ProfileGigs from "./ProfileGigs";
+import { IoChatboxEllipsesSharp } from "react-icons/io5";
 
 export const getProfileData = async (userId: number) => {
 	try {
@@ -40,6 +41,17 @@ export const getGigCards = async (userId: number) => {
 	}
 };
 
+const getReviews = async (userId: number) => {
+	try {
+		const res = await axios.get(`/api/v1/public/users/${userId}/reviews/card`);
+		const data = res.data;
+
+		return data as unknown as Review[];
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const Profile = () => {
 	const params = useParams();
 	const { auth } = useAuth();
@@ -49,37 +61,67 @@ export const Profile = () => {
 
 	const [profileData, setProfileData] = useState<ProfileData | undefined>();
 
-	const [gigs, setGigs] = useState<GigCardData[] | undefined>([
-		{
-			id: 1,
-			title: "Intro to Python Programming",
-			tags: ["programming", "python", "introductory", "casfsasfse"],
-			price: 1500,
-			rating: 4.3,
-			ratedByCount: 20,
-			coverImage: null,
-		},
-	]);
+	const [gigs, setGigs] = useState<GigCardData[] | undefined>();
 
-	const [reviews, setReviews] = useState<Review[] | undefined>([
-		{
-			id: 1,
-			title: "This was life changing",
-			text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-			rating: 4.5,
-			createdAt: new Date(),
-			reviewer: {
+	const [reviews, setReviews] = useState<Page<Review> | undefined>({
+		content: [
+			{
 				id: 1,
-				firstName: "Mustafa",
-				lastName: "Muhaimin",
+				title: "This was life changing",
+				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
+				rating: 4.5,
+				createdAt: new Date(),
+				reviewer: {
+					id: 1,
+					firstName: "Mustafa",
+					lastName: "Muhaimin",
+				},
+				gig: {
+					id: 1,
+					title: "Intro to Python Programming",
+					coverImage: null,
+				},
 			},
-			gig: {
+			{
 				id: 1,
-				title: "Intro to Python Programming",
-				coverImage: null,
+				title: "This was life changing",
+				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
+				rating: 4.5,
+				createdAt: new Date(),
+				reviewer: {
+					id: 1,
+					firstName: "Mustafa",
+					lastName: "Muhaimin",
+				},
+				gig: {
+					id: 1,
+					title: "Intro to Python Programming",
+					coverImage: null,
+				},
 			},
-		},
-	]);
+			{
+				id: 1,
+				title: "This was life changing",
+				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
+				rating: 4.5,
+				createdAt: new Date(),
+				reviewer: {
+					id: 1,
+					firstName: "Mustafa",
+					lastName: "Muhaimin",
+				},
+				gig: {
+					id: 1,
+					title: "Intro to Python Programming",
+					coverImage: null,
+				},
+			},
+		],
+		totalElements: 3,
+		totalPages: 9,
+		number: 0,
+		last: true,
+	});
 
 	const descRef = useRef<HTMLParagraphElement>(null);
 	const [shouldCollapse, setShouldCollapse] = useState<boolean>(false);
@@ -112,6 +154,9 @@ export const Profile = () => {
 			getGigCards(userId).then((data) => {
 				setGigs(data);
 			});
+			// getReviews(userId).then((data) => {
+			// 	setReviews(data);
+			// });
 		}
 	}, []);
 
@@ -152,8 +197,20 @@ export const Profile = () => {
 
 				{/* Profile Info */}
 				<div className="flex flex-col">
-					<div className="text-4xl font-bold">
-						{profileData.firstName} {profileData.lastName}
+					<div>
+						<div className="text-4xl font-bold">
+							{profileData.firstName} {profileData.lastName}
+						</div>
+
+						{!isOwnerProfile && (
+							<Link
+								to={`/interaction/user/${profileData.id}`}
+								className="solid-btn mt-4 flex w-fit items-center gap-0.5"
+							>
+								<IoChatboxEllipsesSharp className="mt-0.5" />
+								<div className="mr-0.5">Chat</div>
+							</Link>
+						)}
 					</div>
 
 					{/* Tags */}
@@ -171,7 +228,7 @@ export const Profile = () => {
 
 					{!!profileData.totalStudents && (
 						<>
-							<div className="mt-8 flex items-center">
+							<div className="mt-2 flex items-center">
 								{/* Rating */}
 								<div className="space-y-1">
 									<div className="ml-0.5 text-lg font-medium">
@@ -205,7 +262,7 @@ export const Profile = () => {
 							</div>
 
 							{/* Total Enrollments */}
-							<div className="mt-8 flex items-center">
+							<div className="mt-4 flex items-center">
 								<BsPersonCheck className="h-10 w-10" />
 								<span className="ml-1 text-base font-medium">
 									Total <span className="font-semibold text-green-600">{profileData.totalCompletedEnrollments}</span>{" "}
@@ -297,12 +354,16 @@ export const Profile = () => {
 
 			{/* Reviews */}
 			{reviews ? (
-				reviews.length > 0 && (
+				reviews.totalElements > 0 && (
 					<div className="mb-60 mt-8 max-w-[50rem]">
 						<div className="medium-headings mb-2 text-left">Some reviews for this Mentor</div>
-						{reviews.map((review, index) => (
-							<ReviewCard review={review} key={`profile-review-${index}`} />
-						))}
+						<ReviewBlock
+							rating={profileData.rating}
+							ratedByCount={profileData.ratedByCount}
+							reviews={reviews}
+							setReviews={setReviews}
+							baseUrl={`/api/v1/public/users/${userId}/reviews/card`}
+						/>
 					</div>
 				)
 			) : (

@@ -56,21 +56,27 @@ const HeaderAuthLinks = (props: Props) => {
 						rightAlign
 					>
 						<div
-							className={`flex flex-col items-center justify-center bg-light-bg p-2 text-right transition-all dark:bg-dark-bg`}
+							className={`flex flex-col items-center justify-center bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
 						>
 							<ChangeMode />
 							<ChangeTheme />
-							<Link to="/profile" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
+							<Link
+								to="/profile"
+								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+							>
 								Profile
 							</Link>
-							<Link to="/settings" className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]">
+							<Link
+								to="/settings"
+								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+							>
 								Settings
 							</Link>
 							<button
 								onClick={() => {
 									logout();
 								}}
-								className="p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
 							>
 								Logout
 							</button>

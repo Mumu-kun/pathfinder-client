@@ -92,7 +92,7 @@ const Header = () => {
 
 				{/* Auxiliary Links */}
 				{isBuyerMode && (
-					<div className="mt-1 w-full">
+					<div className="w-full">
 						<div className="mx-auto flex max-w-7xl">
 							<AuxLinkDropdown
 								title="Mathematics"
