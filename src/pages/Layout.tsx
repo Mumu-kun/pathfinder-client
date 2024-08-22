@@ -37,7 +37,7 @@ const Layout = ({
 					height: isScreenHeight ? "100vh" : "auto",
 				}}
 			>
-				<div className="w-full">
+				<div className="relative z-50 w-full">
 					<Header />
 				</div>
 				{/* <div className="flex w-full flex-1 flex-col"> */}

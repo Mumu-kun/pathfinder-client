@@ -5,6 +5,7 @@ import { ProfileData } from "@/utils/types";
 import { isAxiosError } from "axios";
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { SingleValue } from "node_modules/react-select/dist/declarations/src";
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import AsyncCreatableSelect from "react-select/async-creatable";
@@ -17,6 +18,7 @@ type EditProfileProps = {
 
 const EditProfile = ({ profileData }: EditProfileProps) => {
 	const axiosPrivate = useAxiosPrivate();
+	const [tagInputText, setTagInputText] = useState<string>("");
 
 	return (
 		<Formik
@@ -222,12 +224,14 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 										defaultOptions
 										loadOptions={async (inputValue) => {
 											try {
-												const res = await axios.get(`/api/v1/public/tags/search/${inputValue}`);
+												const res = await axios.get(`/api/v1/public/tags/search`, {
+													params: { name: inputValue },
+												});
 												const data = res.data;
 
 												return data.map((tag: any) => ({
-													value: tag.name,
-													label: tag.name,
+													value: tag,
+													label: tag,
 												}));
 											} catch (error) {
 												console.error(error);
@@ -242,6 +246,8 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 												}
 											}
 										}}
+										inputValue={tagInputText}
+										onInputChange={(input) => setTagInputText(input.replace(/[^a-zA-Z0-9 ]/g, ""))}
 										className="mb-2 max-w-40"
 										classNames={{
 											control: () =>

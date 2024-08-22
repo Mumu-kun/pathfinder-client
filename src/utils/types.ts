@@ -79,6 +79,12 @@ export type GigCardData = {
 	user?: UserShort;
 };
 
+export type GigShort = {
+	id: number;
+	title: string;
+	coverImage: string | null;
+};
+
 export type Review = {
 	id: number;
 	title: string;
@@ -86,11 +92,7 @@ export type Review = {
 	rating: number;
 	reviewer: UserShort;
 	createdAt: Date;
-	gig?: {
-		id: number;
-		title: string;
-		coverImage: string | null;
-	};
+	gig?: GigShort;
 };
 
 export type Achievement = {

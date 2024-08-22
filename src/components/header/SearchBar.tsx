@@ -1,6 +1,12 @@
+import axios from "@/api/axios";
+import { coverImageUrl } from "@/utils/functions";
+import { GigShort } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { useDebounceCallback, useDebounceValue } from "usehooks-ts";
+import Loading from "../Loading";
 
 type SearchBarProps = {
 	stuck?: boolean;
@@ -9,19 +15,53 @@ type SearchBarProps = {
 
 const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 	const [searchText, setSearchText] = useState<string>("");
-	const [suggestions, setSuggestions] = useState<string[]>([
-		"Lorem ipsum dolor sit amet",
-		"Consectetur adipiscing elit",
-		"Sed do eiusmod tempor incididunt",
-		"Ut labore et dolore magna aliqua",
-		"Ut enim ad minim veniam",
-		"Quis nostrud exercitation ullamco",
-	]);
+	const [debouncedSearchText] = useDebounceValue(searchText, 500);
+	const [gigSuggestions, setGigSuggestions] = useState<GigShort[] | undefined>();
+	const [tagSuggestions, setTagSuggestions] = useState<string[] | undefined>();
 	const [showSearchResults, setShowSearchResults] = useState<boolean>(false);
+
+	const fetchSearchResults = async () => {
+		if (!debouncedSearchText) {
+			setGigSuggestions(undefined);
+			return;
+		}
+
+		try {
+			const res = await axios.get("/api/v1/public/gigs/search", {
+				params: {
+					query: debouncedSearchText,
+				},
+			});
+
+			setGigSuggestions(res.data.content);
+		} catch (error) {
+			console.log(error);
+		}
+
+		try {
+			const res = await axios.get(`/api/v1/public/tags/search`, {
+				params: {
+					name: debouncedSearchText,
+				},
+			});
+
+			setTagSuggestions(res.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	useEffect(() => {
 		setShowSearchResults(searchText.length > 0);
+
+		if (!searchText) {
+			setGigSuggestions(undefined);
+		}
 	}, [searchText]);
+
+	useEffect(() => {
+		fetchSearchResults();
+	}, [debouncedSearchText]);
 
 	useEffect(() => {
 		setShowSearchResults(false);
@@ -36,7 +76,10 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 					<input
 						type="text"
 						value={searchText}
-						onChange={(e) => setSearchText(e.currentTarget.value)}
+						onChange={(e) => {
+							setSearchText(e.currentTarget.value);
+						}}
+						onFocus={() => gigSuggestions && setShowSearchResults(true)}
 						className="search-input mx-auto min-w-0 flex-1 bg-light-bg p-2 font-medium outline-none focus:outline-none dark:bg-dark-bg"
 					/>
 					<div
@@ -52,20 +95,59 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 
 			{/* Suggestions */}
 
-			<div className="absolute w-full min-w-96 overflow-hidden rounded-md">
+			<div className="absolute z-50 w-full overflow-hidden rounded-md">
 				<div
 					className={`scrollbar-none ${showSearchResults ? "my-2 max-h-60 border-2" : "max-h-0 border-0"} mx-2 overflow-y-scroll rounded-md border-green-500 bg-light-bg transition-all duration-75 dark:bg-dark-bg`}
 				>
-					<div className="flex flex-col">
-						{suggestions.map((suggestion, index) => (
-							<div
-								key={index}
-								className="cursor-pointer text-ellipsis text-nowrap px-4 py-2 shadow-md transition-all first:pt-3 last:pt-3 hover:bg-light-secondary dark:hover:bg-dark-secondary"
-							>
-								{suggestion}
-							</div>
-						))}
-					</div>
+					{gigSuggestions || tagSuggestions ? (
+						<div className="flex flex-col" onClick={() => setShowSearchResults(false)}>
+							{tagSuggestions && tagSuggestions.length > 0 && (
+								<>
+									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold">Tags</div>
+									{tagSuggestions.map((tag, index) => (
+										<Link
+											to={{ pathname: `/filter`, search: `?tag=${tag}` }}
+											key={index}
+											className="flex cursor-pointer items-center gap-2 text-ellipsis text-nowrap px-4 py-2 transition-all hover:bg-light-secondary dark:hover:bg-dark-secondary"
+										>
+											{tag}
+										</Link>
+									))}
+								</>
+							)}
+							{gigSuggestions && (
+								<>
+									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold">Gigs</div>
+									{gigSuggestions.length > 0 ? (
+										<>
+											{gigSuggestions.map((gig, index) => (
+												<Link
+													to={`/gig/${gig.id}`}
+													key={index}
+													className="flex cursor-pointer items-center gap-2 text-ellipsis text-nowrap px-4 py-2 transition-all hover:bg-light-secondary dark:hover:bg-dark-secondary"
+												>
+													<img src={coverImageUrl(gig.coverImage)} alt="" className="aspect-[2/1] w-16 object-cover" />
+													{gig.title}
+												</Link>
+											))}
+											<Link
+												to={`/filter?query=${searchText}`}
+												className="cursor-pointer text-ellipsis text-nowrap px-4 py-2 transition-all hover:bg-light-secondary dark:hover:bg-dark-secondary"
+											>
+												See More
+											</Link>
+										</>
+									) : (
+										<div className="cursor-pointer text-ellipsis text-nowrap px-4 py-2 transition-all first:pt-3 last:pb-3 hover:bg-light-secondary dark:hover:bg-dark-secondary">
+											No Gigs Found
+										</div>
+									)}
+								</>
+							)}
+						</div>
+					) : (
+						<Loading />
+					)}
 				</div>
 			</div>
 		</div>

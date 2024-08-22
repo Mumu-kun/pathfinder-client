@@ -98,6 +98,8 @@ const GigFormPage = ({ formType }: props) => {
 	const [newCoverImage, setNewCoverImage] = useState<File | null>(null);
 	const [gigVideo, setGigVideo] = useState<File | null>(null);
 
+	const [tagInputText, setTagInputText] = useState<string>("");
+
 	useEffect(() => {
 		axiosPrivate.get("/api/v1/public/categories/all").then((res) => {
 			setCategories(res.data);
@@ -345,6 +347,8 @@ const GigFormPage = ({ formType }: props) => {
 														}
 													}
 												}}
+												inputValue={tagInputText}
+												onInputChange={(input) => setTagInputText(input.replace(/[^a-zA-Z0-9 ]/g, ""))}
 												isOptionDisabled={(option) => option.disabled ?? false}
 												className="max-w-52"
 												classNames={{

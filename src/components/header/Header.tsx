@@ -32,7 +32,7 @@ const Header = () => {
 			onFixedToggle={() => {
 				isHome && setStuck(Boolean(window.scrollY));
 			}}
-			stickyClassName=" z-50"
+			stickyClassName="relative z-50"
 		>
 			<header
 				id="header"
