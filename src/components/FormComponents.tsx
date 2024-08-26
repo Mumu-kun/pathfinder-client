@@ -1,5 +1,5 @@
 import { ErrorMessage, FieldProps } from "formik";
-import { useEffect, useRef, useState } from "react";
+import { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 
 type InputComponentProps = {
 	label?: string;
@@ -50,6 +50,75 @@ export const TextInputComponent = ({
 						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
+			</div>
+		</>
+	);
+};
+
+export const BaseNumberInputComponent = ({
+	label,
+	isGrid = false,
+	isFullWidth = false,
+	disabled = false,
+	className: pClassName = "",
+	leftContent,
+	rightContent,
+	form,
+	...props
+}: InputComponentProps & InputHTMLAttributes<HTMLInputElement>) => {
+	const [inputState, setInputState] = useState<{ value: string; caret: number }>({ value: "", caret: 0 });
+
+	const inputRef = useRef<HTMLInputElement>(null);
+
+	const removeInvalidCharacters = (text: string, selectionStart: number | null) => {
+		const regex = /\D+/g;
+
+		let ret: [string, number] = [text.replace(regex, ""), selectionStart ? selectionStart : 0];
+
+		if (text.match(regex)) {
+			ret = [text.replace(regex, ""), selectionStart ? selectionStart - 1 : 0];
+		}
+
+		return ret;
+	};
+
+	const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const [value, caret] = removeInvalidCharacters(e.target.value, e.target.selectionStart);
+
+		setInputState({ value, caret });
+		e.currentTarget.value = value;
+		props.onChange && props.onChange(e);
+	};
+
+	useEffect(() => {
+		if (inputRef.current) {
+			inputRef.current.selectionEnd = inputRef.current.selectionStart = inputState.caret;
+		}
+	}, [inputState]);
+
+	return (
+		<>
+			{label && (
+				<label
+					htmlFor={props.name}
+					className={`flex items-center py-0.5 ${isGrid ? "" : "mb-2 text-sm"} gap-1 font-semibold max-md:text-sm`}
+				>
+					<span>{label}</span>
+					<span>:</span>
+				</label>
+			)}
+			<div className={`${isFullWidth ? "w-full" : "max-w-60"} ${isGrid ? "" : "mb-4"}`}>
+				<div className="flex items-center">
+					{leftContent}
+					<input
+						{...props}
+						value={inputState.value}
+						onChange={handleInput}
+						disabled={disabled}
+						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					/>
+					{rightContent}
+				</div>
 			</div>
 		</>
 	);

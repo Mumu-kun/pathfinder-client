@@ -15,6 +15,7 @@ import Loading from "./components/Loading.tsx";
 import SetMode from "./components/wrappers/SetMode.tsx";
 import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
+import FilterPage from "./pages/Filter/FilterPage.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
 						<GigPage />
 					</Suspense>
 				),
+			},
+			{
+				path: "filter",
+				element: <FilterPage />,
 			},
 			{
 				path: "profile/:userId",
@@ -95,6 +100,7 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
+
 					{
 						element: <SetMode mode={"seller"} />,
 						children: [

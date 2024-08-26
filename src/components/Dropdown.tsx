@@ -1,7 +1,5 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef } from "react";
 import { useCollapse } from "react-collapsed";
-import { FaCaretDown } from "react-icons/fa";
-import { Link } from "react-router-dom";
 
 type DropdownProps = {
 	head: React.ReactNode;
@@ -9,7 +7,8 @@ type DropdownProps = {
 	isOpen?: boolean;
 	setIsOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 	rightAlign?: boolean;
-	dropdownClassName?: string;
+	noCloseOnClick?: boolean;
+	className?: string;
 };
 
 function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
@@ -26,7 +25,15 @@ function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
 	}, [ref, onClickOutside]);
 }
 
-const Dropdown = ({ head, children, isOpen, setIsOpen, rightAlign = false, dropdownClassName = "" }: DropdownProps) => {
+const Dropdown = ({
+	head,
+	children,
+	isOpen,
+	setIsOpen,
+	rightAlign = false,
+	noCloseOnClick = false,
+	className = "",
+}: DropdownProps) => {
 	// if (!isOpen || !setIsOpen) {
 	// 	[isOpen, setIsOpen] = useState<boolean>(false);
 	// }
@@ -49,13 +56,15 @@ const Dropdown = ({ head, children, isOpen, setIsOpen, rightAlign = false, dropd
 	});
 
 	return (
-		<div ref={ref} className={`relative cursor-pointer transition-all`}>
-			<div {...getToggleProps({ onClick: () => setIsOpen((prev) => !prev) })}>{head}</div>
+		<div ref={ref} className={`relative transition-all ${className}`}>
+			<div {...getToggleProps({ onClick: () => setIsOpen((prev) => !prev) })} className="cursor-pointer">
+				{head}
+			</div>
 			<div
-				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full z-50 min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
+				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full z-50 min-w-full overflow-hidden shadow dark:shadow-gray-800`}
 				{...getCollapseProps()}
 				onClick={() => {
-					setIsOpen(false);
+					!noCloseOnClick && setIsOpen(false);
 				}}
 			>
 				{children}

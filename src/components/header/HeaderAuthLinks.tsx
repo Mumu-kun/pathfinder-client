@@ -52,11 +52,10 @@ const HeaderAuthLinks = (props: Props) => {
 						}
 						isOpen={profileOutline}
 						setIsOpen={setProfileOutline}
-						dropdownClassName="mt-2 min-w-20 rounded-md"
 						rightAlign
 					>
 						<div
-							className={`flex flex-col items-center justify-center bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
+							className={`mt-2 flex min-w-20 flex-col items-center justify-center rounded-md bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
 						>
 							<ChangeMode />
 							<ChangeTheme />

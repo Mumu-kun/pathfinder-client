@@ -2,7 +2,7 @@ import axios from "@/api/axios";
 import { Page, Review } from "@/utils/types";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
 import Select from "react-select";
-import ReviewCard from "../ReviewCard";
+import ReviewCard from "./ReviewCard";
 import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { useMemo } from "react";
@@ -23,6 +23,19 @@ const ReviewBlock = ({ rating, ratedByCount, reviews, setReviews, baseUrl }: Pro
 		return Array.from({ length: end - start }, (_, i) => i + start);
 	}, [reviews]);
 
+	const pageNav = async (condition: boolean, pageNo: number) => {
+		if (!condition) {
+			return;
+		}
+
+		try {
+			const response = await axios.get(`${baseUrl}?page=${pageNo}`);
+
+			setReviews(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	return (
 		<div className="space-y-2">
 			<div className="flex items-center justify-between">
@@ -48,8 +61,8 @@ const ReviewBlock = ({ rating, ratedByCount, reviews, setReviews, baseUrl }: Pro
 					options={[
 						{ value: "newest", label: "Newest" },
 						{ value: "oldest", label: "Oldest" },
-						{ value: "highest", label: "Highest" },
-						{ value: "lowest", label: "Lowest" },
+						{ value: "highest", label: "Highest Rating" },
+						{ value: "lowest", label: "Lowest Rating" },
 					]}
 					onChange={async (e) => {
 						if (!e) {
@@ -88,36 +101,12 @@ const ReviewBlock = ({ rating, ratedByCount, reviews, setReviews, baseUrl }: Pro
 				<FaAngleDoubleLeft
 					className="hover-effect-no-shadow cursor-pointer"
 					size={20}
-					onClick={async () => {
-						if (reviews.number <= 0) {
-							return;
-						}
-
-						try {
-							const response = await axios.get(`${baseUrl}?page=0`);
-
-							setReviews(response.data);
-						} catch (error) {
-							console.error(error);
-						}
-					}}
+					onClick={() => pageNav(reviews.number > 0, 0)}
 				/>
 				<FaAngleLeft
 					className="hover-effect-no-shadow mr-auto cursor-pointer"
 					size={20}
-					onClick={async () => {
-						if (reviews.number <= 0) {
-							return;
-						}
-
-						try {
-							const response = await axios.get(`${baseUrl}?page=${reviews.number - 1}`);
-
-							setReviews(response.data);
-						} catch (error) {
-							console.error(error);
-						}
-					}}
+					onClick={() => pageNav(reviews.number > 0, reviews.number - 1)}
 				/>
 
 				{pages.map((i) => (
@@ -145,36 +134,12 @@ const ReviewBlock = ({ rating, ratedByCount, reviews, setReviews, baseUrl }: Pro
 				<FaAngleRight
 					className="hover-effect-no-shadow ml-auto cursor-pointer"
 					size={20}
-					onClick={async () => {
-						if (reviews.last) {
-							return;
-						}
-
-						try {
-							const response = await axios.get(`${baseUrl}?page=${reviews.number + 1}`);
-
-							setReviews(response.data);
-						} catch (error) {
-							console.error(error);
-						}
-					}}
+					onClick={() => pageNav(!reviews.last, reviews.number + 1)}
 				/>
 				<FaAngleDoubleRight
 					className="hover-effect-no-shadow cursor-pointer"
 					size={20}
-					onClick={async () => {
-						if (reviews.last) {
-							return;
-						}
-
-						try {
-							const response = await axios.get(`${baseUrl}?page=${reviews.totalPages - 1}`);
-
-							setReviews(response.data);
-						} catch (error) {
-							console.error(error);
-						}
-					}}
+					onClick={() => pageNav(reviews.last, reviews.totalPages - 1)}
 				/>
 			</div>
 		</div>

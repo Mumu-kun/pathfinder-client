@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/AuthProvider.tsx";
 import { StompProvider } from "./context/StompProvider.tsx";
 import { ThemeProvider } from "./context/ThemeProvider.tsx";
 import { ModeProvider } from "./context/ModeProvider.tsx";
+import { AIProvider } from "./context/AIProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 			<StompProvider>
 				<ThemeProvider>
 					<ModeProvider>
-						<App />
+						<AIProvider>
+							<App />
+						</AIProvider>
 					</ModeProvider>
 				</ThemeProvider>
 			</StompProvider>

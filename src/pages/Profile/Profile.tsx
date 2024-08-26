@@ -8,7 +8,6 @@ import { PiChalkboardTeacher } from "react-icons/pi";
 import { Link, useParams } from "react-router-dom";
 import Tag from "../../components/Tag";
 import { GigCardData, Page, ProfileData, Review } from "../../utils/types";
-import FloatCard from "./FloatCard";
 
 import axios from "@/api/axios";
 import Loading from "@/components/Loading";
@@ -16,8 +15,8 @@ import ReviewBlock from "@/components/review/ReviewBlock";
 import useAuth from "@/hooks/useAuth";
 import { userProfileImageUrl } from "@/utils/functions";
 import { defaultProfileImage } from "@/utils/variables";
-import ProfileGigs from "./ProfileGigs";
 import { IoChatboxEllipsesSharp } from "react-icons/io5";
+import ProfileGigs from "./ProfileGigs";
 
 export const getProfileData = async (userId: number) => {
 	try {
@@ -46,7 +45,7 @@ const getReviews = async (userId: number) => {
 		const res = await axios.get(`/api/v1/public/users/${userId}/reviews/card`);
 		const data = res.data;
 
-		return data as unknown as Review[];
+		return data as unknown as Page<Review>;
 	} catch (error) {
 		console.error(error);
 	}
@@ -63,65 +62,7 @@ export const Profile = () => {
 
 	const [gigs, setGigs] = useState<GigCardData[] | undefined>();
 
-	const [reviews, setReviews] = useState<Page<Review> | undefined>({
-		content: [
-			{
-				id: 1,
-				title: "This was life changing",
-				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-				rating: 4.5,
-				createdAt: new Date(),
-				reviewer: {
-					id: 1,
-					firstName: "Mustafa",
-					lastName: "Muhaimin",
-				},
-				gig: {
-					id: 1,
-					title: "Intro to Python Programming",
-					coverImage: null,
-				},
-			},
-			{
-				id: 1,
-				title: "This was life changing",
-				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-				rating: 4.5,
-				createdAt: new Date(),
-				reviewer: {
-					id: 1,
-					firstName: "Mustafa",
-					lastName: "Muhaimin",
-				},
-				gig: {
-					id: 1,
-					title: "Intro to Python Programming",
-					coverImage: null,
-				},
-			},
-			{
-				id: 1,
-				title: "This was life changing",
-				text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-				rating: 4.5,
-				createdAt: new Date(),
-				reviewer: {
-					id: 1,
-					firstName: "Mustafa",
-					lastName: "Muhaimin",
-				},
-				gig: {
-					id: 1,
-					title: "Intro to Python Programming",
-					coverImage: null,
-				},
-			},
-		],
-		totalElements: 3,
-		totalPages: 9,
-		number: 0,
-		last: true,
-	});
+	const [reviews, setReviews] = useState<Page<Review> | undefined>();
 
 	const descRef = useRef<HTMLParagraphElement>(null);
 	const [shouldCollapse, setShouldCollapse] = useState<boolean>(false);
@@ -154,9 +95,9 @@ export const Profile = () => {
 			getGigCards(userId).then((data) => {
 				setGigs(data);
 			});
-			// getReviews(userId).then((data) => {
-			// 	setReviews(data);
-			// });
+			getReviews(userId).then((data) => {
+				setReviews(data);
+			});
 		}
 	}, []);
 
@@ -180,7 +121,6 @@ export const Profile = () => {
 
 	return (
 		<>
-			<FloatCard />
 			<div className="mt-12 flex w-full gap-4">
 				{/* Profile Image */}
 				<img

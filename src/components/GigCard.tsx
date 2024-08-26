@@ -8,13 +8,18 @@ import Tag from "./Tag";
 
 type GigCardProps = {
 	gig: GigCardData;
+	className?: string;
 };
 
-const GigCard = ({ gig }: GigCardProps) => {
+const GigCard = ({ gig, className = "" }: GigCardProps) => {
 	return (
 		<Link
 			to={`/gig/${gig.id}`}
-			className="grid cursor-pointer grid-cols-[repeat(12,2rem)] grid-rows-[repeat(6,2rem)] gap-1 rounded-sm bg-light-secondary shadow dark:bg-dark-secondary"
+			className={`hover-effect grid cursor-pointer gap-1 rounded-sm bg-light-secondary shadow dark:bg-dark-secondary ${className}`}
+			style={{
+				gridTemplateColumns: "repeat(12, 1.5rem)",
+				gridTemplateRows: "repeat(3, 1.5rem) auto auto 2rem",
+			}}
 		>
 			<img
 				src={coverImageUrl(gig.coverImage)}
@@ -23,32 +28,28 @@ const GigCard = ({ gig }: GigCardProps) => {
 			/>
 
 			{!!gig.user && (
-				<div className="col-[4/-1] row-start-3 self-end">
-					<div className="w-fit translate-y-1.5 rounded-sm bg-white px-1 py-0.5 text-xs dark:bg-dark-bg">
-						From{" "}
-						<Link to={`/profile/${gig.user.id}`} className="small-headings font-medium hover:underline">
-							{gig.user.firstName} {gig.user.lastName}
-						</Link>
+				<div className="col-[3/-1] row-[2/span_2] translate-y-1.5 self-end">
+					<div className="small-headings w-fit rounded-sm bg-white px-1 py-0.5 text-xs dark:bg-dark-bg">
+						{gig.user.firstName} {gig.user.lastName}
 					</div>
 				</div>
 			)}
 
 			<div
-				className="-col-end-1 row-start-4 items-center self-center text-lg font-bold"
+				className="small-headings -col-end-1 row-start-4 mt-0.5 items-center self-center truncate px-3 text-left"
 				title={gig.title}
 				style={{
-					gridColumnStart: gig.user ? 4 : 1,
-					paddingLeft: gig.user ? undefined : "1.2rem",
+					gridColumnStart: 1,
+					paddingTop: !gig.user ? undefined : "0.2rem",
 				}}
 			>
 				{gig.title}
 			</div>
 
 			<div
-				className="-col-end-1 row-start-5 mr-2 flex flex-nowrap items-center self-start overflow-x-auto overflow-y-hidden scrollbar-none"
+				className="-col-end-1 row-start-5 mr-2 mt-0.5 flex flex-nowrap items-center self-start overflow-x-auto overflow-y-hidden pl-3 scrollbar-none"
 				style={{
-					gridColumnStart: gig.user ? 4 : 1,
-					paddingLeft: gig.user ? undefined : "1.2rem",
+					gridColumnStart: 1,
 				}}
 			>
 				{gig.tags.map((tag) => (
@@ -57,20 +58,23 @@ const GigCard = ({ gig }: GigCardProps) => {
 			</div>
 
 			{!!gig.user && (
-				<div className="col-[1/span_3] row-[3/span_3] p-2" title={`${gig.user?.firstName} ${gig.user?.lastName}`}>
+				<div
+					className="col-[1/span_2] row-[2/span_2] translate-y-1.5 pl-3 pt-3"
+					title={`${gig.user?.firstName} ${gig.user?.lastName}`}
+				>
 					<img
 						src={userProfileImageUrl(gig.user?.id)}
 						onError={({ currentTarget }) => {
 							currentTarget.onerror = null;
 							currentTarget.src = defaultProfileImage;
 						}}
-						className="h-full w-full rounded-sm border-4 border-white object-cover object-center shadow dark:border-black"
+						className="h-full w-full rounded-sm border-2 border-white object-cover object-center shadow dark:border-black"
 						alt={`${gig.user?.firstName} ${gig.user?.lastName}`}
 					/>
 				</div>
 			)}
 
-			<div className="col-span-6 flex items-center gap-1 px-4 pb-2">
+			<div className="col-span-6 mt-0.5 flex items-center gap-1 px-3 pb-1">
 				<Rating
 					value={gig.rating}
 					className="max-w-28"
@@ -87,8 +91,8 @@ const GigCard = ({ gig }: GigCardProps) => {
 				<div className="text-xs font-medium">({gig.ratedByCount})</div>
 			</div>
 
-			<div className="col-span-6 flex items-center justify-end gap-1 px-4 pb-2">
-				<GrCurrency className="h-full w-fit" />
+			<div className="col-span-6 mt-0.5 flex items-center justify-end gap-1 px-3 pb-1">
+				<GrCurrency className="h-full w-fit py-0.5" />
 				<div className="text-base font-semibold">{gig.price}Tk/Hr</div>
 			</div>
 		</Link>

@@ -6,6 +6,7 @@ import Header from "../components/header/Header";
 import LimitLayoutWidth from "../components/wrappers/LimitLayoutWidth";
 import Loading from "../components/Loading";
 import PersistLogin from "@/components/wrappers/PersistLogin";
+import FloatCard from "@/components/FloatCard";
 
 const Layout = ({
 	children,
@@ -41,7 +42,7 @@ const Layout = ({
 					<Header />
 				</div>
 				{/* <div className="flex w-full flex-1 flex-col"> */}
-				<div id="unlimit-width" className="flex min-h-0 w-full flex-1 flex-col empty:flex-none"></div>
+				<div id="unlimit-width" className="flex min-h-0 w-full flex-1 flex-col px-6 empty:flex-none"></div>
 				<LimitLayoutWidth>
 					<>
 						<Outlet />
@@ -49,6 +50,8 @@ const Layout = ({
 					</>
 				</LimitLayoutWidth>
 				{/* </div> */}
+				<FloatCard />
+
 				<ToastContainer position="bottom-center" theme={theme} />
 			</div>
 		</PersistLogin>
