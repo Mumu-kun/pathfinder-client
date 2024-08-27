@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Enrollment } from "@/utils/types";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { coverImageUrl, disableScroll, enableScroll } from "@/utils/functions";
 import EnrollmentView from "./EnrollmentView";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { PiChalkboardTeacher, PiTimer, PiTimerBold } from "react-icons/pi";
+import { PiChalkboardTeacher, PiCoatHanger, PiTimer, PiTimerBold } from "react-icons/pi";
 import useStomp from "@/hooks/useStomp";
 
 const OfferedEnrollments: React.FC = () => {
@@ -201,6 +201,11 @@ const OfferedEnrollments: React.FC = () => {
 							<EnrollmentView viewType="buyer" enrollment={incompleteEnrollmentAsBuyer} />
 						</div>
 					)}
+					<div>
+						<Link className="solid-btn" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsBuyer.id}` }}>
+							View details
+						</Link>
+					</div>
 				</div>
 			)}
 			{incompleteEnrollmentAsSeller && (
@@ -261,6 +266,11 @@ const OfferedEnrollments: React.FC = () => {
 							<EnrollmentView viewType="seller" enrollment={incompleteEnrollmentAsSeller} />
 						</div>
 					)}
+					<div>
+						<Link className="solid-btn" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsSeller.id}` }}>
+							View details
+						</Link>
+					</div>
 				</div>
 			)}
 		</div>
