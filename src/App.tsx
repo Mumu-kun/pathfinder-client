@@ -16,6 +16,7 @@ import SetMode from "./components/wrappers/SetMode.tsx";
 import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
 import FilterPage from "./pages/Filter/FilterPage.tsx";
+import EnrollmentDetails from "./pages/EnrollmentDetails/EnrollmentDetails.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
 					{
 						path: "test",
 						element: <TestPage />,
+					},
+					{
+						path: "enrollment/details/:enrollmentId",
+						element: <EnrollmentDetails />,
 					},
 
 					{
