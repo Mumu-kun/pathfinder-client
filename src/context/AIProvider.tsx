@@ -1,22 +1,26 @@
 import axios from "@/api/axios";
 import React, { createContext, ReactNode, useState } from "react";
 
-// Define the context interface
+type AIGuideline = {
+	topic: string;
+	content?: string;
+};
+
 type AIContextProps = {
-	guideline?: string;
+	guideline?: AIGuideline;
 	getGuideline: (query: string) => void;
 };
 
-// Create the context
 export const AIContext = createContext<AIContextProps>({
 	getGuideline: () => {},
 });
 
-// Create the provider component
 export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const [guideline, setGuideline] = useState<string | undefined>();
+	const [guideline, setGuideline] = useState<AIGuideline | undefined>();
 
 	const getGuideline = async (query: string) => {
+		setGuideline({ topic: query });
+
 		try {
 			const res = await axios.get(`/api/v1/public/ai/guideline`, {
 				params: {
@@ -24,7 +28,9 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 				},
 			});
 
-			setGuideline(res.data);
+			console.log(res.data);
+
+			setGuideline({ topic: query, content: res.data });
 		} catch (error) {}
 	};
 

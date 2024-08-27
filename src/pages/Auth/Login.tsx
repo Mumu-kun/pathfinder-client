@@ -2,7 +2,7 @@ import { TextInputComponent } from "@/components/FormComponents";
 import { isAxiosError } from "axios";
 import { Field, Form, Formik } from "formik";
 import React, { useContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import axios from "../../api/axios";
@@ -65,7 +65,13 @@ const Login: React.FC = () => {
 							isFullWidth={true}
 						/>
 						<div className="flex flex-col items-center justify-center">
-							<div className="mb-4">
+							<div>
+								Don't have an account?{" "}
+								<Link to="/register" className="font-medium text-green-500 hover:underline">
+									Register
+								</Link>
+							</div>
+							<div className="mb-4 mt-2">
 								<input
 									type="checkbox"
 									id="trust"
