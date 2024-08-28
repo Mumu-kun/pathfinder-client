@@ -18,7 +18,7 @@ const ChangePassword = () => {
 	return (
 		<Formik
 			onSubmit={async (values) => {
-				console.log(values);
+				// console.log(values);
 
 				try {
 					await axiosPrivate.patch("/api/v1/users/password", values);

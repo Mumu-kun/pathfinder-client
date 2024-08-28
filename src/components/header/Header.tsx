@@ -9,6 +9,8 @@ import NotificationIcon from "../chat/NotificationIcon";
 import AuxLinkDropdown from "./AuxLinkDropdown";
 import HeaderAuthLinks from "./HeaderAuthLinks";
 import SearchBar from "./SearchBar";
+import Dropdown from "../Dropdown";
+import { MdInfoOutline } from "react-icons/md";
 
 const Header = () => {
 	const location = useLocation();
@@ -20,7 +22,6 @@ const Header = () => {
 
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
-	const isMediaSM = useMediaQuery("(max-width: 640px)");
 	const isMediaMD = useMediaQuery("(max-width: 768px)");
 
 	useEffect(() => {
@@ -59,17 +60,42 @@ const Header = () => {
 					)}
 
 					{/* NavLinks */}
-					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-2 max-md:text-xs">
+					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-4 max-md:text-xs">
 						{isBuyerMode ? (
-							<>
-								<Link to="/" className="px-2 font-bold">
-									{isMediaMD ? "md" : "About Us"}
-								</Link>
-								<Link to="/" className="px-2 font-bold">
-									{isMediaMD ? "md" : "Contact"}
-								</Link>
-							</>
-						) : (
+							!isMediaMD ? (
+								<>
+									<Link to="/" className="px-2 font-bold">
+										About Us
+									</Link>
+									<Link to="/" className="px-2 font-bold">
+										Contact
+									</Link>
+								</>
+							) : (
+								<Dropdown
+									head={<MdInfoOutline className="hover-effect-no-shadow h-5 w-5" />}
+									rightAlign
+									dropdownClassName="mt-2"
+								>
+									<div
+										className={`flex min-w-20 flex-col items-center justify-center rounded-md bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
+									>
+										<Link
+											to="/"
+											className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+										>
+											About Us
+										</Link>
+										<Link
+											to="/"
+											className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+										>
+											Contact
+										</Link>
+									</div>
+								</Dropdown>
+							)
+						) : !isMediaMD ? (
 							<>
 								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
 									Dashboard
@@ -81,6 +107,35 @@ const Header = () => {
 									Enrollments
 								</Link>
 							</>
+						) : (
+							<Dropdown
+								head={<i className="bx bx-menu hover-effect-no-shadow text-2xl"></i>}
+								rightAlign
+								dropdownClassName=""
+							>
+								<div
+									className={`flex min-w-20 flex-col items-center justify-center rounded-md bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
+								>
+									<Link
+										to={"#"}
+										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+									>
+										Dashboard
+									</Link>
+									<Link
+										to={"/manage/gigs"}
+										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+									>
+										Gigs
+									</Link>
+									<Link
+										to={"#"}
+										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+									>
+										Enrollments
+									</Link>
+								</div>
+							</Dropdown>
 						)}
 
 						{auth && <NotificationIcon />}

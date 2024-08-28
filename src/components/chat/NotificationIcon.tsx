@@ -25,9 +25,9 @@ const NotificationIcon = () => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/notifications/get?page=${pageNum}`);
 			setNotifications(response.data.content);
-			console.log(response.data);
+			// console.log(response.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -36,9 +36,9 @@ const NotificationIcon = () => {
 			try {
 				const response = await axiosPrivate.get("api/v1/notifications/user-has-unread-notifications");
 				setHasUnreadNotifications(response.data);
-				console.log(response.data);
+				// console.log(response.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 
@@ -51,14 +51,14 @@ const NotificationIcon = () => {
 			await axiosPrivate.put("api/v1/notifications/mark-all-as-read");
 			setHasUnreadNotifications(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
 	return (
 		<Dropdown
 			head={
-				<div className="cursor-pointer text-xl" onClick={markAllasRead}>
+				<div className="hover-effect-no-shadow cursor-pointer text-xl" onClick={markAllasRead}>
 					{hasUnreadNotifications ? (
 						<div className="relative flex animate-bounce items-center justify-center">
 							<i className="bx bx-bell"></i>
@@ -71,16 +71,16 @@ const NotificationIcon = () => {
 			}
 			rightAlign
 		>
-			<div className="z-50 flex flex-col items-center justify-start rounded-xl border border-gray-800 bg-light-bg px-4 py-1 dark:bg-dark-bg">
-				<p className="text-center font-bold">Notifications</p>
+			<div className="z-50 flex flex-col items-center justify-start rounded-xl border border-gray-800 bg-light-bg py-2 dark:bg-dark-bg">
+				<p className="mb-1 px-4 text-center font-bold">Notifications</p>
 				<InfiniteScroll
 					dataLength={notifications.length}
 					next={() => getNotifications(pageInfo.number + 1)}
 					hasMore={!pageInfo.last}
 					loader={<Loading isTransparent />}
-					className="flex max-h-40 w-40 flex-col truncate"
+					className="flex max-h-40 w-52 flex-col px-4 scrollbar-thin"
 					endMessage={
-						<p className="truncate" style={{ textAlign: "center" }}>
+						<p className="text-wrap" style={{ textAlign: "center" }}>
 							<b>Yay! You have seen it all</b>
 						</p>
 					}
@@ -88,10 +88,10 @@ const NotificationIcon = () => {
 					{notifications.map((notification, index) => (
 						<div key={index}>
 							<Link to={{ pathname: `${notification.linkSuffix}` }}>
-								<p className="text-base">{notification.text}</p>
+								<p className="text-wrap text-base hover:font-medium">{notification.text}</p>
 							</Link>
 
-							<hr />
+							<hr className="my-1" />
 						</div>
 					))}
 				</InfiniteScroll>

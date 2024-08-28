@@ -9,6 +9,7 @@ type DropdownProps = {
 	rightAlign?: boolean;
 	noCloseOnClick?: boolean;
 	className?: string;
+	dropdownClassName?: string;
 };
 
 function useClickOutside(ref: RefObject<any>, onClickOutside: () => void) {
@@ -33,6 +34,7 @@ const Dropdown = ({
 	rightAlign = false,
 	noCloseOnClick = false,
 	className = "",
+	dropdownClassName = "",
 }: DropdownProps) => {
 	// if (!isOpen || !setIsOpen) {
 	// 	[isOpen, setIsOpen] = useState<boolean>(false);
@@ -61,7 +63,7 @@ const Dropdown = ({
 				{head}
 			</div>
 			<div
-				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full z-50 min-w-full overflow-hidden shadow dark:shadow-gray-800`}
+				className={`absolute ${rightAlign ? "right-0" : "left-0"} top-full z-50 min-w-full overflow-hidden shadow dark:shadow-gray-800 ${dropdownClassName}`}
 				{...getCollapseProps()}
 				onClick={() => {
 					!noCloseOnClick && setIsOpen(false);

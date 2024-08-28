@@ -83,11 +83,11 @@ const ReviewBlock = ({ rating, ratedByCount, reviews, setReviews, baseUrl }: Pro
 						try {
 							const response = await axios.get(requestUrl);
 
-							console.log(response.data);
+							// console.log(response.data);
 
-							// setReviews(response.data.content);
+							setReviews(response.data.content);
 						} catch (error) {
-							console.log(error);
+							console.error(error);
 						}
 					}}
 				/>

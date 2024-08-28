@@ -131,7 +131,7 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 														title: "",
 														year: null,
 													});
-													console.log(values);
+													// console.log(values);
 												}}
 												className="outline-btn col-start-1 my-1 h-5 w-5 cursor-pointer rounded p-0.5"
 											/>

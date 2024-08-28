@@ -19,7 +19,6 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [theme, setTheme] = useState<Theme>(savedTheme);
 
 	const toggleTheme = () => {
-		console.log("theme changed");
 		const newTheme = theme === "light" ? "dark" : "light";
 		setSavedTheme(newTheme);
 		setTheme(newTheme);

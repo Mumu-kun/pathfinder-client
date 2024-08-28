@@ -112,7 +112,12 @@ const OfferedEnrollments: React.FC = () => {
 									className="col-span-full aspect-[6/1] w-full object-cover"
 								/>
 								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
-									<p className="medium-headings text-left">{incompleteEnrollmentAsBuyer.gig.title}</p>
+									<Link
+										to={`/gig/${incompleteEnrollmentAsBuyer.gig.id}`}
+										className="small-headings text-left hover:underline"
+									>
+										{incompleteEnrollmentAsBuyer.gig.title}
+									</Link>
 									<div className="flex items-center justify-self-end text-xl font-semibold">
 										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsBuyer.price}
 									</div>
@@ -201,15 +206,10 @@ const OfferedEnrollments: React.FC = () => {
 							<EnrollmentView viewType="buyer" enrollment={incompleteEnrollmentAsBuyer} />
 						</div>
 					)}
-					<div>
-						<Link className="solid-btn" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsBuyer.id}` }}>
-							View details
-						</Link>
-					</div>
 				</div>
 			)}
 			{incompleteEnrollmentAsSeller && (
-				<div className="m-2 overflow-hidden rounded-md bg-light-bg shadow dark:bg-dark-secondary">
+				<div className="m-2 flex flex-col items-center overflow-hidden rounded-md bg-light-bg shadow dark:bg-dark-secondary">
 					{incompleteEnrollmentAsSeller.buyerConfirmed == false && (
 						<div>
 							{/* <p className="bg-light-secondary py-2 text-center font-semibold dark:bg-dark-secondary">
@@ -232,7 +232,12 @@ const OfferedEnrollments: React.FC = () => {
 									className="col-span-full aspect-[6/1] w-full object-cover"
 								/>
 								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
-									<p className="medium-headings text-left">{incompleteEnrollmentAsSeller.gig.title}</p>
+									<Link
+										to={`/gig/${incompleteEnrollmentAsSeller.gig.id}`}
+										className="small-headings text-left hover:underline"
+									>
+										{incompleteEnrollmentAsSeller.gig.title}
+									</Link>
 									<div className="flex items-center justify-self-end text-xl font-semibold">
 										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsSeller.price}
 									</div>
@@ -266,11 +271,9 @@ const OfferedEnrollments: React.FC = () => {
 							<EnrollmentView viewType="seller" enrollment={incompleteEnrollmentAsSeller} />
 						</div>
 					)}
-					<div>
-						<Link className="solid-btn" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsSeller.id}` }}>
-							View details
-						</Link>
-					</div>
+					<Link className="solid-btn mb-2" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsSeller.id}` }}>
+						View details
+					</Link>
 				</div>
 			)}
 		</div>

@@ -49,7 +49,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 				// TODO: change profile_image to camelcase in the backend.
 				setCurrentContactData({ fullName: response.data.fullName, profileImage: response.data.profile_image });
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 
@@ -80,10 +80,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 			} else {
 				setChatMessages((prev) => [...prev, ...response.data.content]);
 			}
-
-			console.log("fetched page " + pageNum);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -98,7 +96,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 			try {
 				await axiosPrivate.put(`api/v1/chat/messages/read/${messageId}`);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 

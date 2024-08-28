@@ -28,7 +28,7 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 				},
 			});
 
-			console.log(res.data);
+			// console.log(res.data);
 
 			setGuideline({ topic: query, content: res.data });
 		} catch (error) {}

@@ -38,7 +38,7 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 
 			setGigSuggestions(res.data.content);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 
 		try {
@@ -50,7 +50,7 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 
 			setTagSuggestions(res.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 

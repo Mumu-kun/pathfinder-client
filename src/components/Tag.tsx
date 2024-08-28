@@ -17,14 +17,12 @@ const Tag = ({ tag, disabled = false, className: pClassName }: TagProps) => {
 				e.altKey && setIsDisabled(true);
 			}}
 			onMouseDown={(e) => {
-				console.log(e);
 				e.altKey && setIsDisabled(true);
 			}}
 			onMouseLeave={() => {
 				!disabled && setIsDisabled(false);
 			}}
 			onClick={(e) => {
-				console.log(e);
 				!e.altKey && !isDisabled && navigate("/");
 				!disabled && isDisabled && setIsDisabled(false);
 			}}

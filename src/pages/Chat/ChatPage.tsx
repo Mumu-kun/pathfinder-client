@@ -98,7 +98,7 @@ const ChatPage: React.FC = () => {
 				<div
 					className="ml-2 flex flex-col items-center border-l-2"
 					style={{
-						flex: !isMediaLG && isControlsExpanded ? "1" : "none",
+						flex: isControlsExpanded ? (!isMediaLG ? "1" : "0 0 24rem") : "none",
 					}}
 				>
 					<Controls

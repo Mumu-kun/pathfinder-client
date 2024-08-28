@@ -6,7 +6,6 @@ const ChangeMode: React.FC = () => {
 	const { mode, changeMode } = useMode();
 
 	const handleModeChange = (mode: Mode) => {
-		console.log("change mode called");
 		changeMode(mode);
 	};
 

@@ -43,7 +43,7 @@ export const getGig = async (id: number) => {
 
 		return res.data;
 	} catch (err) {
-		console.log(err);
+		console.error(err);
 	}
 };
 
@@ -262,8 +262,6 @@ const GigFormPage = ({ formType }: props) => {
 										const fileReader = new FileReader();
 										fileReader.onload = () => {
 											if (fileReader.readyState === 2) {
-												console.log(fileReader.result);
-
 												setFieldValue("gigCoverImage", fileReader.result);
 											}
 										};
@@ -418,7 +416,6 @@ const GigFormPage = ({ formType }: props) => {
 										e.target.value = "";
 										return;
 									}
-									console.log(file);
 
 									setGigVideo(file);
 

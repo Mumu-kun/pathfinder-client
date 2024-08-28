@@ -8,6 +8,7 @@ import * as Yup from "yup";
 
 interface createEnrollmentProps {
 	setCreateAnEnrollmentClicked: React.Dispatch<React.SetStateAction<boolean>>;
+	refreshEnrollments: () => void;
 }
 
 const CreateEnrollmentSchema = Yup.object().shape({
@@ -18,7 +19,7 @@ const CreateEnrollmentSchema = Yup.object().shape({
 	gigId: Yup.number().required("You must select a gig."),
 });
 
-const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollmentClicked }) => {
+const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollmentClicked, refreshEnrollments }) => {
 	const { auth } = useAuth();
 	const userId = auth?.userId;
 	const { id } = useParams();
@@ -88,6 +89,7 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 									);
 									console.log(response);
 									setCreateAnEnrollmentClicked(false);
+									refreshEnrollments();
 								} catch (error) {
 									console.log(error);
 								}
@@ -99,7 +101,7 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 										name="gigId"
 										as="select"
 										label="Select a Gig"
-										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
+										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									>
 										<option disabled value="">
 											Select a gig
@@ -117,28 +119,28 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 										placeholder="Price"
 										label="Price"
 										type="number"
-										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
+										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									/>
 									<Field
 										name="numSessions"
 										placeholder="Number of Sessions"
 										label="Number of Sessions"
 										type="number"
-										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
+										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									/>
 									<Field
 										name="sessionDurationInMinutes"
 										placeholder="Session Duration In Minutes"
 										label="Session Duration In Minutes"
 										type="number"
-										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
+										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									/>
 									<Field
 										name="deadline"
 										placeholder="Deadline"
 										label="Deadline"
 										type="datetime-local"
-										className="bg-light-secondary dark:bg-dark-secondary mb-4 w-full rounded border border-gray-300 p-2"
+										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									/>
 									<div className="flex items-center justify-center">
 										<button type="submit" disabled={isSubmitting} className="solid-btn">

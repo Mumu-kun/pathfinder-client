@@ -39,6 +39,7 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 	}, [createAnEnrollmentClicked]);
 
 	const [runningEnrollment, setRunningEnrollment] = useState<Enrollment | null>(null);
+	const { value: refreshEnrollmentsVal, toggle: refreshEnrollments } = useBoolean(false);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const findRunningEnrollment = async () => {
@@ -80,24 +81,25 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 			</div>
 			{userId !== contactId && (
 				<div
-					className="min-w-[20rem]"
+					className="min-w-[20rem] flex-col items-center"
 					style={{
-						display: isExpanded ? "block" : "none",
+						display: isExpanded ? "flex" : "none",
 					}}
 				>
 					<div>
 						{mode === "seller" && runningEnrollment == null && (
-							<div>
-								<button className="solid-btn" onClick={createEnrollmentBtnClicked}>
-									Create an Enrollment
-								</button>
-							</div>
+							<button className="solid-btn mx-auto my-4" onClick={createEnrollmentBtnClicked}>
+								Create an Enrollment
+							</button>
 						)}
 					</div>
 					{createAnEnrollmentClicked && (
-						<CreateEnrollment setCreateAnEnrollmentClicked={setCreateAnEnrollmentClicked} />
+						<CreateEnrollment
+							setCreateAnEnrollmentClicked={setCreateAnEnrollmentClicked}
+							refreshEnrollments={refreshEnrollments}
+						/>
 					)}
-					<OfferedEnrollments />
+					<OfferedEnrollments key={`controls-enrollments-${refreshEnrollmentsVal}`} />
 				</div>
 			)}
 		</>

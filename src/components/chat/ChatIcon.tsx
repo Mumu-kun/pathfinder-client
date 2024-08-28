@@ -22,7 +22,7 @@ const ChatIcon: React.FC = () => {
 
 			setHasUnreadMessages(response.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -39,7 +39,7 @@ const ChatIcon: React.FC = () => {
 	return (
 		<div onClick={() => setHasUnreadMessages(false)}>
 			<Link to={{ pathname: `/interaction/user/${latestMessageContactId}` }} title="Chat">
-				<div className="text-xl">
+				<div className="hover-effect-no-shadow text-xl">
 					{hasUnreadMessages ? (
 						<div className="relative flex animate-bounce items-center justify-center">
 							<i className="bx bx-message-rounded-dots"></i>

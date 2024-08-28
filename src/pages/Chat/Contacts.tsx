@@ -33,14 +33,13 @@ const Contacts: React.FC<ContactsProps> = ({
 	const [messageReceivedState, setMessageRecivedState] = useState<boolean>(false);
 
 	useEffect(() => {
-		console.log("useeffect ran");
 		const getContacts = async () => {
 			try {
 				const response = await axiosPrivate.get(`api/v1/chat-room/all/${userId}`);
 				console.log(response.data);
 				setChatRooms(response.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 
@@ -117,6 +116,9 @@ const Contacts: React.FC<ContactsProps> = ({
 									onError={({ currentTarget }) => {
 										currentTarget.onerror = null;
 										currentTarget.src = defaultProfileImage;
+									}}
+									style={{
+										background: `url(${defaultProfileImage}) center center / cover no-repeat`,
 									}}
 									className={`h-10 w-10 rounded-full object-cover object-center ${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "outline outline-2 outline-red-500"}`}
 									title={chatRoom.firstUserId == userId ? chatRoom.secondUserFullName : chatRoom.firstUserFullName}
