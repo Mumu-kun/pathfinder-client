@@ -7,6 +7,7 @@ import LimitLayoutWidth from "../components/wrappers/LimitLayoutWidth";
 import Loading from "../components/Loading";
 import PersistLogin from "@/components/wrappers/PersistLogin";
 import FloatCard from "@/components/FloatCard";
+import Footer from "@/components/Footer";
 
 const Layout = ({
 	children,
@@ -53,6 +54,7 @@ const Layout = ({
 				<FloatCard />
 
 				<ToastContainer position="bottom-center" theme={theme} />
+				<Footer />
 			</div>
 		</PersistLogin>
 	);
