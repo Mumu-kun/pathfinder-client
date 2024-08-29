@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Enrollment, Session } from "@/utils/types";
 import { useParams } from "react-router-dom";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import useAuth from "@/hooks/useAuth";
 import { Chart } from "react-google-charts";
+import ThemeContext from "@/context/ThemeProvider";
 
 const EnrollmentDetails = () => {
 	const { enrollmentId } = useParams<{ enrollmentId: string }>();
@@ -82,15 +83,27 @@ const EnrollmentDetails = () => {
 		["Remaining Sessions", 2],
 	];
 
+	const { theme } = useContext(ThemeContext);
+
 	const chartOptions = {
 		title: "Session Progress",
-		is3D: true,
 		pieStartAngle: 100,
-		// info - white text color isn't showing well in yellow(FFFF00) color, so commented this part. may change it later.
-		// slices: {
-		// 	0: { color: "#22C564" },
-		// 	1: { color: "#FFFF00", offset: 0.1 },
-		// },
+		titleTextStyle: {
+			color: theme === "dark" ? "#ffffff" : "#000000",
+		},
+		slices: {
+			0: { color: "#22C564" }, // Color for "Completed Sessions"
+			1: { color: "#fec501", offset: 0.1 }, // Color for "Remaining Sessions"
+		},
+		pieSliceTextStyle: {
+			color: "#000000", // Label text color on pie slices
+		},
+		legend: {
+			textStyle: {
+				color: theme === "dark" ? "#ffffff" : "#000000", // Label text color in the legend
+			},
+		},
+		backgroundColor: theme === "dark" ? "#171717" : "#e0e0e0",
 	};
 
 	// TODO: adjustable view based on who's viewing - buyer/seller.
