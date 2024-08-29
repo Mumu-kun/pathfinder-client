@@ -5,11 +5,9 @@ import { GigCardData } from "@/utils/types";
 
 type ProfileGigsProps = {
 	gigs: GigCardData[] | undefined;
-	refreshGigs: () => void;
-	isOwnerProfile: boolean;
 };
 
-const ProfileGigs = ({ gigs, refreshGigs, isOwnerProfile }: ProfileGigsProps) => {
+const ProfileGigs = ({ gigs }: ProfileGigsProps) => {
 	if (!gigs) {
 		return <Loading />;
 	}

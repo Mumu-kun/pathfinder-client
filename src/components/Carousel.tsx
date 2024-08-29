@@ -4,7 +4,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { FaCircleChevronLeft, FaCircleChevronRight } from "react-icons/fa6";
 
 type CarouselProps = {
-	children?: JSX.Element | JSX.Element[];
+	children?: React.ReactNode;
 	autoplay?: boolean;
 	loop?: boolean;
 	duration?: number;
@@ -53,8 +53,8 @@ const Carousel: React.FC<CarouselProps> = ({
 	}, [emblaApi]);
 
 	return (
-		<div className={`relative flex items-center px-6 ${pClassName}`}>
-			<div ref={emblaRef} className="mt-2 flex-1 overflow-hidden rounded-lg p-2">
+		<div className={`relative flex items-center px-2 ${pClassName}`}>
+			<div ref={emblaRef} className="my-2 flex-1 overflow-hidden rounded py-2">
 				<div className="flex gap-4">{children}</div>
 			</div>
 
@@ -62,7 +62,7 @@ const Carousel: React.FC<CarouselProps> = ({
 				<FaCircleChevronLeft
 					onClick={scrollPrev}
 					id="img-prev"
-					className="absolute left-0 z-10 cursor-pointer text-gray-700 opacity-80 transition-all hover:opacity-100"
+					className="absolute left-0 z-10 h-6 w-6 cursor-pointer text-gray-700 opacity-80 transition-all hover:opacity-100"
 					style={{
 						background: `radial-gradient(circle at 50% 50%, white 0%, white 50%, rgba(0, 0, 0, 0) 50%)`,
 					}}
@@ -72,7 +72,7 @@ const Carousel: React.FC<CarouselProps> = ({
 			{showScroll && (
 				<FaCircleChevronRight
 					onClick={scrollNext}
-					className="absolute right-0 z-10 cursor-pointer text-gray-700 opacity-80 transition-all hover:opacity-100"
+					className="absolute right-0 z-10 h-6 w-6 cursor-pointer text-gray-700 opacity-80 transition-all hover:opacity-100"
 					style={{
 						background: `radial-gradient(circle at 50% 50%, white 0%, white 50%, rgba(0, 0, 0, 0) 50%)`,
 					}}

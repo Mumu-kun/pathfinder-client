@@ -283,14 +283,7 @@ export const Profile = () => {
 			</div>
 
 			{/* Gigs */}
-			<ProfileGigs
-				{...{ gigs, isOwnerProfile }}
-				refreshGigs={() => {
-					getGigCards(userId).then((data) => {
-						setGigs(data);
-					});
-				}}
-			/>
+			<ProfileGigs {...{ gigs }} />
 
 			{/* Reviews */}
 			{reviews ? (

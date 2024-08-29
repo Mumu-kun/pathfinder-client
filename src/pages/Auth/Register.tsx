@@ -10,8 +10,8 @@ import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 
 const RegisterSchema = Yup.object().shape({
-	firstName: Yup.string().required(),
-	lastName: Yup.string().required(),
+	firstName: Yup.string().required("First Name Required"),
+	lastName: Yup.string().required("Last Name Required"),
 	email: Yup.string().email("Invalid email").required("Required"),
 	password: Yup.string().required("Provide a password.").min(8, "Password is too short - should be 8 chars minimum."),
 });
@@ -104,7 +104,7 @@ const Register: React.FC = () => {
 										localStorage.setItem("persist_login", JSON.stringify(e.target.checked));
 									}}
 								/>
-								<label htmlFor="trust" className="m-2">
+								<label htmlFor="trust" className="m-2 accent-green-400">
 									Trust this device
 								</label>
 							</div>

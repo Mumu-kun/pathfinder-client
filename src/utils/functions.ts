@@ -9,7 +9,7 @@ export const userProfileImageUrl = (id: number) => {
 };
 
 export const fullImageUrl = (filename: string) => {
-	return BASE_URL + IMAGE_BASE_URL + filename;
+	return BASE_URL + IMAGE_BASE_URL + "/" + filename;
 };
 
 export const coverImageUrl = (filename?: string | null) => {
@@ -17,7 +17,7 @@ export const coverImageUrl = (filename?: string | null) => {
 		return defaultCoverImage;
 	}
 
-	return BASE_URL + IMAGE_BASE_URL + filename;
+	return BASE_URL + IMAGE_BASE_URL + "/" + filename;
 };
 
 export const disableScroll = () => {

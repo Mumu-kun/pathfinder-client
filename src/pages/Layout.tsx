@@ -12,9 +12,11 @@ import Footer from "@/components/Footer";
 const Layout = ({
 	children,
 	isScreenHeight = false,
+	noShowFooter = false,
 }: {
 	children?: JSX.Element | JSX.Element[];
 	isScreenHeight?: boolean;
+	noShowFooter?: boolean;
 }) => {
 	const { theme } = useContext(ThemeContext);
 	const navigation = useNavigation();
@@ -43,7 +45,7 @@ const Layout = ({
 					<Header />
 				</div>
 				{/* <div className="flex w-full flex-1 flex-col"> */}
-				<div id="unlimit-width" className="flex min-h-0 w-full flex-1 flex-col px-6 empty:flex-none"></div>
+				<div id="unlimit-width" className="flex min-h-0 w-full flex-1 flex-col empty:flex-none"></div>
 				<LimitLayoutWidth>
 					<>
 						<Outlet />
@@ -54,7 +56,7 @@ const Layout = ({
 				<FloatCard />
 
 				<ToastContainer position="bottom-center" theme={theme} />
-				<Footer />
+				{!noShowFooter && <Footer />}
 			</div>
 		</PersistLogin>
 	);

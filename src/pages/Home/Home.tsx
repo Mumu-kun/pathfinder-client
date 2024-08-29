@@ -4,6 +4,7 @@ import Categories from "./Categories";
 import ChangeTheme from "../../components/ChangeTheme";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import Intro from "./Intro";
+import GigRecommendationsShowcase from "../Profile/GigShowcase";
 
 const Home: React.FC = () => {
 	return (
@@ -11,25 +12,31 @@ const Home: React.FC = () => {
 			<UnlimitLayoutWidth>
 				<Intro />
 			</UnlimitLayoutWidth>
+			<GigRecommendationsShowcase
+				title="Recommended"
+				urlPath={`recommendations`}
+				showMorePath="/recommendations?title=Recommended"
+			/>
+			<GigRecommendationsShowcase
+				title="Popular Gigs"
+				urlPath={`/recommendations/popular-gigs`}
+				needAuth
+				showMorePath="/recommendations/popular-gigs?title=Popular+Gigs"
+			/>
 			<Categories />
-			{/* <Link
-				to="/register"
-				className="solid-btn"
-			>
-				register
-			</Link>
-			<Link
-				to="/login"
-				className="solid-btn"
-			>
-				login
-			</Link>
-			<Link
-				to="/test"
-				className="solid-btn"
-			>
-				Test
-			</Link> */}
+			<GigRecommendationsShowcase
+				title="Top Picks"
+				urlPath={`/recommendations/top-picks`}
+				needAuth
+				showMorePath="/recommendation/top-picks?title=Top+Picks"
+			/>
+			<GigRecommendationsShowcase
+				title="Recently Viewed"
+				urlPath={`/recommendations/recently-viewed`}
+				needAuth
+				showMorePath="/recommendation/recently-viewed?title=Recently+Viewed"
+			/>
+
 			<ChangeTheme />
 			<Link to="/profile" className="solid-btn">
 				Profile

@@ -6,17 +6,17 @@ import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Layout from "./pages/Layout.tsx";
-import TestPage from "./pages/TestPage.tsx";
 
 import ChatPage from "./pages/Chat/ChatPage.tsx";
 
 import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
 import SetMode from "./components/wrappers/SetMode.tsx";
-import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
-import FilterPage from "./pages/Filter/FilterPage.tsx";
 import EnrollmentDetails from "./pages/EnrollmentDetails/EnrollmentDetails.tsx";
+import FilterPage from "./pages/Filter/FilterPage.tsx";
+import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
+import Recommendations from "./pages/Filter/Recommendations.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -45,6 +45,10 @@ const router = createBrowserRouter([
 				element: <FilterPage />,
 			},
 			{
+				path: "recommendations/*",
+				element: <Recommendations />,
+			},
+			{
 				path: "profile/:userId",
 				element: (
 					<Suspense fallback={<Loading fullscreen />}>
@@ -68,10 +72,6 @@ const router = createBrowserRouter([
 			{
 				element: <RequireAuth />,
 				children: [
-					{
-						path: "test",
-						element: <TestPage />,
-					},
 					{
 						path: "enrollment/details/:enrollmentId",
 						element: <EnrollmentDetails />,
@@ -141,7 +141,17 @@ const router = createBrowserRouter([
 		],
 	},
 	{
-		element: <Layout isScreenHeight />,
+		element: <Layout noShowFooter />,
+		errorElement: <ErrorPage showHeader />,
+		children: [
+			{
+				element: <RequireAuth />,
+				children: [],
+			},
+		],
+	},
+	{
+		element: <Layout isScreenHeight noShowFooter />,
 		errorElement: <ErrorPage showHeader />,
 		children: [
 			{

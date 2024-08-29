@@ -61,7 +61,7 @@ const validationSchema = Yup.object().shape({
 				answer: Yup.string().required("Answer is required"),
 			})
 		)
-		.min(3, "At least three FAQs required"),
+		.min(1, "At least one FAQ required"),
 });
 
 const isDetailsUpdated = (values: Gig, gig: Gig) => {

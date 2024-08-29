@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 const LimitLayoutWidth = ({ children }: { children?: React.ReactNode }) => {
 	return (
 		<div
-			className="mx-auto flex min-h-0 w-[1000px] max-w-full flex-1 flex-col px-6 empty:flex-none"
+			className="mx-auto flex min-h-0 w-[1200px] max-w-full flex-1 flex-col px-6 empty:flex-none"
 			id="limited-container"
 		>
 			{children}

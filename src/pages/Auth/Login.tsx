@@ -38,7 +38,7 @@ const Login: React.FC = () => {
 
 						navigate(from, { replace: true });
 					} catch (error) {
-						if (isAxiosError(error) && error.response?.status === 401) {
+						if (isAxiosError(error)) {
 							toast(error.response?.data?.message, { type: "error" });
 						}
 						console.error(error);
