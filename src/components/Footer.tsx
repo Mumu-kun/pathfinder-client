@@ -64,6 +64,27 @@ export default function Footer() {
 					</Link> */}
 				</div>
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
+					<p className="small-headings mb-4 ml-0">Community</p>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Forums
+					</Link>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Events
+					</Link>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Blogs
+					</Link>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Creators
+					</Link>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Invite a Friend
+					</Link>
+					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+						Become a seller
+					</Link>
+				</div>
+				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Contact us</p>
 					<div className="flex items-center justify-center">
 						<i className="bx bx-phone normal-text ml-0 pl-0 text-xl"></i>
@@ -97,10 +118,10 @@ export default function Footer() {
 				</div>
 			</div>
 
-			<hr className="mx-10 lg:mx-20 rounded-md h-1 border-0 bg-dark-secondary md:my-10 dark:bg-light-secondary" />
+			<hr className="mx-10 h-1 rounded-md border-0 bg-dark-secondary md:my-10 lg:mx-20 dark:bg-light-secondary" />
 			<div className="mx-0 mt-5 flex flex-col items-center justify-between px-10 md:mx-10 md:flex-row">
 				<div className="flex items-center justify-center">
-					<p className="small-headings mr-2">pathPhinder</p>
+					<p className="small-headings mr-2">pathPhindr</p>
 					<i className="normal-text bx bx-copyright mx-0 pl-0"></i>
 					<p className="px-1 font-bold">2024</p>
 					<p className="pr-1 font-bold">pathPhindr Inc.</p>
@@ -109,39 +130,39 @@ export default function Footer() {
 					<p className="small-headings pr-5">Connect: </p>
 
 					<a
-						className="normal-text px-1 mx-1 underline hover:text-indigo-500"
+						className="normal-text mx-1 px-1 underline hover:text-indigo-500"
 						href=""
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<i className="bx bxl-facebook-circle normal-text px-1 mx-1 text-xl"></i>
+						<i className="bx bxl-facebook-circle normal-text mx-1 px-1 text-xl"></i>
 					</a>
 
 					<a
-						className="normal-text px-1 mx-1 underline hover:text-indigo-500"
+						className="normal-text mx-1 px-1 underline hover:text-indigo-500"
 						href=""
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<i className="bx bxl-instagram normal-text px-1 mx-1 text-xl"></i>
+						<i className="bx bxl-instagram normal-text mx-1 px-1 text-xl"></i>
 					</a>
 
 					<a
-						className="normal-text px-1 mx-1 underline hover:text-indigo-500"
+						className="normal-text mx-1 px-1 underline hover:text-indigo-500"
 						href=""
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<i className="bx bxl-linkedin normal-text px-1 mx-1 text-xl"></i>
+						<i className="bx bxl-linkedin normal-text mx-1 px-1 text-xl"></i>
 					</a>
 
 					<a
-						className="normal-text px-1 mx-1 underline hover:text-indigo-500"
+						className="normal-text mx-1 px-1 underline hover:text-indigo-500"
 						href=""
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						<i className="bx bxl-twitter normal-text px-1 mx-1 text-xl"></i>
+						<i className="bx bxl-twitter normal-text mx-1 px-1 text-xl"></i>
 					</a>
 				</div>
 			</div>

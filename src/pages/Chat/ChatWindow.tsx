@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ChatMessage, ChatMessageInput } from "../../utils/types";
 import NoContactSelected from "./components/NoContactSelected";
+import { ReactTinyLink } from "react-tiny-link";
 
 interface ChatWindowProps {
 	messageSent: boolean;
@@ -139,6 +140,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 		}
 	}, [chatMessages]);
 
+	const isValidUrl = (text: string) => {
+		try {
+			new URL(text);
+			return true;
+		} catch (error) {
+			return false;
+		}
+	};
+
 	return (
 		<div
 			className="flex flex-1 flex-col self-stretch"
@@ -191,7 +201,18 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 											)}
 											<div className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} py-0.5`}>
 												<p className="normal-text max-w-72 break-all rounded-md bg-green-300 px-3 py-2 text-left dark:bg-green-600">
-													{message.message}
+													{isValidUrl(message.message) ? (
+														<ReactTinyLink
+															cardSize="small"
+															showGraphic={true}
+															maxLine={2}
+															minLine={1}
+															url={message.message}
+															onError={<p>{message.message}</p>}
+														/>
+													) : (
+														message.message
+													)}
 												</p>
 											</div>
 										</div>
