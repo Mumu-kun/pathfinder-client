@@ -4,6 +4,7 @@ import GigCard from "@/components/GigCard";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { GigCardData } from "@/utils/types";
+import { GIGS_BASE_URL, GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -22,15 +23,13 @@ const GigRecommendationsShowcase = ({ title, urlPath, showMorePath, needAuth = f
 
 	const getGigs = async () => {
 		try {
-			// const res = await (auth
-			// 	? axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/${url}`)
-			// 	: axios.get(`${GIGS_BASE_URL}/${url}`));
-			const res = await axios.get(`/api/v1/public/users/1/gigs/card`);
-			const data = res.data;
+			const res = await (auth
+				? axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/${urlPath}`)
+				: axios.get(`${GIGS_BASE_URL}/${urlPath}`));
 
-			console.log(data);
+			console.log(res.data.gigs);
 
-			setGigs(data);
+			setGigs(res.data.gigs);
 		} catch (error) {
 			console.error(error);
 		}
