@@ -87,8 +87,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 	};
 
 	useEffect(() => {
-		fetchMessages();
+		const timeoutId = setTimeout(() => {
+			fetchMessages();
+		}, 100);
+	
+		return () => clearTimeout(timeoutId); // Cleanup to avoid multiple timeouts
 	}, [senderId, receiverId, messageSent]);
+	
 
 	const { receivedMessage, sendMessage } = useStomp();
 
