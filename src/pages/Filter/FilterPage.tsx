@@ -42,9 +42,10 @@ class MyURLSearchParams extends URLSearchParams {
 }
 
 const sortOptions: { [key: string]: string } = {
+	score: "Recommended",
 	totalOrders: "Popular",
 	rating: "Rated",
-	price: "Cost",
+	price: "Priced",
 	createdAt: "Created",
 };
 
@@ -119,7 +120,7 @@ const FilterPage = () => {
 	}
 
 	let sort = queryParams.get("sort");
-	sort = sort && Object.keys(sortOptions).includes(sort) ? sort : "totalOrders";
+	sort = sort && Object.keys(sortOptions).includes(sort) ? sort : "score";
 
 	let order = queryParams.get("order");
 	order = order && ["ASC", "DESC"].includes(order) ? order : "DESC";
@@ -139,10 +140,10 @@ const FilterPage = () => {
 						))}
 					</div>
 				) : null}
-				<div className="mx-4 mt-4 grid w-full max-w-[1200px] grid-cols-[repeat(4,auto)_1fr] items-center justify-center gap-4 self-center max-lg:grid-cols-[repeat(2,auto)_1fr] max-lg:grid-rows-2 max-lg:text-sm max-[480px]:grid-cols-[repeat(2,1fr)]">
+				<div className="mx-4 mt-4 grid w-full max-w-[1200px] grid-cols-[repeat(4,auto)_1fr] items-center justify-center gap-4 self-center text-sm max-lg:grid-cols-[repeat(2,auto)_1fr] max-lg:grid-rows-2 max-lg:text-sm max-[480px]:grid-cols-[repeat(2,1fr)]">
 					<Select
 						options={categories.map((category) => ({ value: category, label: category }))}
-						className="w-40"
+						className="w-48"
 						value={!!category ? { value: category, label: category } : null}
 						onChange={(value) => {
 							const newParams = queryParams.copy();
@@ -163,11 +164,11 @@ const FilterPage = () => {
 
 					<Dropdown
 						head={
-							<div className="flex select-none items-center justify-between gap-1 rounded border border-green-500 bg-white px-3 py-1">
+							<div className="flex select-none items-center justify-between gap-1 rounded border border-green-500 bg-white px-3 py-1.5">
 								Tags <FaCaretDown className="h-3 w-3" />
 							</div>
 						}
-						className="w-36 max-lg:col-span-2 max-[480px]:col-span-1"
+						className="w-20 max-lg:col-span-2 max-[480px]:col-span-1"
 						noCloseOnClick
 					>
 						<div
@@ -251,7 +252,7 @@ const FilterPage = () => {
 						/>
 					</div>
 
-					<div className="ml-auto flex w-44 flex-shrink-0 items-center gap-2 max-sm:col-span-full">
+					<div className="ml-auto flex w-52 flex-shrink-0 items-center gap-2 max-sm:col-span-full">
 						<Select
 							options={Object.entries(sortOptions).map(([key, value]) => ({ value: key, label: value }))}
 							value={{ value: sort, label: sortOptions[sort] }}

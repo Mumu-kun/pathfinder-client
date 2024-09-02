@@ -27,8 +27,6 @@ const GigRecommendationsShowcase = ({ title, urlPath, showMorePath, needAuth = f
 				? axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/${urlPath}`)
 				: axios.get(`${GIGS_BASE_URL}/${urlPath}`));
 
-			console.log(res.data.gigs);
-
 			setGigs(res.data.gigs);
 		} catch (error) {
 			console.error(error);
@@ -56,15 +54,7 @@ const GigRecommendationsShowcase = ({ title, urlPath, showMorePath, needAuth = f
 
 			<Carousel>
 				{gigs.map((value) => (
-					<>
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-						<GigCard gig={value} key={`profileGig-${value.id}`} />
-					</>
+					<GigCard gig={value} key={`profileGig-${value.id}`} />
 				))}
 			</Carousel>
 		</div>

@@ -3,7 +3,7 @@ import Loading from "@/components/Loading";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { coverImageUrl, sleep } from "@/utils/functions";
-import { Gig } from "@/utils/types";
+import { Gig, GigManage } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { FaAngleDown } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -11,17 +11,17 @@ import Modal from "react-responsive-modal";
 import { Link } from "react-router-dom";
 
 const ManageGigs = () => {
-	const [gigs, setGigs] = useState<Gig[] | undefined>();
-
-	const { auth } = useAuth();
+	const [gigs, setGigs] = useState<GigManage[] | undefined>();
 
 	const axiosPrivate = useAxiosPrivate();
 
 	const getGigs = async () => {
 		try {
-			const res = await axiosPrivate.get(`api/v1/public/users/${auth!.userId}/gigs`);
+			const res = await axiosPrivate.get(`api/v1/users/my/gigs/manage`);
 
 			await sleep(500);
+
+			console.log(res.data);
 
 			setGigs(res.data);
 		} catch (error) {
@@ -29,7 +29,7 @@ const ManageGigs = () => {
 		}
 	};
 
-	const [gigDelete, setGigDelete] = useState<Gig | undefined>();
+	const [gigDelete, setGigDelete] = useState<GigManage | undefined>();
 
 	useEffect(() => {
 		getGigs();
@@ -43,7 +43,7 @@ const ManageGigs = () => {
 				<div className="col-span-full my-2 grid grid-cols-subgrid border-b border-zinc-300 py-2 font-bold">
 					<div></div>
 					<div className="mr-auto">Gig</div>
-					<div>Visits</div>
+					<div>Score</div>
 					<div>Ongoing</div>
 					<div>Completed</div>
 					<div>Earning</div>
@@ -60,17 +60,19 @@ const ManageGigs = () => {
 								<Link to={`/gig/${gig.id}`} className="hover:underline">
 									{gig.title}
 								</Link>
-								<div className="text-center">0</div>
-								<div className="text-center">0</div>
-								<div className="text-center">0</div>
-								<div className="text-center">0</div>
-								<div className="text-center">0</div>
+								<div className="text-center">{gig.score}</div>
+								<div className="text-center">{gig.ongoing}</div>
+								<div className="text-center">{gig.completed}</div>
+								<div className="text-center">{gig.earning}</div>
+								<div className="text-center">{gig.rating}</div>
 								<Dropdown
 									head={<FaAngleDown />}
 									rightAlign
 									dropdownClassName="mt-2 min-w-20 rounded-md flex flex-col bg-light-bg text-center transition-all dark:bg-dark-bg"
 								>
-									<div className="self-stretch px-2 py-1 hover:bg-green-400 hover:text-white">Publish</div>
+									<div className="cursor-pointer self-stretch px-2 py-1 hover:bg-green-400 hover:text-white">
+										Publish
+									</div>
 									<Link
 										to={`/gig/${gig.id}`}
 										className="block self-stretch px-2 py-1 hover:bg-zinc-400 hover:text-white"
@@ -84,7 +86,7 @@ const ManageGigs = () => {
 										Edit
 									</Link>
 									<div
-										className="self-stretch px-2 py-1 hover:bg-red-400 hover:text-white"
+										className="cursor-pointer self-stretch px-2 py-1 hover:bg-red-400 hover:text-white"
 										onClick={() => setGigDelete(gig)}
 									>
 										Delete

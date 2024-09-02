@@ -59,6 +59,8 @@ export type Gig = {
 	totalCompleted: number;
 	totalOrders: number;
 	accepted: boolean;
+	paused: boolean;
+	score: number;
 	seller: User;
 	createdAt: Date;
 };
@@ -83,6 +85,20 @@ export type GigShort = {
 	id: number;
 	title: string;
 	coverImage: string | null;
+};
+
+export type GigManage = {
+	id: number;
+	title: string;
+	gigCoverImage: string | null;
+	price: number;
+	accepted: boolean;
+	paused: boolean;
+	score: number;
+	ongoing: number;
+	completed: number;
+	earning: number;
+	rating: number;
 };
 
 export type Review = {

@@ -25,6 +25,8 @@ import { useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
 import { Gig, Page, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
+import ErrorPage from "@/components/ErrorPage";
+import { isAxiosError } from "axios";
 
 type props = {
 	gig?: Gig;
@@ -41,26 +43,6 @@ const getGigReviews = async (id: number) => {
 	}
 };
 
-const testReviews = [
-	{
-		id: 1,
-		title: "This was life changing",
-		text: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eligendi sapiente ratione consectetur, sed architecto earum magni alias repudiandae dolores quo, vero minima accusantium beatae esse doloremque? Rem, vero dolores.",
-		rating: 4.5,
-		createdAt: new Date(),
-		reviewer: {
-			id: 1,
-			firstName: "Mustafa",
-			lastName: "Muhaimin",
-		},
-		gig: {
-			id: 1,
-			title: "Intro to Python Programming",
-			coverImage: null,
-		},
-	},
-];
-
 const GigPage = ({ gig: propGig, setEditMode }: props) => {
 	const id: number = Number(useParams().id ?? propGig?.id);
 	const { auth } = useAuth();
@@ -68,13 +50,15 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 
 	const [gig, setGig] = useState<Gig | undefined>(propGig);
 
+	const [error, setError] = useState<{ errorCode: number; errorMessage: string } | undefined>(undefined);
+
 	const isMD = useMediaQuery("(max-width: 768px)");
 
 	const [reviews, setReviews] = useState<Page<Review> | undefined>({
-		content: testReviews,
-		totalPages: 1,
-		totalElements: 1,
-		number: 1,
+		content: [],
+		totalPages: 0,
+		totalElements: 0,
+		number: 0,
 		last: true,
 	});
 
@@ -88,7 +72,13 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 				return res.data;
 			}
 		} catch (err) {
-			console.log(err);
+			console.error(err);
+			if (isAxiosError(err)) {
+				setError({
+					errorCode: err.response?.status ?? 500,
+					errorMessage: err.response?.data.message ?? "Something went wrong",
+				});
+			}
 		}
 	};
 
@@ -97,7 +87,11 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 		id && getGigReviews(id).then((data) => setReviews(data));
 	}, [id]);
 
-	if (!gig) {
+	if (error) {
+		return <ErrorPage {...error} />;
+	}
+
+	if (gig === undefined) {
 		return <Loading />;
 	}
 
@@ -139,7 +133,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 			</div>
 			<div className="grid grid-cols-[auto_max-content] gap-4">
 				<div className="space-y-4">
-					<div className="grid w-fit grid-cols-2 items-center gap-2 rounded bg-light-secondary p-2 shadow dark:bg-dark-secondary">
+					<div className="grid w-fit grid-cols-[repeat(2,auto)] items-center gap-y-4 rounded bg-light-secondary p-2 shadow max-[500px]:grid-cols-1 dark:bg-dark-secondary">
 						<div className="flex h-20 gap-2" title={`${seller.firstName} ${seller.lastName}`}>
 							<img
 								src={userProfileImageUrl(seller.id)}
@@ -150,8 +144,8 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 								className="aspect-square h-full rounded-sm border-4 border-white object-cover object-center shadow dark:border-black"
 								alt={`${seller.firstName} ${seller.lastName}`}
 							/>
-							<div className="flex flex-col justify-center gap-1 self-stretch">
-								<Link to={`/profile/${seller.id}`} className="text-xl font-semibold hover:underline">
+							<div className="ml-2 flex flex-col items-start justify-center gap-1 self-stretch">
+								<Link to={`/profile/${seller.id}`} className="text-xl font-semibold hover:underline max-md:text-sm">
 									{seller.firstName} {seller.lastName}
 								</Link>
 								<Link
@@ -163,7 +157,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 								</Link>
 							</div>
 						</div>
-						<div className="ml-4 border-l border-light-text pl-3 font-medium dark:border-dark-text">
+						<div className="[400px]:border-l [400px]:ml-4 mr-3 border-light-text pl-3 font-medium dark:border-dark-text">
 							<div>{gig.totalOrders} Orders Placed</div>
 							<div>{gig.totalOrders} Reviews</div>
 						</div>
