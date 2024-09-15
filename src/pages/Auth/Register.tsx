@@ -17,7 +17,7 @@ const RegisterSchema = Yup.object().shape({
 });
 
 const Register: React.FC = () => {
-	const { setAuth, setPersist } = useAuth();
+	const { setPersist } = useAuth();
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -44,9 +44,10 @@ const Register: React.FC = () => {
 
 						// console.log(res);
 
-						setAuth(res.data);
+						// setAuth(res.data);
 
-						navigate(from === "/login" ? "/" : from, { replace: true });
+						// navigate(from === "/login" ? "/" : from, { replace: true });
+						navigate(`/email-not-verified/${res.data.email}`, { replace: true });
 					} catch (error) {
 						if (isAxiosError(error)) {
 							toast(error.response?.data?.message, { type: "error" });

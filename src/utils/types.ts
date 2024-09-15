@@ -25,6 +25,7 @@ export type AuthUser = {
 	email: string;
 	role: string;
 	accessToken: string;
+	emailVerified: boolean;
 };
 
 export type User = {
