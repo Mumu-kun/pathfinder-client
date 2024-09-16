@@ -145,7 +145,10 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 								alt={`${seller.firstName} ${seller.lastName}`}
 							/>
 							<div className="ml-2 flex flex-col items-start justify-center gap-1 self-stretch">
-								<Link to={`/profile/${seller.id}`} className="text-xl font-semibold hover:underline max-md:text-sm">
+								<Link
+									to={`/profile/${seller.id}`}
+									className="mr-2 text-lg font-semibold hover:underline max-md:text-sm"
+								>
 									{seller.firstName} {seller.lastName}
 								</Link>
 								<Link
@@ -157,7 +160,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 								</Link>
 							</div>
 						</div>
-						<div className="[400px]:border-l [400px]:ml-4 mr-3 border-light-text pl-3 font-medium dark:border-dark-text">
+						<div className="mr-3 border-light-text pl-3 font-medium min-[500px]:ml-2 min-[500px]:border-l dark:border-dark-text">
 							<div>{gig.totalOrders} Orders Placed</div>
 							<div>{gig.totalOrders} Reviews</div>
 						</div>

@@ -37,16 +37,6 @@ import Creatable from "react-select/creatable";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
-export const getGig = async (id: number) => {
-	try {
-		const res = await axios.get(`/api/v1/public/gigs/${id}`);
-
-		return res.data;
-	} catch (err) {
-		console.error(err);
-	}
-};
-
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required("Title is required"),
 	category: Yup.string().required("Category is required"),
@@ -100,6 +90,16 @@ const GigFormPage = ({ formType }: props) => {
 
 	const [tagInputText, setTagInputText] = useState<string>("");
 
+	const getGig = async (id: number) => {
+		try {
+			const res = await axiosPrivate.get(`/api/v1/gigs/get/${id}`);
+
+			return res.data;
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	useEffect(() => {
 		axiosPrivate.get("/api/v1/public/categories/all").then((res) => {
 			setCategories(res.data);
@@ -146,8 +146,8 @@ const GigFormPage = ({ formType }: props) => {
 					title: values.title,
 					category: values.category,
 					tags: values.tags,
-					description: values.description,
-					offerText: values.offerText,
+					description: values.description.trim(),
+					offerText: values.offerText.trim(),
 					price: values.price,
 					faqs: values.faqs,
 				};
