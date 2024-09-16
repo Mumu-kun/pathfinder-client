@@ -6,6 +6,7 @@ export default {
 		extend: {
 			fontSize: {
 				xss: "0.625rem",
+				md: "1.0625rem",
 			},
 			dropShadow: {
 				glow: ["0 0px 1px rgba(29,78, 216, 0.35)", "0 0px 3px rgba(29, 78,216, 0.2)"],

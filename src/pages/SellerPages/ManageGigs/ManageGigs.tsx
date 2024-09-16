@@ -37,7 +37,7 @@ const ManageGigs = () => {
 
 	return (
 		<>
-			<div className="semilarge-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Manage Gigs</div>
+			<div className="medium-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Manage Gigs</div>
 
 			<div className="grid grid-cols-[5rem_1fr_repeat(6,auto)] gap-x-4 text-sm max-sm:grid-cols-[3rem_1fr_repeat(6,auto)]">
 				<div className="col-span-full my-2 grid grid-cols-subgrid border-b border-zinc-300 py-2 font-bold">

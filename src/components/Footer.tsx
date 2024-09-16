@@ -6,113 +6,113 @@ export default function Footer() {
 			<div className="flex-start flex flex-col justify-start lg:flex-row">
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Browse Popular Categories</p>
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Basic+Programming">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Basic+Programming">
 						Basic Programming
 					</Link> */}
 					<Link
-						className="normal-text ml-0 pl-0 text-center underline"
+						className="normal-text ml-0 text-center underline"
 						to="/filter?category=Data+Structures+and+Algorithms"
 					>
 						Data Structures and Algorithms
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Web+Development">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Web+Development">
 						Web Development
 					</Link>
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Mobile+App+Development">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Mobile+App+Development">
 						Mobile App Development
 					</Link> */}
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Database+Management">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Database+Management">
 						Database Management
 					</Link> */}
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Software+Engineering">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Software+Engineering">
 						Software Engineering
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Artificial+Intelligence">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Artificial+Intelligence">
 						Artificial Intelligence
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Machine+Learning">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Machine+Learning">
 						Machine Learning
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Cybersecurity">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Cybersecurity">
 						Cybersecurity
 					</Link>
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Cloud+Computing">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Cloud+Computing">
 						Cloud Computing
 					</Link> */}
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=DevOps">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=DevOps">
 						DevOps
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to="/filter?category=Computer+Networks">
+					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Computer+Networks">
 						Computer Networks
 					</Link>
 
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Human-Computer+Interaction">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Human-Computer+Interaction">
 						Human-Computer Interaction
 					</Link> */}
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Computer+Graphics">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Computer+Graphics">
 						Computer Graphics
 					</Link> */}
 
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Embedded+Systems">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Embedded+Systems">
 						Embedded Systems
 					</Link> */}
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Operating+Systems">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Operating+Systems">
 						Operating Systems
 					</Link> */}
-					{/* <Link className="normal-text pl-0 ml-0 text-center underline" to="/filter?category=Others">
+					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Others">
 						Others
 					</Link> */}
 				</div>
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Community</p>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Forums
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Events
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Blogs
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Creators
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Invite a Friend
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Become a seller
 					</Link>
 				</div>
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Contact us</p>
 					<div className="flex items-center justify-center">
-						<i className="bx bx-phone normal-text ml-0 pl-0 text-xl"></i>
-						<p className="normal-text ml-0 pl-0">+8801306231965</p>
+						<i className="bx bx-phone normal-text ml-0 text-xl"></i>
+						<p className="normal-text ml-0">+8801306231965</p>
 					</div>
 					<div className="flex items-center justify-center">
-						<i className="bx bx-envelope normal-text ml-0 pl-0 text-xl"></i>
-						<p className="normal-text ml-0 pl-0">our-email-here@gmail.com</p>
+						<i className="bx bx-envelope normal-text ml-0 text-xl"></i>
+						<p className="normal-text ml-0">our-email-here@gmail.com</p>
 					</div>
 				</div>
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">About pathPhindr</p>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						About
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Blog
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Careers
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Terms & Conditions
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						Privacy Policy
 					</Link>
-					<Link className="normal-text ml-0 pl-0 text-center underline" to={{ pathname: `/` }}>
+					<Link className="normal-text ml-0 text-center underline" to={{ pathname: `/` }}>
 						FAQs
 					</Link>
 				</div>
@@ -122,7 +122,7 @@ export default function Footer() {
 			<div className="mx-0 mt-5 flex flex-col items-center justify-between px-10 md:mx-10 md:flex-row">
 				<div className="flex items-center justify-center">
 					<p className="small-headings mr-2">pathPhindr</p>
-					<i className="normal-text bx bx-copyright mx-0 pl-0"></i>
+					<i className="normal-text bx bx-copyright mx-0"></i>
 					<p className="px-1 font-bold">2024</p>
 					<p className="pr-1 font-bold">pathPhindr Inc.</p>
 				</div>

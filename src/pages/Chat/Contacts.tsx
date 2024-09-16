@@ -89,10 +89,10 @@ const Contacts: React.FC<ContactsProps> = ({
 
 	return (
 		<>
-			<div className="mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4" onClick={toggleExpanded}>
+			<div className="mx-auto flex h-8 cursor-pointer items-center justify-start gap-2 px-4" onClick={toggleExpanded}>
 				<i className="bx bx-message-rounded-dots text-2xl"></i>
 				<p
-					className="medium-headings text-center"
+					className="small-headings text-center"
 					style={{
 						display: isExpanded ? "block" : "none",
 					}}

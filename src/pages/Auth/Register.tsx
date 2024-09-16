@@ -25,8 +25,9 @@ const Register: React.FC = () => {
 
 	return (
 		<div className="mx-auto mt-10 max-w-[30rem]">
-			<p className="medium-headings">Hello sire! Join a world full of talented individuals.</p>
-			<p className="medium-headings mb-4">Teach them. Learn from them.</p>
+			<p className="small-headings text-center">
+				Join a world full of talented individuals. Teach them. Learn from them.
+			</p>
 			<Formik
 				initialValues={{}}
 				validationSchema={RegisterSchema}

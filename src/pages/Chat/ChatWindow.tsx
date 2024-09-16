@@ -165,7 +165,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 				<NoContactSelected />
 			) : (
 				<>
-					<Link to={`/profile/${senderId}`} className="medium-headings h-8 hover:underline">
+					<Link to={`/profile/${senderId}`} className="small-headings h-8 hover:underline">
 						{currentContactData.fullName}
 					</Link>
 					<div

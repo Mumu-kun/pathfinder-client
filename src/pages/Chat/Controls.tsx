@@ -68,10 +68,10 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 
 	return (
 		<>
-			<div className="mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4" onClick={toggleExpanded}>
+			<div className="mx-auto flex h-8 cursor-pointer items-center justify-start gap-2 px-4" onClick={toggleExpanded}>
 				<FaListCheck className="h-5 w-5" />
 				<p
-					className="medium-headings text-center"
+					className="small-headings text-center"
 					style={{
 						display: isExpanded ? "block" : "none",
 					}}
