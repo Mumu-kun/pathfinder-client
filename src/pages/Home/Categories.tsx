@@ -69,7 +69,7 @@ const Categories: React.FC = () => {
 
 	return (
 		<div className="flex w-full flex-col">
-			<p className="medium-headings text-left">Browse Popular Categories</p>
+			<p className="small-headings text-left">Browse Popular Categories</p>
 			<div {...getCollapseProps()} className="w-full">
 				<div className="mx-auto grid w-full grid-cols-[repeat(auto-fill,8rem)] justify-center gap-2 p-2">
 					{categories.map((category) => (
