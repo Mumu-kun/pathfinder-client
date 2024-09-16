@@ -40,23 +40,23 @@ body {
 
 @layer base {
 	.large-headings {
-		@apply anton-sc-regular text-center text-xl font-bold sm:text-5xl;
+		@apply anton-sc-regular text-center text-2xl font-bold sm:text-5xl;
 	}
 
 	.semilarge-headings {
-		@apply anton-sc-regular text-center text-2xl font-bold sm:text-3xl;
+		@apply anton-sc-regular text-center text-xl font-bold sm:text-3xl;
 	}
 
 	.medium-headings {
-		@apply anton-sc-regular text-center text-base font-bold sm:text-2xl;
+		@apply anton-sc-regular text-center text-lg font-bold sm:text-2xl;
 	}
 
 	.small-headings {
-		@apply anton-sc-regular text-center text-sm font-bold sm:text-lg;
+		@apply px-2 py-1 anton-sc-regular text-left text-base font-bold sm:text-lg;
 	}
 
 	.normal-text {
-		@apply px-5 py-1 text-center text-xs font-bold sm:text-sm;
+		@apply px-2 py-1 text-base sm:text-sm;
 	}
 
 	.form-1 {
@@ -93,6 +93,10 @@ body {
 
 	.solid-btn {
 		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+	}
+
+	.solid-btn-sm {
+		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-2 py-1 text-sm font-bold m-2 text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.solid-cancel-btn {

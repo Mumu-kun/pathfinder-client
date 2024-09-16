@@ -17,6 +17,8 @@ import EnrollmentDetails from "./pages/EnrollmentDetails/EnrollmentDetails.tsx";
 import FilterPage from "./pages/Filter/FilterPage.tsx";
 import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import Recommendations from "./pages/Filter/Recommendations.tsx";
+import EmailNotVerified from "./pages/Auth/EmailNotVerified.tsx";
+import VerifyEmail from "./pages/Auth/VerifyEmail.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
 						<Profile />
 					</Suspense>
 				),
+			},
+			{
+				path: "email-not-verified/:email",
+				element: <EmailNotVerified />,
+			},
+			{
+				path: "verify-email",
+				element: <VerifyEmail />,
 			},
 			{
 				element: <RedirectIfLoggedIn />,
