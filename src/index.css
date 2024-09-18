@@ -40,7 +40,7 @@ body {
 	}
 
 	.small-headings {
-		@apply anton-sc-regular text-left text-base font-bold sm:text-lg;
+		@apply text-left text-base font-bold sm:text-lg;
 	}
 
 	.normal-text {
