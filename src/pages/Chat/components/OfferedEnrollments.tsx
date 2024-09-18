@@ -27,20 +27,20 @@ const OfferedEnrollments: React.FC = () => {
 	const getIncompleteEnrollmentAsBuyer = async () => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${contactId}/buyer/${userId}`);
-			console.log(response.data);
+			// console.log(response.data);
 			setIncompleteEnrollmentAsBuyer(response.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
 	const getIncompleteEnrollmentAsSeller = async () => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`);
-			console.log(response.data);
+			// console.log(response.data);
 			setIncompleteEnrollmentAsSeller(response.data);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -98,52 +98,11 @@ const OfferedEnrollments: React.FC = () => {
 	return (
 		<div>
 			{incompleteEnrollmentAsBuyer && (
-				<div className="m-2 overflow-hidden rounded-md bg-light-bg px-1 pb-4 shadow dark:bg-dark-secondary">
-					{incompleteEnrollmentAsBuyer.buyerConfirmed == false && (
-						<div>
-							<p className="bg-light-secondary py-2 text-center text-sm font-semibold dark:bg-dark-secondary">
-								<span className="font-bold">{incompleteEnrollmentAsBuyer.gig.seller.fullName}</span> has offered you an
-								enrollment.
-							</p>
+				<div className="m-2 overflow-hidden rounded-md bg-light-bg pb-1 shadow dark:bg-dark-secondary">
+					<EnrollmentView viewType="buyer" enrollment={incompleteEnrollmentAsBuyer} />
 
-							<div className="overflow-hidden">
-								<img
-									src={coverImageUrl(incompleteEnrollmentAsBuyer.gig.gigCoverImage)}
-									className="col-span-full aspect-[6/1] w-full object-cover"
-								/>
-								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
-									<Link
-										to={`/gig/${incompleteEnrollmentAsBuyer.gig.id}`}
-										className="small-headings text-left hover:underline"
-									>
-										{incompleteEnrollmentAsBuyer.gig.title}
-									</Link>
-									<div className="flex items-center justify-self-end text-xl font-semibold">
-										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsBuyer.price}
-									</div>
-									<div className="flex items-center">
-										<PiChalkboardTeacher className="mr-1 mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsBuyer.numSessions}{" "}
-										Session
-										{incompleteEnrollmentAsBuyer.numSessions > 1 && "s"}
-									</div>
-									<div className="flex items-center justify-self-end">
-										<PiTimerBold className="mr-1 mt-0.5 h-5 w-5" />
-										{incompleteEnrollmentAsBuyer.sessionDurationInMinutes} Min
-										{incompleteEnrollmentAsBuyer.sessionDurationInMinutes > 1 && "s"} Each
-									</div>
-									<div className="col-span-full my-1 text-sm">
-										Deadline :{" "}
-										{new Date(incompleteEnrollmentAsBuyer.deadline).toLocaleTimeString(undefined, {
-											year: "numeric",
-											month: "long",
-											day: "numeric",
-											hour: "numeric",
-											minute: "numeric",
-										})}
-									</div>
-								</div>
-							</div>
-							{/* TODO: other data here */}
+					{!incompleteEnrollmentAsBuyer.buyerConfirmed && (
+						<>
 							<div className="flex items-center justify-center">
 								<button className="solid-cancel-btn mr-1" onClick={() => setDeclineEnrollmentModal(true)}>
 									Decline
@@ -152,7 +111,6 @@ const OfferedEnrollments: React.FC = () => {
 									Accept
 								</button>
 							</div>
-
 							{confirmEnrollmentModal && (
 								<div className="modal-grand-parent">
 									<div className="modal-parent">
@@ -199,81 +157,13 @@ const OfferedEnrollments: React.FC = () => {
 									</div>
 								</div>
 							)}
-						</div>
-					)}
-					{incompleteEnrollmentAsBuyer.buyerConfirmed && (
-						<div>
-							<EnrollmentView viewType="buyer" enrollment={incompleteEnrollmentAsBuyer} />
-						</div>
+						</>
 					)}
 				</div>
 			)}
 			{incompleteEnrollmentAsSeller && (
-				<div className="m-2 flex flex-col items-center overflow-hidden rounded-md bg-light-bg shadow dark:bg-dark-secondary">
-					{incompleteEnrollmentAsSeller.buyerConfirmed == false && (
-						<div>
-							{/* <p className="bg-light-secondary py-2 text-center font-semibold dark:bg-dark-secondary">
-								<p className="small-headings">Unconfirmed Enrollment!</p>
-								You have offered the following enrollment. You can begin the sessions once{" "}
-								{incompleteEnrollmentAsSeller?.buyer?.fullName} accepts the enrollment.
-							</p> */}
-							<p className="bg-light-secondary px-1 py-2 text-center text-sm font-semibold dark:bg-dark-secondary">
-								<p>You have offered the following enrollment.</p>
-								<p>You can begin the sessions once</p>
-								<p>
-									<span className="font-bold">{incompleteEnrollmentAsSeller?.buyer?.fullName}</span> accepts the
-									enrollment.
-								</p>
-							</p>
-
-							<div className="overflow-hidden">
-								<img
-									src={coverImageUrl(incompleteEnrollmentAsSeller.gig.gigCoverImage)}
-									className="col-span-full aspect-[6/1] w-full object-cover"
-								/>
-								<div className="grid grid-cols-[auto_auto] gap-y-1 p-2 px-4 font-semibold">
-									<Link
-										to={`/gig/${incompleteEnrollmentAsSeller.gig.id}`}
-										className="small-headings text-left hover:underline"
-									>
-										{incompleteEnrollmentAsSeller.gig.title}
-									</Link>
-									<div className="flex items-center justify-self-end text-xl font-semibold">
-										<TbCurrencyTaka className="mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsSeller.price}
-									</div>
-									<div className="flex items-center">
-										<PiChalkboardTeacher className="mr-1 mt-0.5 h-6 w-6" /> {incompleteEnrollmentAsSeller.numSessions}{" "}
-										Session
-										{incompleteEnrollmentAsSeller.numSessions > 1 && "s"}
-									</div>
-									<div className="flex items-center justify-self-end">
-										<PiTimerBold className="mr-1 mt-0.5 h-5 w-5" />
-										{incompleteEnrollmentAsSeller.sessionDurationInMinutes} Min
-										{incompleteEnrollmentAsSeller.sessionDurationInMinutes > 1 && "s"} Each
-									</div>
-									<div className="col-span-full my-1 text-sm">
-										Deadline :{" "}
-										{new Date(incompleteEnrollmentAsSeller.deadline).toLocaleTimeString(undefined, {
-											year: "numeric",
-											month: "long",
-											day: "numeric",
-											hour: "numeric",
-											minute: "numeric",
-										})}
-									</div>
-								</div>
-							</div>
-						</div>
-					)}
-
-					{incompleteEnrollmentAsSeller.buyerConfirmed && (
-						<div>
-							<EnrollmentView viewType="seller" enrollment={incompleteEnrollmentAsSeller} />
-						</div>
-					)}
-					<Link className="solid-btn mb-2" to={{ pathname: `/enrollment/details/${incompleteEnrollmentAsSeller.id}` }}>
-						View details
-					</Link>
+				<div className="m-2 flex flex-col items-center overflow-hidden rounded-md bg-light-bg pb-1 shadow dark:bg-dark-secondary">
+					<EnrollmentView viewType="seller" enrollment={incompleteEnrollmentAsSeller} />
 				</div>
 			)}
 		</div>

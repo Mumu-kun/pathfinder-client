@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "@/api/axios";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 const EmailNotVerified: React.FC = () => {
 	const [emailVerified, setEmailVerified] = useState<boolean>(false);
@@ -35,12 +35,15 @@ const EmailNotVerified: React.FC = () => {
 	}, [email]);
 
 	return (
-		<div className="dark-bg-dark-secondary m-5 rounded-md bg-light-secondary p-2">
+		<div className="dark-bg-dark-secondary m-5 space-y-2 rounded-md bg-light-secondary p-4">
 			{emailVerified ? (
-				<div className="normal-text text-center">Your email is already verified.</div>
+				<Navigate to="/" replace />
 			) : (
-				<div>
-					<p className="small-headings text-left">Email not verified.</p>
+				<>
+					<p className="medium-headings !mb-4 text-left">Email not verified.</p>
+					<p className="normal-text">
+						Your account has been created, but you need to verify your email address to access the platform.
+					</p>
 					{emailSent && (
 						<p className="normal-text">
 							Email verification link sent to <span className="font-bold">{email}</span>
@@ -51,8 +54,16 @@ const EmailNotVerified: React.FC = () => {
 							A verification email was very recently sent. Please try again in a few minutes.
 						</p>
 					)}
-					<button className="solid-btn-sm" onClick={() => {window.location.reload()}}>Resend Verification Link</button>
-				</div>
+					<p>Simply login later if you lose this link</p>
+					<button
+						className="solid-btn-sm !mt-4"
+						onClick={() => {
+							window.location.reload();
+						}}
+					>
+						Resend Verification Link
+					</button>
+				</>
 			)}
 		</div>
 	);

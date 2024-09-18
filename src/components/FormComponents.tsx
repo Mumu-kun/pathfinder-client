@@ -43,11 +43,11 @@ export const TextInputComponent = ({
 					{...field}
 					{...props}
 					disabled={disabled}
-					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 outline-none focus:rounded-sm focus:ring-1 focus:ring-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 				/>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full mt-1 text-sm font-semibold text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>
@@ -115,7 +115,7 @@ export const BaseNumberInputComponent = ({
 						value={inputState.value}
 						onChange={handleInput}
 						disabled={disabled}
-						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 outline-none focus:rounded-sm focus:ring-1 focus:ring-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 					/>
 					{rightContent}
 				</div>
@@ -187,13 +187,13 @@ export const NumberInputComponent = ({
 						{...props}
 						onChange={handleInput}
 						disabled={disabled}
-						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+						className={`w-full min-w-0 flex-1 rounded-sm border border-green-400 bg-white px-2 py-0.5 outline-none focus:rounded-sm focus:ring-1 focus:ring-green-500 dark:bg-black ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 					/>
 					{rightContent}
 				</div>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full mt-1 text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>
@@ -230,11 +230,11 @@ export const TextAreaInputComponent = ({
 					{...field}
 					{...props}
 					disabled={disabled}
-					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 focus:rounded-sm focus:outline-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
+					className={`w-full min-w-0 rounded-sm border border-green-400 bg-white px-2 py-0.5 outline-none focus:rounded-sm focus:ring-1 focus:ring-green-500 dark:bg-dark-bg ${disabled ? "bg-gray-200 dark:bg-gray-800" : ""} ${pClassName}`}
 				></textarea>
 				{!noShowError && (
 					<ErrorMessage name={field.name}>
-						{(msg) => <div className="col-span-full text-sm font-medium text-red-500">{msg}</div>}
+						{(msg) => <div className="col-span-full mt-1 text-sm font-medium text-red-500">{msg}</div>}
 					</ErrorMessage>
 				)}
 			</div>

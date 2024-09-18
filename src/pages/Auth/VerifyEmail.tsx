@@ -49,8 +49,8 @@ const VerifyEmail: React.FC = () => {
 	};
 
 	return (
-		<div className="dark-bg-dark-secondary m-5 rounded-md bg-light-secondary p-2">
-			<p className="small-headings">Verifying your email.</p>
+		<div className="dark-bg-dark-secondary m-5 rounded-md bg-light-secondary p-4">
+			<p className="medium-headings">Verifying your email.</p>
 			<div>
 				{verificationSuccess && (
 					<div>

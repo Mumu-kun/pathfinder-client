@@ -10,6 +10,7 @@ import AuxLinkDropdown from "./AuxLinkDropdown";
 import HeaderAuthLinks from "./HeaderAuthLinks";
 import SearchBar from "./SearchBar";
 import Dropdown from "../Dropdown";
+import LogoWName from "@/assets/logo-w-name.png";
 import { MdInfoOutline } from "react-icons/md";
 
 const Header = () => {
@@ -47,8 +48,8 @@ const Header = () => {
 				>
 					{/* Logo */}
 					<div className="col-span-1 flex items-center gap-2">
-						<Link to="/" className="mr-6 text-3xl font-bold max-sm:text-xl">
-							path<span className="text-4xl text-green-500 max-sm:text-lg">Finder</span>
+						<Link to="/" className="mr-6 h-12">
+							<img src={LogoWName} alt="pathPhindr" className="h-full max-w-full object-contain pt-3" />
 						</Link>
 					</div>
 

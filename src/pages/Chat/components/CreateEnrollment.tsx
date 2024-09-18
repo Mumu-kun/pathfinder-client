@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Gig } from "@/utils/types";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
 import * as Yup from "yup";
+import Select, { SingleValue } from "react-select";
+import { NumberInputComponent, TextInputComponent } from "@/components/FormComponents";
 
 interface createEnrollmentProps {
 	setCreateAnEnrollmentClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,10 +14,10 @@ interface createEnrollmentProps {
 }
 
 const CreateEnrollmentSchema = Yup.object().shape({
-	price: Yup.number().required(),
-	numSessions: Yup.number().required(),
-	sessionDurationInMinutes: Yup.number().required(),
-	deadline: Yup.date().required(),
+	price: Yup.number().required("Required"),
+	numSessions: Yup.number().required("Required"),
+	sessionDurationInMinutes: Yup.number().required("Required"),
+	deadline: Yup.date().required("Required"),
 	gigId: Yup.number().required("You must select a gig."),
 });
 
@@ -58,8 +60,8 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 					</div>
 				) : (
 					<div>
-						<div className="flex items-center justify-between">
-							<p className="small-headings text-left">Offer an Enrollment</p>
+						<div className="mb-6 flex items-center justify-between">
+							<p className="medium-headings text-left">Offer an Enrollment</p>
 							<button onClick={() => setCreateAnEnrollmentClicked(false)} className="solid-cancel-btn-sm">
 								X
 							</button>
@@ -75,7 +77,7 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 							}}
 							validationSchema={CreateEnrollmentSchema}
 							validateOnBlur
-							onSubmit={async (values, { setSubmitting }) => {
+							onSubmit={async (values) => {
 								try {
 									const offsetDeadline = new Date(values.deadline).toISOString();
 
@@ -97,50 +99,84 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 						>
 							{({ isSubmitting }) => (
 								<Form>
-									<Field
-										name="gigId"
-										as="select"
-										label="Select a Gig"
-										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
-									>
-										<option disabled value="">
-											Select a gig
-										</option>
-										{usersGigs.length > 0 &&
-											usersGigs.map((gig) => (
-												<option key={gig.id} value={gig.id}>
-													{/* TODO: show image here, like fiverr. */}
-													<p>{gig.title}</p>
-												</option>
-											))}
+									<Field name="gigId">
+										{({ field }: FieldProps<any>) => (
+											<>
+												<label
+													htmlFor="gigId"
+													className={`mb-2 flex items-center gap-1 self-center text-sm font-semibold`}
+												>
+													<span>Select a Gig</span>
+													<span>:</span>
+												</label>
+												<div className="mb-4 w-full">
+													<Select
+														value={
+															field.value
+																? {
+																		value: field.value as number,
+																		label: usersGigs.find((gig) => gig.id === field.value)?.title!,
+																	}
+																: null
+														}
+														options={usersGigs.map((gig) => ({ value: gig.id, label: gig.title }))}
+														onChange={(option: SingleValue<{ value: number; label: string }>) => {
+															if (option) {
+																field.onChange({ target: { value: option.value, name: field.name } });
+															}
+														}}
+														className="max-w-full"
+														classNames={{
+															control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+															option: ({ isFocused, isSelected }) =>
+																`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
+															input: () => "dark:!text-dark-text",
+															singleValue: () => "dark:!text-dark-text",
+															menu: () => `!bg-white dark:!bg-dark-bg !z-10`,
+														}}
+													/>
+													<ErrorMessage name="gigId">
+														{(msg) =>
+															typeof msg === "string" && (
+																<>
+																	<div></div>
+																	<div className="col-span-full text-sm font-medium text-red-500">{msg}</div>
+																</>
+															)
+														}
+													</ErrorMessage>
+												</div>
+											</>
+										)}
 									</Field>
 									<Field
 										name="price"
-										placeholder="Price"
-										label="Price"
-										type="number"
-										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
+										placeholder="Total price for all sessions"
+										label="Total Price"
+										isFullWidth
+										component={NumberInputComponent}
 									/>
 									<Field
 										name="numSessions"
 										placeholder="Number of Sessions"
 										label="Number of Sessions"
-										type="number"
-										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
+										isFullWidth
+										component={NumberInputComponent}
 									/>
 									<Field
 										name="sessionDurationInMinutes"
 										placeholder="Session Duration In Minutes"
 										label="Session Duration In Minutes"
-										type="number"
-										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
+										isFullWidth
+										component={NumberInputComponent}
 									/>
 									<Field
 										name="deadline"
 										placeholder="Deadline"
 										label="Deadline"
+										isFullWidth
+										component={TextInputComponent}
 										type="datetime-local"
-										className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 									/>
 									<div className="flex items-center justify-center">
 										<button type="submit" disabled={isSubmitting} className="solid-btn">

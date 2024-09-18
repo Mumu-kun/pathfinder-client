@@ -33,13 +33,13 @@ const ChatPage: React.FC = () => {
 		value: isContactsExpanded,
 		toggle: toggleContactsExpanded,
 		setValue: setContactsExpanded,
-	} = useBoolean(!isMediaSM);
+	} = useBoolean(isMediaSM);
 
 	const {
 		value: isControlsExpanded,
 		toggle: toggleControlsExpanded,
 		setValue: setControlsExpanded,
-	} = useBoolean(!isMediaLG);
+	} = useBoolean(isMediaLG);
 
 	const mediaState: string = isMediaLG ? "LG" : isMediaSM ? "SM" : "XS";
 

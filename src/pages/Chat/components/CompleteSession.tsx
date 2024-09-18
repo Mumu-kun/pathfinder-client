@@ -30,29 +30,27 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 	}, [markSessionCompletedClicked]);
 
 	return (
-		<div>
-			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn">
+		<>
+			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn mx-auto">
 				Mark Session as Completed
 			</button>
 			{markSessionCompletedClicked && (
 				<div className="modal-grand-parent">
-					<div className="modal-parent">
-						<div>
-							<p className="small-headings">Are you sure you want to make this session as completed?</p>
-							<p className="text-center font-bold">Make sure you have given the promised time and effort!</p>
-							<div className="flex items-center justify-center">
-								<button className="solid-cancel-btn m-1" onClick={() => setMarkSessionCompletedClicked(false)}>
-									No
-								</button>
-								<button className="solid-btn m-1" onClick={() => completeSession(session.id)}>
-									Yes
-								</button>
-							</div>
+					<div className="modal-parent space-y-2">
+						<p className="small-headings text-center">Are you sure you want to make this session as completed?</p>
+						<p className="text-center">Make sure you have given the promised time and effort!</p>
+						<div className="flex items-center justify-center">
+							<button className="solid-cancel-btn m-1" onClick={() => setMarkSessionCompletedClicked(false)}>
+								No
+							</button>
+							<button className="solid-btn m-1" onClick={() => completeSession(session.id)}>
+								Yes
+							</button>
 						</div>
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 

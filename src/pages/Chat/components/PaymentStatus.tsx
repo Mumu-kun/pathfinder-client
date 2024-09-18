@@ -33,7 +33,7 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 				setTransaction(response.data);
 				setLoading(false);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 				setLoading(false);
 			}
 		};
@@ -53,20 +53,21 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 							{status === "success" && transaction.paymentConfirmed && (
 								<div className="m-10 rounded-md bg-light-secondary p-5 pb-8 text-left dark:bg-dark-secondary">
 									<Confetti width={width} height={height} />
-									<p className="p-1 pb-10 text-4xl font-semibold">Payment Successful</p>
-									<p className="p-1 text-xl">
-										Transaction Id: <span className="font-semibold">{transaction.tranxId}</span>
-									</p>
-									<p className="p-1 text-xl">
-										Amount: <span className="font-semibold">{transaction.amount} BDT </span>
-									</p>
-									<p className="p-1 pb-10 text-xl">
-										Gig: <span className="font-semibold">{transaction.enrollment.gig.title}</span>
-									</p>
-
-									<p className="p-2 text-3xl font-bold">Good luck learning!</p>
+									<p className="medium-headings mb-4 text-left">Payment Successful</p>
+									<div className="mb-4 grid grid-cols-[auto_auto_1fr] gap-x-2">
+										<p>Transaction Id</p>
+										<p>:</p>
+										<span className="font-semibold">{transaction.tranxId}</span>
+										<p>Amount</p>
+										<p>:</p>
+										<span className="font-semibold">{transaction.amount} BDT </span>
+										<p>Gig</p>
+										<p>:</p>
+										<span className="font-semibold">{transaction.enrollment.gig.title}</span>
+									</div>
+									<p className="small-headings mb-2">Good luck learning!</p>
 									<Link
-										className="solid-btn m-2"
+										className="solid-btn"
 										to={{ pathname: `/interaction/user/${transaction.enrollment.gig.seller.id}` }}
 									>
 										Visit Enrollment
