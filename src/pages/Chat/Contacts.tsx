@@ -95,7 +95,7 @@ const Contacts: React.FC<ContactsProps> = ({
 			>
 				<i className="bx bx-message-rounded-dots text-2xl"></i>
 				<p
-					className="medium-headings text-center"
+					className="small-headings text-center"
 					style={{
 						display: isExpanded ? "block" : "none",
 					}}

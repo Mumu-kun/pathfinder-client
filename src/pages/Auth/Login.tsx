@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
 	return (
 		<div className="mx-auto mt-10 max-w-[30rem]">
-			<p className="medium-headings mb-4">Log in, sire! We are happy to have you back.</p>
+			<p className="small-headings mb-4">Log in, buddy! We are happy to see you back.</p>
 			<Formik
 				initialValues={{}}
 				validationSchema={Yup.object().shape({

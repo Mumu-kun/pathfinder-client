@@ -74,7 +74,7 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 			>
 				<FaListCheck className="h-5 w-5" />
 				<p
-					className="medium-headings text-center"
+					className="small-headings text-center"
 					style={{
 						display: isExpanded ? "block" : "none",
 					}}

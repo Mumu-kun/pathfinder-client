@@ -69,14 +69,14 @@ const Categories: React.FC = () => {
 
 	return (
 		<div className="flex w-full flex-col">
-			<p className="medium-headings text-left">Browse Popular Categories</p>
+			<p className="small-headings text-left">Browse Popular Categories</p>
 			<div {...getCollapseProps()} className="w-full">
 				<div className="mx-auto grid w-full grid-cols-[repeat(auto-fill,8rem)] justify-center gap-2 p-2">
 					{categories.map((category) => (
 						<Link
 							to={{ pathname: "/filter", search: `?category=${category}` }}
 							key={category}
-							className="normal-text hover-effect flex h-28 flex-col items-center justify-center gap-1 rounded-lg bg-light-secondary px-4 py-4 text-xs dark:bg-dark-secondary text-center"
+							className="normal-text hover-effect flex h-28 flex-col items-center justify-center gap-1 rounded-lg bg-light-secondary px-4 py-4 text-center text-xs dark:bg-dark-secondary"
 						>
 							<div className="h-8 w-8">{categoryToIcon[category] ?? <TbCategory />}</div>
 							{category}

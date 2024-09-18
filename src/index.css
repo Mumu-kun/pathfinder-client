@@ -26,33 +26,17 @@ body {
 	color: var(--text-color);
 }
 
-.anton-regular {
-	font-family: "Anton", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-
-.anton-sc-regular {
-	font-family: "Anton SC", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-
 @layer base {
 	:root {
 		@apply normal-text;
 	}
 
 	.large-headings {
-		@apply anton-sc-regular text-center text-2xl font-bold sm:text-5xl;
-	}
-
-	.semilarge-headings {
-		@apply anton-sc-regular text-center text-xl font-bold sm:text-3xl;
+		@apply px-2 py-1 text-center text-lg font-semibold sm:text-5xl;
 	}
 
 	.medium-headings {
-		@apply anton-sc-regular text-center text-lg font-bold sm:text-2xl;
+		@apply text-md px-2 py-1 text-center font-semibold sm:text-3xl;
 	}
 
 	.small-headings {
@@ -96,7 +80,7 @@ body {
 	}
 
 	.solid-btn {
-		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-3 py-1 text-sm text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.solid-btn-sm {
@@ -104,15 +88,15 @@ body {
 	}
 
 	.solid-cancel-btn {
-		@apply cursor-pointer rounded-md border-2 border-red-500 bg-red-500 px-3 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply cursor-pointer rounded-md border-2 border-red-500 bg-red-500 px-3 py-1 text-sm text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.outline-btn {
-		@apply rounded-md border-2 border-green-500 bg-white px-3 py-1 text-sm font-bold text-green-500 transition-all duration-100 hover:-translate-y-0.5 hover:bg-green-500 hover:text-white hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 dark:bg-dark-bg;
+		@apply rounded-md border-2 border-green-500 bg-white px-3 py-1 text-sm text-green-500 transition-all duration-100 hover:-translate-y-0.5 hover:bg-green-500 hover:text-white hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 dark:bg-dark-bg;
 	}
 
 	.solid-cancel-btn-sm {
-		@apply rounded-md border-2 border-red-500 bg-red-500 px-1 py-[0.5] text-xs font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply rounded-md border-2 border-red-500 bg-red-500 px-1 py-[0.5] text-xs text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.hover-effect-no-shadow {

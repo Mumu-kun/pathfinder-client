@@ -53,7 +53,7 @@ const ManageGigs = () => {
 
 	return (
 		<>
-			<div className="semilarge-headings my-8 rounded-sm pb-4 pl-2 text-left text-green-500">Manage Gigs</div>
+			<div className="medium-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Manage Gigs</div>
 
 			{hasUnacceptedGigs && (
 				<div className="mb-4 rounded-sm bg-red-300 p-2 text-center font-medium dark:bg-red-400">

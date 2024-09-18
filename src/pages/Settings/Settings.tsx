@@ -51,7 +51,7 @@ export const Settings = () => {
 
 	return (
 		<>
-			<div className="semilarge-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Settings</div>
+			<div className="medium-headings mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Settings</div>
 			<div className="flex py-8 max-md:flex-col">
 				<div className="flex gap-4 md:flex-col">
 					{TABS.map((tab) => {

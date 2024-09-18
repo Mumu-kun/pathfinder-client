@@ -7,7 +7,7 @@ const Intro: React.FC = () => {
 			<div className="flex flex-col items-center justify-between md:flex-row">
 				<div className="relative bg-light-secondary md:w-1/2 dark:bg-dark-secondary">
 					<div className="rounded-l-lg p-[15%]">
-						<p className="large-headings anton-sc-regular text-left">
+						<p className="medium-headings text-left">
 							Find yourself the perfect mentor based on your interests and goals.
 						</p>
 						<SearchBar className="mt-4" />
