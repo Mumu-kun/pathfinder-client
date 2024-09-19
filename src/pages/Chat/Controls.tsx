@@ -50,7 +50,7 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 			const response = await axiosPrivate.get(`api/v1/enrollments/get/incomplete/seller/${userId}/buyer/${contactId}`);
 			setRunningEnrollment(response.data);
 			setLoading(false);
-			console.log(response.data);
+			// console.log(response.data);
 		} catch (error) {
 			console.log(error);
 		}
@@ -68,7 +68,10 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 
 	return (
 		<>
-			<div className="mx-auto flex h-8 cursor-pointer items-center justify-start gap-2 px-4" onClick={toggleExpanded}>
+			<div
+				className="hover-effect-no-shadow mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4"
+				onClick={toggleExpanded}
+			>
 				<FaListCheck className="h-5 w-5" />
 				<p
 					className="small-headings text-center"

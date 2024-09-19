@@ -11,7 +11,7 @@ type AIContextProps = {
 	getGuideline: (query: string) => void;
 };
 
-export const AIContext = createContext<AIContextProps>({
+const AIContext = createContext<AIContextProps>({
 	getGuideline: () => {},
 });
 
@@ -36,3 +36,5 @@ export const AIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
 	return <AIContext.Provider value={{ guideline, getGuideline }}>{children}</AIContext.Provider>;
 };
+
+export default AIContext;

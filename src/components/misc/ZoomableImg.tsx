@@ -15,10 +15,10 @@ const ZoomableImg = (props: ZoomableImgProps) => {
 				closeIcon={<></>}
 				center
 				classNames={{
-					modal: "!p-0 !max-w-[90vw] !max-h-[90vh] w-full",
+					modal: "!p-0 !max-w-[90vw] !max-h-[90vh] w-fit !m-0 !object-contain !bg-transparent",
 				}}
 			>
-				<img {...props} />
+				<img {...props} className={`${props.className} !m-0 !max-h-[90vh] w-full !max-w-[90vw] !object-contain !p-0`} />
 			</Modal>
 		</>
 	);

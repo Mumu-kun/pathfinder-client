@@ -90,10 +90,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 		const timeoutId = setTimeout(() => {
 			fetchMessages();
 		}, 100);
-	
+
 		return () => clearTimeout(timeoutId); // Cleanup to avoid multiple timeouts
 	}, [senderId, receiverId, messageSent]);
-	
 
 	const { receivedMessage, sendMessage } = useStomp();
 
@@ -165,7 +164,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 				<NoContactSelected />
 			) : (
 				<>
-					<Link to={`/profile/${senderId}`} className="small-headings h-8 hover:underline">
+					<Link to={`/profile/${receiverId}`} className="medium-headings h-8 hover:underline">
 						{currentContactData.fullName}
 					</Link>
 					<div
@@ -265,7 +264,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 									isFullWidth
 									isGrid
 									component={TextInputComponent}
-									className="!rounded"
+									className="!rounded px-3 py-1.5 outline-none"
+									autoComplete="off"
 								/>
 
 								<button type="submit" className="solid-btn self-stretch px-4 py-0" disabled={isSubmitting}>

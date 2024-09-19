@@ -1,4 +1,4 @@
-import { AIContext } from "@/context/AIProvider";
+import AIContext from "@/context/AIProvider";
 import { useContext } from "react";
 
 const useAI = () => {

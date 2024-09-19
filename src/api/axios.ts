@@ -1,14 +1,19 @@
 import { BASE_URL } from "@/utils/variables";
 import axios from "axios";
+import { setupCache } from "axios-cache-interceptor";
 
-export default axios.create({
-	baseURL: BASE_URL,
-});
+export default setupCache(
+	axios.create({
+		baseURL: BASE_URL,
+	})
+);
 
-export const axiosPrivate = axios.create({
-	baseURL: BASE_URL,
-	headers: {
-		"Content-Type": "application/json",
-	},
-	withCredentials: true,
-});
+export const axiosPrivate = setupCache(
+	axios.create({
+		baseURL: BASE_URL,
+		headers: {
+			"Content-Type": "application/json",
+		},
+		withCredentials: true,
+	})
+);

@@ -42,7 +42,7 @@ const HeaderAuthLinks = (props: Props) => {
 							>
 								<img
 									src={userProfileImageUrl(auth.userId)}
-									className=""
+									className="h-full w-full object-cover"
 									onError={({ currentTarget }) => {
 										currentTarget.onerror = null;
 										currentTarget.src = defaultProfileImage;

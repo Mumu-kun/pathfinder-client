@@ -76,7 +76,7 @@ const Categories: React.FC = () => {
 						<Link
 							to={{ pathname: "/filter", search: `?category=${category}` }}
 							key={category}
-							className="small-headings hover-effect flex h-28 flex-col items-center justify-center gap-1 rounded-lg bg-light-secondary px-4 py-4 text-xs dark:bg-dark-secondary"
+							className="normal-text hover-effect flex h-28 flex-col items-center justify-center gap-1 rounded-lg bg-light-secondary px-4 py-4 text-center text-xs dark:bg-dark-secondary"
 						>
 							<div className="h-8 w-8">{categoryToIcon[category] ?? <TbCategory />}</div>
 							{category}

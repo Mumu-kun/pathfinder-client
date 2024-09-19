@@ -27,20 +27,24 @@ body {
 }
 
 @layer base {
+	:root {
+		@apply normal-text;
+	}
+
 	.large-headings {
-		@apply px-2 py-1 text-center text-lg sm:text-5xl font-semibold;
+		@apply px-2 py-1 text-center text-lg font-semibold sm:text-5xl;
 	}
 
 	.medium-headings {
-		@apply text-md px-2 py-1 text-center sm:text-3xl font-semibold;
+		@apply text-md px-2 py-1 text-center font-semibold sm:text-3xl;
 	}
 
 	.small-headings {
-		@apply px-2 py-1 text-center text-base font-semibold sm:text-lg;
+		@apply text-left text-base font-bold sm:text-lg;
 	}
 
 	.normal-text {
-		@apply px-2 py-1 text-base sm:text-sm;
+		@apply text-sm sm:text-base;
 	}
 
 	.form-1 {
@@ -80,7 +84,7 @@ body {
 	}
 
 	.solid-btn-sm {
-		@apply m-2 cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-2 py-1 text-sm text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
+		@apply cursor-pointer rounded-md border-2 border-green-500 bg-green-500 px-2 py-1 text-sm font-bold text-white transition-all duration-100 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:shadow-none disabled:border-gray-600 disabled:bg-gray-600;
 	}
 
 	.solid-cancel-btn {

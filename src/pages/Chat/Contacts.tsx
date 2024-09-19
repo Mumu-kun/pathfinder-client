@@ -36,7 +36,7 @@ const Contacts: React.FC<ContactsProps> = ({
 		const getContacts = async () => {
 			try {
 				const response = await axiosPrivate.get(`api/v1/chat-room/all/${userId}`);
-				console.log(response.data);
+				// console.log(response.data);
 				setChatRooms(response.data);
 			} catch (error) {
 				console.error(error);
@@ -89,7 +89,10 @@ const Contacts: React.FC<ContactsProps> = ({
 
 	return (
 		<>
-			<div className="mx-auto flex h-8 cursor-pointer items-center justify-start gap-2 px-4" onClick={toggleExpanded}>
+			<div
+				className="hover-effect-no-shadow mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4"
+				onClick={toggleExpanded}
+			>
 				<i className="bx bx-message-rounded-dots text-2xl"></i>
 				<p
 					className="small-headings text-center"

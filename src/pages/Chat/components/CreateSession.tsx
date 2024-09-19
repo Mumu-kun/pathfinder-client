@@ -1,10 +1,12 @@
 import React from "react";
 import { Session } from "@/utils/types";
 
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
 import * as Yup from "yup";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import Loading from "@/components/Loading";
+import Select, { SingleValue } from "react-select";
+import { TextInputComponent } from "@/components/FormComponents";
 
 const sessionScheduleSchema = Yup.object().shape({
 	scheduledAt: Yup.date().required(),
@@ -67,26 +69,67 @@ const CreateSession: React.FC<CreateSessionProps> = ({
 					>
 						{({ isSubmitting }) => (
 							<Form>
-								<Field
-									name="sessionType"
-									as="select"
-									label="Select Session Type"
-									className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
-								>
-									<option disabled value="">
-										Select Session Type
-									</option>
-									<option value="online">Online</option>
-									<option value="offline">Offline</option>
+								<Field name="sessionType">
+									{({ field }: FieldProps<any>) => (
+										<>
+											<label
+												htmlFor="sessionType"
+												className={`mb-2 flex items-center gap-1 self-center text-sm font-semibold`}
+											>
+												<span>Select Session Type</span>
+												<span>:</span>
+											</label>
+											<div className="mb-4 w-full">
+												<Select
+													options={[
+														{
+															value: "online",
+															label: "Online",
+														},
+														{
+															value: "offline",
+															label: "Offline",
+														},
+													]}
+													onChange={(option: SingleValue<{ value: string; label: string }>) => {
+														if (option) {
+															field.onChange({ target: { value: option.value, name: field.name } });
+														}
+													}}
+													className="max-w-full"
+													classNames={{
+														control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+														option: ({ isFocused, isSelected }) =>
+															`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
+														input: () => "dark:!text-dark-text",
+														singleValue: () => "dark:!text-dark-text",
+														menu: () => `!bg-white dark:!bg-dark-bg !z-10`,
+													}}
+												/>
+												<ErrorMessage name="gigId">
+													{(msg) =>
+														typeof msg === "string" && (
+															<>
+																<div></div>
+																<div className="col-span-full text-sm font-medium text-red-500">{msg}</div>
+															</>
+														)
+													}
+												</ErrorMessage>
+											</div>
+										</>
+									)}
 								</Field>
 
 								<Field
 									name="scheduledAt"
 									placeholder="Scheduled Time"
 									label="Scheduled Time"
+									isFullWidth
+									component={TextInputComponent}
 									type="datetime-local"
-									className="mb-4 w-full rounded border border-gray-300 bg-light-secondary p-2 dark:bg-dark-secondary"
 								/>
+
 								<div className="flex items-center justify-center">
 									<button type="submit" disabled={isSubmitting} className="solid-btn">
 										Schedule Session
