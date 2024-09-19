@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
 	return (
-		<div className="mt-5 w-full overflow-x-hidden bg-light-secondary py-10 text-light-text dark:bg-dark-secondary dark:text-dark-text">
+		<div className="z-50 mt-5 w-full overflow-x-hidden bg-light-secondary py-10 text-light-text dark:bg-dark-secondary dark:text-dark-text">
 			<div className="flex-start flex flex-col justify-start lg:flex-row">
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Browse Popular Categories</p>
