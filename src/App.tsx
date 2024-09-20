@@ -19,6 +19,7 @@ import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import Recommendations from "./pages/Filter/Recommendations.tsx";
 import EmailNotVerified from "./pages/Auth/EmailNotVerified.tsx";
 import VerifyEmail from "./pages/Auth/VerifyEmail.tsx";
+import Enrollments from "./pages/Enrollments/Enrollments.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -83,11 +84,6 @@ const router = createBrowserRouter([
 				element: <RequireAuth />,
 				children: [
 					{
-						path: "enrollment/details/:enrollmentId",
-						element: <EnrollmentDetails />,
-					},
-
-					{
 						path: "payment/success",
 						element: <PaymentStatus status="success" />,
 					},
@@ -115,32 +111,58 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
-
+					{
+						path: "enrollment",
+						children: [
+							{
+								path: "",
+								element: <Enrollments viewType="buyer" />,
+							},
+							{
+								path: "details/:enrollmentId",
+								element: <EnrollmentDetails />,
+							},
+						],
+					},
 					{
 						element: <SetMode mode={"seller"} />,
 						children: [
 							{
-								path: "manage/gigs",
+								path: "manage",
 								children: [
 									{
-										path: "",
-										element: <ManageGigs />,
+										path: "gigs",
+										children: [
+											{
+												path: "",
+												element: <ManageGigs />,
+											},
+											{
+												path: "create",
+												element: (
+													<Suspense fallback={<Loading fullscreen />}>
+														<GigFormPage formType="create" />
+													</Suspense>
+												),
+											},
+											{
+												path: ":id/edit",
+												element: (
+													<Suspense fallback={<Loading fullscreen />}>
+														<GigFormPage formType="edit" />
+													</Suspense>
+												),
+											},
+										],
 									},
 									{
-										path: "create",
-										element: (
-											<Suspense fallback={<Loading fullscreen />}>
-												<GigFormPage formType="create" />
-											</Suspense>
-										),
-									},
-									{
-										path: ":id/edit",
-										element: (
-											<Suspense fallback={<Loading fullscreen />}>
-												<GigFormPage formType="edit" />
-											</Suspense>
-										),
+										path: "enrollment",
+										children: [
+											{
+												path: "",
+												element: <Enrollments viewType="seller" />,
+											},
+										],
 									},
 								],
 							},

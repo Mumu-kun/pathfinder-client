@@ -67,6 +67,12 @@ const HeaderAuthLinks = (props: Props) => {
 								Profile
 							</Link>
 							<Link
+								to="/enrollment"
+								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+							>
+								Enrollments
+							</Link>
+							<Link
 								to="/settings"
 								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
 							>

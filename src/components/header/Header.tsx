@@ -104,7 +104,7 @@ const Header = () => {
 								<Link to={"/manage/gigs"} className="px-2 font-bold hover:text-green-500">
 									Gigs
 								</Link>
-								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+								<Link to={"/manage/enrollment"} className="px-2 font-bold hover:text-green-500">
 									Enrollments
 								</Link>
 							</>
@@ -130,7 +130,7 @@ const Header = () => {
 										Gigs
 									</Link>
 									<Link
-										to={"#"}
+										to={"/manage/enrollment"}
 										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
 									>
 										Enrollments
