@@ -66,6 +66,14 @@ const HeaderAuthLinks = (props: Props) => {
 							>
 								Profile
 							</Link>
+							{(auth?.role == "ADMIN" || auth?.role == "MANAGER") && (
+								<Link
+									to="/management/dashboard"
+									className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+								>
+									Site Management
+								</Link>
+							)}
 							<Link
 								to="/enrollment"
 								className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"

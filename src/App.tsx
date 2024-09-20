@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RedirectIfLoggedIn from "./components/wrappers/RedirectIfLoggedIn.tsx";
 import RequireAuth from "./components/wrappers/RequireAuth.tsx";
+import RequireManagementAccess from "./components/wrappers/RequireManagementAccess.tsx";
 import Login from "./pages/Auth/Login.tsx";
 import Register from "./pages/Auth/Register.tsx";
 import Home from "./pages/Home/Home.tsx";
@@ -19,6 +20,9 @@ import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import Recommendations from "./pages/Filter/Recommendations.tsx";
 import EmailNotVerified from "./pages/Auth/EmailNotVerified.tsx";
 import VerifyEmail from "./pages/Auth/VerifyEmail.tsx";
+import Reports from "./pages/Management/Reports.tsx";
+import UnacceptedGigs from "./pages/Management/UnacceptedGigs.tsx";
+import ManagementDashboard from "./pages/Management/ManagementDashboard.tsx";
 import Enrollments from "./pages/Enrollments/Enrollments.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
@@ -167,6 +171,24 @@ const router = createBrowserRouter([
 								],
 							},
 						],
+					},
+				],
+			},
+			// management shii
+			{
+				element: <RequireManagementAccess />,
+				children: [
+					{
+						path: "management/dashboard",
+						element: <ManagementDashboard />,
+					},
+					{
+						path: "management/reports",
+						element: <Reports />,
+					},
+					{
+						path: "management/gigs/unaccepted",
+						element: <UnacceptedGigs />,
 					},
 				],
 			},

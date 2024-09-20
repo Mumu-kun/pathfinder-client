@@ -207,3 +207,15 @@ export type Page<T> = {
 	last: boolean;
 	number: number;
 };
+
+export type Report = {
+	id: number;
+	text: string;
+	reporter: User;
+	reportedUser: User;
+	enrollmentId: number;
+	createdAt: string;
+	resolved: boolean;
+	resolvedAt: string | null;
+	resolvedBy: string | null;
+};
