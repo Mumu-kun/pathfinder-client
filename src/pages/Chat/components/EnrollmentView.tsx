@@ -14,8 +14,6 @@ interface EnrollmentViewProps {
 }
 
 const EnrollmentView: React.FC<EnrollmentViewProps> = ({ viewType, enrollment }) => {
-	console.log(enrollment);
-
 	return (
 		<>
 			<p className="w-full bg-light-secondary px-4 py-2 text-center text-sm font-semibold dark:bg-dark-secondary">

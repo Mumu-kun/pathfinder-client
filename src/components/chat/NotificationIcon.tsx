@@ -71,28 +71,24 @@ const NotificationIcon = () => {
 			}
 			rightAlign
 		>
-			<div className="z-50 flex flex-col items-center justify-start rounded-xl border border-gray-800 bg-light-bg py-2 dark:bg-dark-bg">
-				<p className="mb-1 px-4 text-center font-bold">Notifications</p>
+			<div className="z-50 flex flex-col items-center justify-start rounded-md border border-green-400 bg-light-bg pb-1 dark:bg-dark-bg">
+				<p className="small-headings w-full px-4 py-2 pb-1 text-center text-green-500 shadow">Notifications</p>
 				<InfiniteScroll
 					dataLength={notifications.length}
 					next={() => getNotifications(pageInfo.number + 1)}
 					hasMore={!pageInfo.last}
 					loader={<Loading isTransparent />}
-					className="flex max-h-40 w-52 flex-col px-4 scrollbar-thin"
-					endMessage={
-						<p className="text-wrap" style={{ textAlign: "center" }}>
-							<b>Yay! You have seen it all</b>
-						</p>
-					}
+					className="flex max-h-40 w-72 flex-col text-sm scrollbar-thin"
+					endMessage={<p className="mt-2 text-wrap pb-2 text-center font-bold">Yay! You have seen it all</p>}
 				>
-					{notifications.map((notification, index) => (
-						<div key={index}>
-							<Link to={{ pathname: `${notification.linkSuffix}` }}>
-								<p className="text-wrap text-base hover:font-medium">{notification.text}</p>
-							</Link>
-
-							<hr className="my-1" />
-						</div>
+					{notifications.map((notification) => (
+						<Link
+							key={notification.id}
+							to={{ pathname: `${notification.linkSuffix}` }}
+							className="text-wrap px-6 py-2 shadow-sm hover:bg-green-100 hover:font-medium"
+						>
+							{notification.text}
+						</Link>
 					))}
 				</InfiniteScroll>
 			</div>
