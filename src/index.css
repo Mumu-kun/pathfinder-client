@@ -32,11 +32,11 @@ body {
 	}
 
 	.large-headings {
-		@apply px-2 py-1 text-center text-lg font-semibold sm:text-5xl;
+		@apply text-center text-lg font-semibold sm:text-5xl;
 	}
 
 	.medium-headings {
-		@apply text-md px-2 py-1 text-center font-semibold sm:text-3xl;
+		@apply text-center text-md font-semibold sm:text-3xl;
 	}
 
 	.small-headings {

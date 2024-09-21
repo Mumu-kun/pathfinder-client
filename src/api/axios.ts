@@ -17,3 +17,10 @@ export const axiosPrivate = setupCache(
 		withCredentials: true,
 	})
 );
+
+export const axiosZoom = axios.create({
+	baseURL: "https://api.zoom.us/v2",
+	headers: {
+		"Content-Type": "application/json",
+	},
+});

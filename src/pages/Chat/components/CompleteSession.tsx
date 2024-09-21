@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { disableScroll, enableScroll } from "@/utils/functions";
 import { Session } from "@/utils/types";
-import { enableScroll, disableScroll } from "@/utils/functions";
+import { isAxiosError } from "axios";
+import React, { useEffect, useState } from "react";
 
 interface CompleteSessionProps {
 	session: Session;
@@ -10,6 +11,8 @@ interface CompleteSessionProps {
 const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 	const axiosPrivate = useAxiosPrivate();
 
+	const [isZoomAuthorized, setIsZoomAuthorized] = useState<boolean>(false);
+	const [joinLink, setJoinLink] = useState<string | undefined>();
 	const [markSessionCompletedClicked, setMarkSessionCompletedClicked] = useState<boolean>(false);
 
 	const completeSession = async (sessionId: number) => {
@@ -17,9 +20,57 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 			await axiosPrivate.put(`api/v1/sessions/complete/${sessionId}`);
 			setMarkSessionCompletedClicked(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
+
+	const checkZoomAuthorized = async () => {
+		try {
+			const res = await axiosPrivate.get("api/v1/zoom/auth-check");
+
+			setIsZoomAuthorized(res.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const startSession = async () => {
+		try {
+			const res = await axiosPrivate.post(`api/v1/sessions/start-zoom/${session.id}`);
+
+			const data = res.data;
+
+			if (data.start_url) {
+				const newWindow = window.open(data.start_url, "_blank", "noopener,noreferrer");
+				if (newWindow) newWindow.opener = null;
+			}
+
+			if (data.join_url) {
+				setJoinLink(data.join_url);
+			}
+		} catch (error) {
+			console.error(error);
+			if (isAxiosError(error) && error.response?.status === 450) {
+				const newWindow = window.open(error.response.data, "_blank", "noopener,noreferrer");
+				if (newWindow) newWindow.opener = null;
+			}
+		}
+	};
+
+	const getJoinLink = async () => {
+		try {
+			const res = await axiosPrivate.get(`api/v1/sessions/join-zoom/${session.id}`);
+
+			setJoinLink(res.data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	useEffect(() => {
+		checkZoomAuthorized();
+		getJoinLink();
+	}, []);
 
 	useEffect(() => {
 		if (markSessionCompletedClicked) {
@@ -29,8 +80,31 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 		}
 	}, [markSessionCompletedClicked]);
 
+	const now = new Date().getTime();
+	const sessionScheduledAt = new Date(session.scheduledAt).getTime();
+	const sessionEndTime = sessionScheduledAt + session.enrollment.sessionDurationInMinutes * 60000;
+
+	const isDuringSession = now >= sessionScheduledAt && now <= sessionEndTime;
+
 	return (
 		<>
+			{session.sessionType === "online" && isDuringSession && (
+				<div className="mx-auto my-1 flex items-center justify-center gap-x-2">
+					<button onClick={startSession} className="solid-btn">
+						{isZoomAuthorized ? "Start Session" : "Authorize Zoom"}
+					</button>
+					{joinLink && (
+						<button
+							onClick={() => {
+								navigator.clipboard.writeText(joinLink);
+							}}
+							className="solid-btn"
+						>
+							Copy Join Link
+						</button>
+					)}
+				</div>
+			)}
 			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn mx-auto">
 				Mark Session as Completed
 			</button>

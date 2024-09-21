@@ -99,6 +99,21 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 		}
 	}, [runningSession]);
 
+	const joinSession = async () => {
+		if (!runningSession) return;
+
+		try {
+			const res = await axiosPrivate.get(`api/v1/sessions/join-zoom/${runningSession.id}`);
+
+			if (res.data) {
+				const newWindow = window.open(res.data, "_blank", "noopener,noreferrer");
+				if (newWindow) newWindow.opener = null;
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
 		<>
 			{runningSession == null && (
@@ -181,7 +196,16 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 							{duringSession && (
 								<div className="flex flex-col gap-y-1">
 									<p className="text-center">Session is currently running!</p>
-									{viewType === "seller" && <CompleteSession session={runningSession} />}
+
+									{viewType === "seller" ? (
+										<CompleteSession session={runningSession} />
+									) : (
+										runningSession.sessionType === "online" && (
+											<button onClick={joinSession} className="solid-btn mx-auto mt-1">
+												Join Session
+											</button>
+										)
+									)}
 								</div>
 							)}
 							{afterSession && (

@@ -103,19 +103,19 @@ const OfferedEnrollments: React.FC = () => {
 
 					{!incompleteEnrollmentAsBuyer.buyerConfirmed && (
 						<>
-							<div className="flex items-center justify-center">
-								<button className="solid-cancel-btn mr-1" onClick={() => setDeclineEnrollmentModal(true)}>
-									Decline
-								</button>
-								<button className="solid-btn ml-1" onClick={() => setConfirmEnrollmentModal(true)}>
+							<div className="my-2 flex items-center justify-center gap-x-2">
+								<button className="solid-btn" onClick={() => setConfirmEnrollmentModal(true)}>
 									Accept
+								</button>
+								<button className="solid-cancel-btn" onClick={() => setDeclineEnrollmentModal(true)}>
+									Decline
 								</button>
 							</div>
 							{confirmEnrollmentModal && (
 								<div className="modal-grand-parent">
 									<div className="modal-parent">
 										<div>
-											<p className="small-headings">Are you sure you want to accept this enrollment?</p>
+											<p className="small-headings text-center">Are you sure you want to accept this enrollment?</p>
 											<p className="p-2 text-center font-bold">You will be redirected to the payment page.</p>
 											<div className="flex items-center justify-center">
 												<button className="solid-cancel-btn m-1" onClick={() => setConfirmEnrollmentModal(false)}>
@@ -137,7 +137,7 @@ const OfferedEnrollments: React.FC = () => {
 								<div className="modal-grand-parent">
 									<div className="modal-parent">
 										<div>
-											<p className="small-headings">Are you sure you want to decline this enrollment?</p>
+											<p className="small-headings text-center">Are you sure you want to decline this enrollment?</p>
 											<p className="p-2 text-center font-bold">
 												You can always negotiate and ask {incompleteEnrollmentAsBuyer.gig.seller.fullName} for another
 												offer.

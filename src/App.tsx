@@ -24,6 +24,7 @@ import Reports from "./pages/Management/Reports.tsx";
 import UnacceptedGigs from "./pages/Management/UnacceptedGigs.tsx";
 import ManagementDashboard from "./pages/Management/ManagementDashboard.tsx";
 import Enrollments from "./pages/Enrollments/Enrollments.tsx";
+import ZoomAuthPage from "./pages/ZoomAuthPage.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -171,6 +172,10 @@ const router = createBrowserRouter([
 								],
 							},
 						],
+					},
+					{
+						path: "zoom-auth",
+						element: <ZoomAuthPage />,
 					},
 				],
 			},
