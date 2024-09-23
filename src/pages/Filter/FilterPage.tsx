@@ -307,7 +307,7 @@ const FilterPage = () => {
 					{pages.map((i) => (
 						<p
 							key={i}
-							className={`hover-effect cursor-pointer select-none rounded px-2 py-0.5 text-sm ${i === gigs.number ? "bg-green-400 text-white" : "bg-white"}`}
+							className={`hover-effect cursor-pointer select-none rounded px-2 py-0.5 text-sm ${i === gigs.number ? "bg-green-400 text-white" : "bg-white text-black"}`}
 							onClick={() => pageNav(i !== gigs.number, i)}
 						>
 							{i + 1}

@@ -25,6 +25,7 @@ import UnacceptedGigs from "./pages/Management/UnacceptedGigs.tsx";
 import ManagementDashboard from "./pages/Management/ManagementDashboard.tsx";
 import Enrollments from "./pages/Enrollments/Enrollments.tsx";
 import ZoomAuthPage from "./pages/ZoomAuthPage.tsx";
+import ManageEnrollments from "./pages/SellerPages/ManageEnrollments/ManageEnrollments.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
@@ -121,7 +122,7 @@ const router = createBrowserRouter([
 						children: [
 							{
 								path: "",
-								element: <Enrollments viewType="buyer" />,
+								element: <Enrollments />,
 							},
 							{
 								path: "details/:enrollmentId",
@@ -165,7 +166,7 @@ const router = createBrowserRouter([
 										children: [
 											{
 												path: "",
-												element: <Enrollments viewType="seller" />,
+												element: <ManageEnrollments />,
 											},
 										],
 									},

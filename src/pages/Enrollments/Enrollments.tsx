@@ -1,12 +1,10 @@
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { Enrollment, Gig } from "@/utils/types";
-import { useEffect, useMemo, useState } from "react";
+import { Enrollment, Gig, Page } from "@/utils/types";
+import { useEffect, useState } from "react";
 import EnrollmentsList from "./EnrollmentsList";
 
-type Props = {
-	viewType: "buyer" | "seller";
-};
+type Props = {};
 
 const enrl: Enrollment = {
 	id: 1,
@@ -61,56 +59,40 @@ const enrl: Enrollment = {
 	price: 500,
 	numSessions: 2,
 	numSessionsCompleted: 2,
-	sessionDurationInMinutes: 400,
+	sessionDurationInMinutes: 40,
 	buyerConfirmed: true,
 	paid: true,
 };
 
-const Enrollments = ({ viewType }: Props) => {
+const Enrollments = ({}: Props) => {
 	const { auth } = useAuth();
 	const axios = useAxiosPrivate();
-	const [enrollments, setEnrollments] = useState<Enrollment[] | undefined>([enrl]);
+	const [enrollments, setEnrollments] = useState<Page<Enrollment> | undefined>();
 
-	const ongoingEnrollments = useMemo(
-		() => enrollments?.filter((enrollment) => enrollment.completedAt === null),
-		[enrollments]
-	);
-
-	const completedEnrollments = useMemo(
-		() => enrollments?.filter((enrollment) => enrollment.completedAt !== null),
-		[enrollments]
-	);
-
-	const getEnrollments = async () => {
+	const getEnrollments = async (page: number = 0) => {
 		try {
-			const res = await axios.get(`/api/v1/enrollments/buyer/${auth?.userId}`);
+			const res = await axios.get(`/api/v1/enrollments/buyer/${auth?.userId}`, {
+				params: {
+					page,
+				},
+			});
 
 			console.log(res.data);
-			setEnrollments(res.data.content);
+			setEnrollments(res.data);
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
 	useEffect(() => {
-		// getEnrollments();
+		getEnrollments();
 	}, []);
 
 	return (
 		<>
-			<div className="medium-headings mb-4 mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">
-				{viewType == "buyer" ? "My Enrollments" : "Manage Enrollments"}
-			</div>
+			<div className="medium-headings mb-4 mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">My Enrollments</div>
 
-			<div className="small-headings text-left">Ongoing Enrollments</div>
-			<EnrollmentsList enrollments={ongoingEnrollments} type="ongoing" />
-
-			{completedEnrollments && completedEnrollments?.length > 0 && (
-				<>
-					<div className="small-headings mt-8 text-left">Completed Enrollments</div>
-					<EnrollmentsList enrollments={completedEnrollments} type="completed" />
-				</>
-			)}
+			<EnrollmentsList enrollments={enrollments} getEnrollments={getEnrollments} />
 		</>
 	);
 };
