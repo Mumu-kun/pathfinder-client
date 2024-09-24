@@ -112,9 +112,9 @@ const Header = () => {
 							)
 						) : !isMediaMD ? (
 							<>
-								<Link to={"#"} className="px-2 font-bold hover:text-green-500">
+								{/* <Link to={"#"} className="px-2 font-bold hover:text-green-500">
 									Dashboard
-								</Link>
+								</Link> */}
 								<Link to={"/manage/gigs"} className="px-2 font-bold hover:text-green-500">
 									Gigs
 								</Link>
@@ -131,12 +131,12 @@ const Header = () => {
 								<div
 									className={`flex min-w-20 flex-col items-center justify-center rounded-md bg-light-bg p-2 text-center transition-all dark:bg-dark-bg`}
 								>
-									<Link
+									{/* <Link
 										to={"#"}
 										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
 									>
 										Dashboard
-									</Link>
+									</Link> */}
 									<Link
 										to={"/manage/gigs"}
 										className="w-full p-2 text-sm font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
