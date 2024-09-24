@@ -8,29 +8,28 @@ import Register from "./pages/Auth/Register.tsx";
 import Home from "./pages/Home/Home.tsx";
 import Layout from "./pages/Layout.tsx";
 
-import ChatPage from "./pages/Chat/ChatPage.tsx";
-
 import ErrorPage from "./components/ErrorPage.tsx";
 import Loading from "./components/Loading.tsx";
 import SetMode from "./components/wrappers/SetMode.tsx";
 import PaymentStatus from "./pages/Chat/components/PaymentStatus.tsx";
-import EnrollmentDetails from "./pages/EnrollmentDetails/EnrollmentDetails.tsx";
-import FilterPage from "./pages/Filter/FilterPage.tsx";
-import ManageGigs from "./pages/SellerPages/ManageGigs/ManageGigs.tsx";
 import Recommendations from "./pages/Filter/Recommendations.tsx";
 import EmailNotVerified from "./pages/Auth/EmailNotVerified.tsx";
 import VerifyEmail from "./pages/Auth/VerifyEmail.tsx";
 import Reports from "./pages/Management/Reports.tsx";
 import UnacceptedGigs from "./pages/Management/UnacceptedGigs.tsx";
 import ManagementDashboard from "./pages/Management/ManagementDashboard.tsx";
-import Enrollments from "./pages/Enrollments/Enrollments.tsx";
 import ZoomAuthPage from "./pages/ZoomAuthPage.tsx";
-import ManageEnrollments from "./pages/SellerPages/ManageEnrollments/ManageEnrollments.tsx";
 
 const Profile = lazy(() => import("@/pages/Profile/Profile.tsx"));
 const Settings = lazy(() => import("@/pages/Settings/Settings.tsx"));
 const GigPage = lazy(() => import("@/pages/Gig/GigPage.tsx"));
 const GigFormPage = lazy(() => import("@/pages/SellerPages/ManageGigs/GigFormPage.tsx"));
+const FilterPage = lazy(() => import("@/pages/Filter/FilterPage.tsx"));
+const ManageGigs = lazy(() => import("@/pages/SellerPages/ManageGigs/ManageGigs.tsx"));
+const ManageEnrollments = lazy(() => import("@/pages/SellerPages/ManageEnrollments/ManageEnrollments.tsx"));
+const ChatPage = lazy(() => import("@/pages/Chat/ChatPage.tsx"));
+const Enrollments = lazy(() => import("@/pages/Enrollments/Enrollments.tsx"));
+const EnrollmentDetails = lazy(() => import("@/pages/EnrollmentDetails/EnrollmentDetails.tsx"));
 
 const router = createBrowserRouter([
 	{
@@ -51,7 +50,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "filter",
-				element: <FilterPage />,
+				element: (
+					<Suspense fallback={<Loading fullscreen />}>
+						<FilterPage />
+					</Suspense>
+				),
 			},
 			{
 				path: "recommendations/*",
@@ -122,11 +125,19 @@ const router = createBrowserRouter([
 						children: [
 							{
 								path: "",
-								element: <Enrollments />,
+								element: (
+									<Suspense fallback={<Loading fullscreen />}>
+										<Enrollments />
+									</Suspense>
+								),
 							},
 							{
 								path: "details/:enrollmentId",
-								element: <EnrollmentDetails />,
+								element: (
+									<Suspense fallback={<Loading fullscreen />}>
+										<EnrollmentDetails />
+									</Suspense>
+								),
 							},
 						],
 					},
@@ -141,7 +152,11 @@ const router = createBrowserRouter([
 										children: [
 											{
 												path: "",
-												element: <ManageGigs />,
+												element: (
+													<Suspense fallback={<Loading fullscreen />}>
+														<ManageGigs />
+													</Suspense>
+												),
 											},
 											{
 												path: "create",
@@ -166,7 +181,11 @@ const router = createBrowserRouter([
 										children: [
 											{
 												path: "",
-												element: <ManageEnrollments />,
+												element: (
+													<Suspense fallback={<Loading fullscreen />}>
+														<ManageEnrollments />
+													</Suspense>
+												),
 											},
 										],
 									},
@@ -219,7 +238,11 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "interaction/user/:id",
-						element: <ChatPage />,
+						element: (
+							<Suspense fallback={<Loading fullscreen />}>
+								<ChatPage />
+							</Suspense>
+						),
 					},
 				],
 			},
