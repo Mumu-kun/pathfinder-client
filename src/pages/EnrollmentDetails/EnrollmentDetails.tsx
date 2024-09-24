@@ -223,7 +223,7 @@ const EnrollmentDetails = () => {
 						<p className="font-semibold">{enrollment.completedAt ? "Completed" : "Deadline"} </p>
 						<p>:</p>
 						<p className="">
-							{new Date(enrollment.completedAt ? enrollment.completedAt : enrollment.startedAt).toLocaleDateString(
+							{new Date(enrollment.completedAt ? enrollment.completedAt : enrollment.deadline).toLocaleDateString(
 								undefined,
 								{
 									year: "numeric",
@@ -253,52 +253,56 @@ const EnrollmentDetails = () => {
 						<div className="px-4 text-center">Time</div>
 						<div className="px-4 text-center">Status</div>
 					</div>
-					{sessions.map((session, idx) => {
-						const isRunning = new Date(session.scheduledAt) >= new Date();
-						return (
-							<div key={session.id} className={`col-span-full grid grid-cols-subgrid text-center`}>
-								<p>{idx + 1}</p>
-								<p className="capitalize">{session.sessionType}</p>
-								<p>
-									{new Date(session.scheduledAt).toLocaleDateString(undefined, {
-										year: "numeric",
-										month: "short",
-										day: "numeric",
-									})}
-								</p>
-								<p>
-									{new Date(session.scheduledAt).toLocaleTimeString(undefined, {
-										hour: "numeric",
-										minute: "numeric",
-										hour12: true,
-									})}
-								</p>
-								<p
-									className={`font-medium ${
-										session.completed
-											? "text-green-500"
+					{sessions.length > 0 ? (
+						sessions.map((session, idx) => {
+							const isRunning = new Date(session.scheduledAt) >= new Date();
+							return (
+								<div key={session.id} className={`col-span-full grid grid-cols-subgrid text-center`}>
+									<p>{idx + 1}</p>
+									<p className="capitalize">{session.sessionType}</p>
+									<p>
+										{new Date(session.scheduledAt).toLocaleDateString(undefined, {
+											year: "numeric",
+											month: "short",
+											day: "numeric",
+										})}
+									</p>
+									<p>
+										{new Date(session.scheduledAt).toLocaleTimeString(undefined, {
+											hour: "numeric",
+											minute: "numeric",
+											hour12: true,
+										})}
+									</p>
+									<p
+										className={`font-medium ${
+											session.completed
+												? "text-green-500"
+												: session.cancelled
+													? "text-red-500"
+													: isRunning
+														? "text-blue-500"
+														: session.buyerConfirmed
+															? "font-normal"
+															: "text-amber-500"
+										}`}
+									>
+										{session.completed
+											? "Completed"
 											: session.cancelled
-												? "text-red-500"
+												? "Cancelled"
 												: isRunning
-													? "text-blue-500"
+													? "Running"
 													: session.buyerConfirmed
-														? "font-normal"
-														: "text-amber-500"
-									}`}
-								>
-									{session.completed
-										? "Completed"
-										: session.cancelled
-											? "Cancelled"
-											: isRunning
-												? "Running"
-												: session.buyerConfirmed
-													? "Upcoming"
-													: "Pending Confirmation"}
-								</p>
-							</div>
-						);
-					})}
+														? "Upcoming"
+														: "Pending Confirmation"}
+									</p>
+								</div>
+							);
+						})
+					) : (
+						<div className="col-span-full text-center">No sessions yet</div>
+					)}
 				</div>
 			</div>
 			{review !== undefined && viewType === "buyer" && enrollment.completedAt && (

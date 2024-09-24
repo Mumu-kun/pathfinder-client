@@ -7,6 +7,8 @@ import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Select, { SingleValue } from "react-select";
 import { NumberInputComponent, TextInputComponent } from "@/components/FormComponents";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 interface createEnrollmentProps {
 	setCreateAnEnrollmentClicked: React.Dispatch<React.SetStateAction<boolean>>;
@@ -93,7 +95,16 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 									setCreateAnEnrollmentClicked(false);
 									refreshEnrollments();
 								} catch (error) {
-									console.log(error);
+									console.error(error);
+									if (isAxiosError(error)) {
+										if (isAxiosError(error)) {
+											const fieldErrors: { [key: string]: string } = error.response?.data?.fieldErrors;
+
+											Object.values(fieldErrors).forEach((error) => {
+												toast.error(error);
+											});
+										}
+									}
 								}
 							}}
 						>

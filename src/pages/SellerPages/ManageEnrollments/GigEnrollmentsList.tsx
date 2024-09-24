@@ -27,8 +27,6 @@ const GigEnrollmentsList = ({ gig }: Props) => {
 				},
 			});
 
-			console.log(gig.title, res.data);
-
 			setEnrollments(res.data);
 		} catch (error) {
 			console.error(error);
