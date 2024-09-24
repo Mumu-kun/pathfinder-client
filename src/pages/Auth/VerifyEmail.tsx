@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import axios from "@/api/axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const VerifyEmail: React.FC = () => {
 	const [searchParams] = useSearchParams();
 	const verificationToken = searchParams.get("token");
 	const [verificationSuccess, setVerificationSuccess] = useState<boolean>(false);
-	const [countdown, setCountdown] = useState<number | null>(null);
+	// const [countdown, setCountdown] = useState<number | null>(null);
 	const [message, setMessage] = useState<string | null>(null);
 	const { setAuth } = useAuth();
 	const navigate = useNavigate();
@@ -34,12 +34,12 @@ const VerifyEmail: React.FC = () => {
 
 	const startCountdown = () => {
 		let seconds = 5;
-		setCountdown(seconds);
+		// setCountdown(seconds);
 		setMessage(`Email verification successful. Logging you in ${seconds} seconds...`);
 
 		const interval = setInterval(() => {
 			seconds -= 1;
-			setCountdown(seconds);
+			// setCountdown(seconds);
 			setMessage(`Email verification successful. Logging you in ${seconds} ${seconds === 1 ? "second" : "seconds"}...`);
 			if (seconds <= 0) {
 				clearInterval(interval);

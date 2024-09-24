@@ -1,3 +1,6 @@
+import Carousel from "@/components/Carousel";
+import ErrorPage from "@/components/ErrorPage";
+import GigCard from "@/components/GigCard";
 import Loading from "@/components/Loading";
 import ZoomableImg from "@/components/misc/ZoomableImg";
 import ReviewBlock from "@/components/review/ReviewBlock";
@@ -6,29 +9,26 @@ import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
-import { defaultCoverImage, defaultProfileImage, GIGS_BASE_URL, GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
+import { defaultCoverImage, defaultProfileImage, GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
 import {
-	MDXEditor,
-	MDXEditorMethods,
 	headingsPlugin,
 	listsPlugin,
+	MDXEditor,
+	MDXEditorMethods,
 	quotePlugin,
 	thematicBreakPlugin,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
+import { isAxiosError } from "axios";
 import React, { useEffect, useState } from "react";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { IoChatboxEllipsesSharp } from "react-icons/io5";
 import { RxSlash } from "react-icons/rx";
 import { Link, useParams } from "react-router-dom";
-import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
 import { Gig, GigCardData, Page, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
-import ErrorPage from "@/components/ErrorPage";
-import { isAxiosError } from "axios";
-import Carousel from "@/components/Carousel";
-import GigCard from "@/components/GigCard";
 
 type props = {
 	gig?: Gig;

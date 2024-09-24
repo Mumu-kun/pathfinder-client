@@ -7,7 +7,7 @@ type Props = {
 	className?: string;
 };
 
-const FAQQuestion = ({ question, answer, className }: Props) => {
+const FAQQuestion = ({ question, answer }: Props) => {
 	const { getToggleProps, getCollapseProps, isExpanded } = useCollapse();
 
 	return (

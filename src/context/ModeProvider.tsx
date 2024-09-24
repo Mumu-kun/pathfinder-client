@@ -11,7 +11,7 @@ type ModeContextProps = {
 
 const ModeContext = createContext<ModeContextProps>({
 	mode: "buyer",
-	changeMode: (mode) => {},
+	changeMode: () => {},
 });
 
 export const ModeProvider: FC<{ children: ReactNode }> = ({ children }) => {

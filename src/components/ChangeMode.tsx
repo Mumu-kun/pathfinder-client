@@ -1,6 +1,6 @@
-import ModeContext, { Mode } from "@/context/ModeProvider";
+import { Mode } from "@/context/ModeProvider";
 import useMode from "@/hooks/useMode";
-import React, { useContext } from "react";
+import React from "react";
 
 const ChangeMode: React.FC = () => {
 	const { mode, changeMode } = useMode();

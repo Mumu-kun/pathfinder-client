@@ -1,12 +1,12 @@
-import React from "react";
 import { Session } from "@/utils/types";
+import React from "react";
 
-import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
-import * as Yup from "yup";
-import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import Loading from "@/components/Loading";
-import Select, { SingleValue } from "react-select";
 import { TextInputComponent } from "@/components/FormComponents";
+import Loading from "@/components/Loading";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
+import Select, { SingleValue } from "react-select";
+import * as Yup from "yup";
 
 const sessionScheduleSchema = Yup.object().shape({
 	scheduledAt: Yup.date().required(),
@@ -30,6 +30,7 @@ const CreateSession: React.FC<CreateSessionProps> = ({
 
 	return (
 		<div>
+			{loading && <Loading fullscreen />}
 			<div className="modal-grand-parent">
 				<div className="modal-parent">
 					<div className="flex items-center justify-between">
@@ -46,7 +47,7 @@ const CreateSession: React.FC<CreateSessionProps> = ({
 						}}
 						validationSchema={sessionScheduleSchema}
 						validateOnBlur
-						onSubmit={async (values, { setSubmitting }) => {
+						onSubmit={async (values) => {
 							try {
 								const offsetDeadline = new Date(values.scheduledAt).toISOString();
 								setLoading(true);

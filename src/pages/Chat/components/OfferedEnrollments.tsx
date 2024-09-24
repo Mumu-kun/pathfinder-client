@@ -1,15 +1,13 @@
 // this component checks for the enrollments that are offered to the user and displays them.
 
-import React, { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { Enrollment } from "@/utils/types";
-import { useParams, Link } from "react-router-dom";
-import { coverImageUrl, disableScroll, enableScroll } from "@/utils/functions";
-import EnrollmentView from "./EnrollmentView";
-import { TbCurrencyTaka } from "react-icons/tb";
-import { PiChalkboardTeacher, PiCoatHanger, PiTimer, PiTimerBold } from "react-icons/pi";
 import useStomp from "@/hooks/useStomp";
+import { disableScroll, enableScroll } from "@/utils/functions";
+import { Enrollment } from "@/utils/types";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import EnrollmentView from "./EnrollmentView";
 
 const OfferedEnrollments: React.FC = () => {
 	const { auth } = useAuth();

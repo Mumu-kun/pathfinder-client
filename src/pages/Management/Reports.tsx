@@ -1,10 +1,10 @@
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { Page, Report } from "@/utils/types";
-import { useEffect, useState } from "react";
+import { isAxiosError } from "axios";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import ManagementNavbar from "./ManagementNavbar";
 import ReportsList from "./ReportsList";
-import { toast } from "react-toastify";
-import { isAxiosError } from "axios";
 
 const Reports = () => {
 	const axiosPrivate = useAxiosPrivate();

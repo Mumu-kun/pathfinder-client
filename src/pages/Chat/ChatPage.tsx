@@ -5,17 +5,12 @@
 
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { useBoolean, useMediaQuery } from "usehooks-ts";
 import ChatWindow from "./ChatWindow";
 import Contacts from "./Contacts";
 import Controls from "./Controls";
-import { useBoolean, useMediaQuery } from "usehooks-ts";
 
 const ChatPage: React.FC = () => {
-	const { id } = useParams();
-	const { auth } = useAuth();
-
 	// console.log(id);
 	// console.log(auth?.userId);
 

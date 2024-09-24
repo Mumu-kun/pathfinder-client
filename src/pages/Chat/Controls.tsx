@@ -1,15 +1,16 @@
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import useMode from "@/hooks/useMode";
+import useStomp from "@/hooks/useStomp";
 import { disableScroll, enableScroll } from "@/utils/functions";
 import { Enrollment } from "@/utils/types";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { FaListCheck } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
+import { useBoolean } from "usehooks-ts";
 import CreateEnrollment from "./components/CreateEnrollment";
 import OfferedEnrollments from "./components/OfferedEnrollments";
-import useStomp from "@/hooks/useStomp";
-import { FaListCheck } from "react-icons/fa6";
-import { useBoolean } from "usehooks-ts";
+import Loading from "@/components/Loading";
 
 type ControlsProps = {
 	isControlsExpanded: boolean;
@@ -68,6 +69,7 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 
 	return (
 		<>
+			{loading && <Loading />}
 			<div
 				className="hover-effect-no-shadow mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4"
 				onClick={toggleExpanded}

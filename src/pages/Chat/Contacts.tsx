@@ -1,12 +1,11 @@
+import useStomp from "@/hooks/useStomp";
+import { userProfileImageUrl } from "@/utils/functions";
+import { ChatRoom } from "@/utils/types";
+import { defaultProfileImage } from "@/utils/variables";
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { ChatRoom } from "@/utils/types";
-import useStomp from "@/hooks/useStomp";
-import { defaultProfileImage } from "@/utils/variables";
-import { userProfileImageUrl } from "@/utils/functions";
-import { useBoolean } from "usehooks-ts";
 
 interface ContactsProps {
 	messageSent: boolean;

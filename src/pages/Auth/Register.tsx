@@ -1,13 +1,13 @@
+import { TextInputComponent } from "@/components/FormComponents";
+import { isAxiosError } from "axios";
+import { Field, Form, Formik } from "formik";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { REGISTER_URL } from "../../utils/variables";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Field, Form, Formik } from "formik";
-import { TextInputComponent } from "@/components/FormComponents";
-import * as Yup from "yup";
-import { isAxiosError } from "axios";
-import { toast } from "react-toastify";
 
 const RegisterSchema = Yup.object().shape({
 	firstName: Yup.string().required("First Name Required"),
@@ -20,8 +20,6 @@ const Register: React.FC = () => {
 	const { setPersist } = useAuth();
 
 	const navigate = useNavigate();
-	const location = useLocation();
-	const from = location.state?.from || "/";
 
 	return (
 		<div className="mx-auto mt-10 max-w-[30rem]">

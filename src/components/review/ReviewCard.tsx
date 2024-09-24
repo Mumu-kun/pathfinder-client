@@ -1,6 +1,6 @@
-import { coverImageUrl, fullImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/functions";
+import { coverImageUrl, limitTextLength, userProfileImageUrl } from "@/utils/functions";
 import { Review } from "@/utils/types";
-import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
+import { defaultProfileImage } from "@/utils/variables";
 import { Rating, ThinRoundedStar } from "@smastrom/react-rating";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
-import { Notification } from "@/utils/types";
 import useStomp from "@/hooks/useStomp";
+import { Notification } from "@/utils/types";
+import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import Dropdown from "../Dropdown";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "../Loading";
 
 const NotificationIcon = () => {
@@ -24,8 +24,17 @@ const NotificationIcon = () => {
 	const getNotifications = async (pageNum: number = 0) => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/notifications/get?page=${pageNum}`);
-			setNotifications(response.data.content);
-			// console.log(response.data);
+			console.log(response.data);
+
+			setPageInfo({
+				number: response.data.number,
+				numberOfElements: response.data.numberOfElements,
+				last: response.data.last,
+				totalElements: response.data.totalElements,
+				totalPages: response.data.totalPages,
+			});
+
+			setNotifications((prev) => [...prev, ...response.data.content]);
 		} catch (error) {
 			console.error(error);
 		}
@@ -78,14 +87,15 @@ const NotificationIcon = () => {
 					next={() => getNotifications(pageInfo.number + 1)}
 					hasMore={!pageInfo.last}
 					loader={<Loading isTransparent />}
-					className="flex max-h-40 w-72 flex-col text-sm scrollbar-thin"
+					className="flex w-72 flex-col text-sm scrollbar-thin"
+					height={200}
 					endMessage={<p className="mt-2 text-wrap pb-2 text-center font-bold">Yay! You have seen it all</p>}
 				>
 					{notifications.map((notification) => (
 						<Link
 							key={notification.id}
 							to={{ pathname: `${notification.linkSuffix}` }}
-							className="text-wrap px-6 py-2 shadow-sm hover:bg-green-100 hover:font-medium"
+							className="text-wrap px-6 py-2 shadow-sm hover:bg-green-100 dark:hover:bg-green-800"
 						>
 							{notification.text}
 						</Link>

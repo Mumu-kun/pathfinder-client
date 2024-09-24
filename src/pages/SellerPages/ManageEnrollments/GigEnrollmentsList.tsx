@@ -1,7 +1,7 @@
 import Loading from "@/components/Loading";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { coverImageUrl, userProfileImageUrl } from "@/utils/functions";
-import { Enrollment, Gig, GigManage, Page } from "@/utils/types";
+import { Enrollment, GigManage, Page } from "@/utils/types";
 import { defaultProfileImage } from "@/utils/variables";
 import { useEffect, useMemo, useState } from "react";
 import { useCollapse } from "react-collapsed";

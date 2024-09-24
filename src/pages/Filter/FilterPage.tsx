@@ -3,7 +3,6 @@ import Dropdown from "@/components/Dropdown";
 import { BaseNumberInputComponent } from "@/components/FormComponents";
 import GigCard from "@/components/GigCard";
 import Loading from "@/components/Loading";
-import Tag from "@/components/Tag";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import { GigCardData, Page } from "@/utils/types";
 import { useEffect, useMemo, useState } from "react";

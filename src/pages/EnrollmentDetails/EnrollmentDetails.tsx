@@ -33,8 +33,6 @@ const EnrollmentDetails = () => {
 	const [sessions, setSessions] = useState<Session[]>([]);
 	const [review, setReview] = useState<Review | null | undefined>();
 
-	const [tempRating, setTempRating] = useState<number | undefined>();
-
 	const viewType: "buyer" | "seller" | undefined = useMemo(() => {
 		if (enrollment) {
 			// console.log(enrollment.buyer.id, enrollment.gig.seller.id, userId);
@@ -362,7 +360,7 @@ const EnrollmentDetails = () => {
 													</label>
 													<div className="flex w-full items-center gap-x-2">
 														<Rating
-															value={tempRating ? tempRating : field.value}
+															value={field.value}
 															className="max-w-32"
 															// readOnly
 															onChange={(value: any) => {

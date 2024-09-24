@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { TextInputComponent } from "@/components/FormComponents";
 import Loading from "@/components/Loading";
@@ -6,11 +6,11 @@ import useStomp from "@/hooks/useStomp";
 import { Field, Form, Formik } from "formik";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useParams } from "react-router-dom";
+import { ReactTinyLink } from "react-tiny-link";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ChatMessage, ChatMessageInput } from "../../utils/types";
 import NoContactSelected from "./components/NoContactSelected";
-import { ReactTinyLink } from "react-tiny-link";
 
 interface ChatWindowProps {
 	messageSent: boolean;
@@ -120,7 +120,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 	}, [receivedMessage]);
 
 	// auto scroll to the bottom functionalty.
-	const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
 	const scrollToBottom = () => {
 		const scrollableDiv = document.getElementById("scrollableDiv");

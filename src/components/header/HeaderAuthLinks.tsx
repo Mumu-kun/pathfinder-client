@@ -9,9 +9,7 @@ import ChangeMode from "../ChangeMode";
 import ChangeTheme from "../ChangeTheme";
 import Dropdown from "../Dropdown";
 
-type Props = {};
-
-const HeaderAuthLinks = (props: Props) => {
+const HeaderAuthLinks = () => {
 	const { auth } = useAuth();
 	const logout = useLogout();
 	const [profileOutline, setProfileOutline] = useState<boolean>(false);
