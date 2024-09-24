@@ -3,6 +3,7 @@ import { CompatClient, Stomp } from "@stomp/stompjs";
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
 import SockJS from "sockjs-client/dist/sockjs";
 import { ChatMessage, Notification } from "@/utils/types";
+import { BASE_URL } from "@/utils/variables";
 
 type StompContextProps = {
 	receivedMessage?: ChatMessage;
@@ -31,7 +32,7 @@ export const StompProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 	const [stompClient] = useState<CompatClient>(
 		Stomp.over(() => {
-			return new SockJS("http://localhost:8080/ws");
+			return new SockJS(`${BASE_URL}/ws`);
 		})
 	);
 
