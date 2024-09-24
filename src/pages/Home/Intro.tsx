@@ -17,7 +17,7 @@ const Intro: React.FC = () => {
 					<div className="absolute -right-2 top-0 h-full w-16 bg-light-bg [clip-path:polygon(0_100%,87.5%_0,100%_0,100%_100%)] max-md:hidden dark:bg-dark-bg"></div>
 				</div>
 
-				<div className="max-md:bg-light-secondary md:w-1/2 max-md:dark:bg-dark-secondary">
+				<div className="max-md:bg-light-secondary md:aspect-[2000/1321] md:w-1/2 max-md:dark:bg-dark-secondary">
 					<div className="flex items-center justify-center">
 						<img src={IntroImage} className="" />
 					</div>

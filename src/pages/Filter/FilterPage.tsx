@@ -154,12 +154,12 @@ const FilterPage = () => {
 						}}
 						placeholder="Category"
 						classNames={{
-							control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+							control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
 							option: ({ isFocused, isSelected }) =>
 								`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 							input: () => "dark:!text-dark-text",
 							singleValue: () => "dark:!text-dark-text",
-							menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10`,
+							menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 						}}
 						isClearable
 					/>
@@ -267,12 +267,12 @@ const FilterPage = () => {
 							}}
 							className="max-w-full flex-1"
 							classNames={{
-								control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+								control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
 								option: ({ isFocused, isSelected }) =>
 									`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 								input: () => "dark:!text-dark-text",
 								singleValue: () => "dark:!text-dark-text",
-								menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10`,
+								menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 							}}
 						/>
 						<div className="flex h-9 w-9 cursor-pointer items-center rounded border border-green-500 bg-white p-1 px-1.5 dark:bg-dark-bg dark:text-white">

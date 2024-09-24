@@ -138,12 +138,12 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 														}}
 														className="max-w-full"
 														classNames={{
-															control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+															control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
 															option: ({ isFocused, isSelected }) =>
 																`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 															input: () => "dark:!text-dark-text",
 															singleValue: () => "dark:!text-dark-text",
-															menu: () => `!bg-white dark:!bg-dark-bg !z-10`,
+															menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 														}}
 													/>
 													<ErrorMessage name="gigId">

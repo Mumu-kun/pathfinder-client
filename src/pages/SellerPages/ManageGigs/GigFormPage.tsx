@@ -301,12 +301,12 @@ const GigFormPage = ({ formType }: props) => {
 												}}
 												className="max-w-60"
 												classNames={{
-													control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
+													control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
 													option: ({ isFocused, isSelected }) =>
 														`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 													input: () => "dark:!text-dark-text",
 													singleValue: () => "dark:!text-dark-text",
-													menu: () => `!bg-white dark:!bg-dark-bg !z-10`,
+													menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 												}}
 											/>
 										</div>
@@ -349,12 +349,12 @@ const GigFormPage = ({ formType }: props) => {
 												isOptionDisabled={(option) => option.disabled ?? false}
 												className="max-w-52"
 												classNames={{
-													control: () => `!bg-white dark:!bg-dark-bg !border-green-500`,
-													option: ({ isFocused, isDisabled }) =>
-														`${isDisabled ? "!bg-light-bg dark:!bg-dark-bg" : isFocused ? "!bg-green-400" : ""} active:!bg-green-500`,
+													control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
+													option: ({ isFocused, isSelected }) =>
+														`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 													input: () => "dark:!text-dark-text",
 													singleValue: () => "dark:!text-dark-text",
-													menu: () => `!bg-white dark:!bg-dark-bg !z-10`,
+													menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 												}}
 											/>
 											<div className="mt-2 flex flex-wrap gap-y-2">

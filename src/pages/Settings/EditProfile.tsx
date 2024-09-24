@@ -250,12 +250,12 @@ const EditProfile = ({ profileData }: EditProfileProps) => {
 										onInputChange={(input) => setTagInputText(input.replace(/[^a-zA-Z0-9 ]/g, ""))}
 										className="mb-2 max-w-40"
 										classNames={{
-											control: () =>
-												`!bg-light-bg dark:!bg-dark-bg border-green-500 hover:!border-green-500 focus:!border-green-500 focus:!outline-none`,
-											option: ({ isFocused }) =>
-												`${isFocused ? "!bg-green-400" : "!bg-light-bg dark:!bg-dark-bg"} active:!bg-green-500`,
+											control: () => `!bg-white dark:!bg-dark-bg !border-green-500 !shadow-none`,
+											option: ({ isFocused, isSelected }) =>
+												`${isSelected ? "!bg-green-400" : isFocused ? "!bg-green-400" : "!bg-white dark:!bg-dark-bg"} active:!bg-green-500`,
 											input: () => "dark:!text-dark-text",
-											menu: () => `!bg-light-bg dark:!bg-dark-bg`,
+											singleValue: () => "dark:!text-dark-text",
+											menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10 !border-green-500 dark:!border`,
 										}}
 									/>
 									<div className="flex flex-wrap">
