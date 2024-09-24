@@ -12,7 +12,7 @@ const FAQQuestion = ({ question, answer, className }: Props) => {
 
 	return (
 		<div className="w-full rounded bg-light-bg p-1 px-2 text-sm dark:bg-dark-bg">
-			<h4 {...getToggleProps()} className="my-1">
+			<h4 {...getToggleProps()} className="my-1 flex items-center justify-between pl-2">
 				{question}{" "}
 				<FaAngleDown
 					className="mb-1 inline-block transition-transform"
@@ -21,7 +21,7 @@ const FAQQuestion = ({ question, answer, className }: Props) => {
 					}}
 				/>
 			</h4>
-			<div {...getCollapseProps()} className="border-t">
+			<div {...getCollapseProps()} className="border-t px-2">
 				<div className="py-1">{answer}</div>
 			</div>
 		</div>

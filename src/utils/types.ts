@@ -63,7 +63,7 @@ export type Gig = {
 	paused: boolean;
 	score: number;
 	seller: User;
-	createdAt: Date;
+	createdAt: string;
 };
 
 export type FAQ = {
@@ -108,7 +108,7 @@ export type Review = {
 	text: string;
 	rating: number;
 	reviewer: UserShort;
-	createdAt: Date;
+	createdAt: string;
 	gig?: GigShort;
 };
 
@@ -213,7 +213,7 @@ export type Report = {
 	text: string;
 	reporter: User;
 	reportedUser: User;
-	enrollmentId: number;
+	enrollment: Enrollment;
 	createdAt: string;
 	resolved: boolean;
 	resolvedAt: string | null;

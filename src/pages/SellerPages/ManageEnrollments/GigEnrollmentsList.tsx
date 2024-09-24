@@ -144,6 +144,7 @@ const GigEnrollmentsList = ({ gig }: Props) => {
 															day: "2-digit",
 															hour: "2-digit",
 															minute: "2-digit",
+															hour12: true,
 														})
 													: "Completed"}
 											</div>
@@ -156,42 +157,44 @@ const GigEnrollmentsList = ({ gig }: Props) => {
 										</div>
 									);
 								})}
-								<div className="col-span-full flex w-full items-center gap-1 rounded bg-light-secondary px-3 py-2 font-semibold dark:bg-dark-secondary">
-									<FaAngleDoubleLeft
-										className="hover-effect-no-shadow cursor-pointer"
-										size={20}
-										onClick={() => pageNav(enrollments.number > 0, 0)}
-									/>
-									<FaAngleLeft
-										className="hover-effect-no-shadow mr-auto cursor-pointer"
-										size={20}
-										onClick={() => pageNav(enrollments.number > 0, enrollments.number - 1)}
-									/>
+								{enrollments.totalPages > 1 && (
+									<div className="col-span-full flex w-full items-center gap-1 rounded bg-light-secondary px-3 py-2 font-semibold dark:bg-dark-secondary">
+										<FaAngleDoubleLeft
+											className="hover-effect-no-shadow cursor-pointer"
+											size={20}
+											onClick={() => pageNav(enrollments.number > 0, 0)}
+										/>
+										<FaAngleLeft
+											className="hover-effect-no-shadow mr-auto cursor-pointer"
+											size={20}
+											onClick={() => pageNav(enrollments.number > 0, enrollments.number - 1)}
+										/>
 
-									{pages.map((i) => (
-										<p
-											key={i}
-											className={`hover-effect cursor-pointer select-none rounded px-2 py-0.5 text-sm ${i === enrollments.number ? "bg-green-400 text-white" : "bg-white text-black"}`}
-											onClick={() => pageNav(i !== enrollments.number, i)}
-										>
-											{i + 1}
-										</p>
-									))}
+										{pages.map((i) => (
+											<p
+												key={i}
+												className={`hover-effect cursor-pointer select-none rounded px-2 py-0.5 text-sm ${i === enrollments.number ? "bg-green-400 text-white" : "bg-white text-black"}`}
+												onClick={() => pageNav(i !== enrollments.number, i)}
+											>
+												{i + 1}
+											</p>
+										))}
 
-									<FaAngleRight
-										className="hover-effect-no-shadow ml-auto cursor-pointer"
-										size={20}
-										onClick={() => pageNav(!enrollments.last, enrollments.number + 1)}
-									/>
-									<FaAngleDoubleRight
-										className="hover-effect-no-shadow cursor-pointer"
-										size={20}
-										onClick={() => pageNav(!enrollments.last, enrollments.totalPages - 1)}
-									/>
-								</div>
+										<FaAngleRight
+											className="hover-effect-no-shadow ml-auto cursor-pointer"
+											size={20}
+											onClick={() => pageNav(!enrollments.last, enrollments.number + 1)}
+										/>
+										<FaAngleDoubleRight
+											className="hover-effect-no-shadow cursor-pointer"
+											size={20}
+											onClick={() => pageNav(!enrollments.last, enrollments.totalPages - 1)}
+										/>
+									</div>
+								)}
 							</>
 						) : (
-							<div className="col-span-full my-2 inline-block w-fit justify-self-center font-medium">
+							<div className="col-span-full inline-block w-full justify-self-center py-2 text-center font-medium">
 								No enrollments To Show
 							</div>
 						)

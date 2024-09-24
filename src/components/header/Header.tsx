@@ -12,6 +12,7 @@ import SearchBar from "./SearchBar";
 import Dropdown from "../Dropdown";
 import LogoWName from "@/assets/logo-w-name.png";
 import { MdInfoOutline } from "react-icons/md";
+import axios from "@/api/axios";
 
 const Header = () => {
 	const location = useLocation();
@@ -24,6 +25,19 @@ const Header = () => {
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
 	const isMediaMD = useMediaQuery("(max-width: 768px)");
+
+	const [categories, setCategories] = useState<string[]>([]);
+	const [tags, setTags] = useState<string[]>([]);
+
+	useEffect(() => {
+		axios.get("/api/v1/public/categories/all").then((res) => {
+			setCategories(res.data);
+		});
+
+		axios.get("/api/v1/public/tags/search").then((res) => {
+			setTags(res.data);
+		});
+	}, []);
 
 	useEffect(() => {
 		isHome ? setStuck(Boolean(window.scrollY)) : setStuck(true);
@@ -61,7 +75,7 @@ const Header = () => {
 					)}
 
 					{/* NavLinks */}
-					<div className="flex items-center justify-center gap-4 text-nowrap max-lg:justify-end max-md:gap-4 max-md:text-xs">
+					<div className="flex items-center justify-end gap-4 text-nowrap max-lg:justify-end max-md:gap-4 max-md:text-xs">
 						{isBuyerMode ? (
 							!isMediaMD ? (
 								<>
@@ -151,41 +165,21 @@ const Header = () => {
 					<div className="w-full">
 						<div className="mx-auto flex max-w-7xl">
 							<AuxLinkDropdown
-								title="Mathematics"
-								options={[
-									{ text: "Algebra", url: "#" },
-									{ text: "Geometry", url: "#" },
-									{ text: "Calculus", url: "#" },
-									{ text: "Trigonometry", url: "#" },
-								]}
-								className="rounded-t-sm px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
-								isOpenClassName="bg-light-bg dark:bg-dark-bg"
-								itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
-							/>
-							<AuxLinkDropdown
-								title="Physics"
-								options={[
-									{ text: "Mechanics", url: "#" },
-									{ text: "Thermodynamics", url: "#" },
-									{ text: "Optics", url: "#" },
-									{ text: "Electromagnetism", url: "#" },
-								]}
+								title="Categories"
+								options={categories.map((category) => ({ text: category, url: `/filter?category=${category}` }))}
 								className="px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
 								isOpenClassName="bg-light-bg dark:bg-dark-bg"
 								itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
 							/>
-							<AuxLinkDropdown
-								title="Chemistry"
-								options={[
-									{ text: "Organic", url: "#" },
-									{ text: "Inorganic", url: "#" },
-									{ text: "Physical", url: "#" },
-									{ text: "Analytical", url: "#" },
-								]}
-								className="px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
-								isOpenClassName="bg-light-bg dark:bg-dark-bg"
-								itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
-							/>
+							{tags.length > 0 && (
+								<AuxLinkDropdown
+									title="Topics"
+									options={tags.map((tag) => ({ text: tag, url: `/filter?tags=${tag}` }))}
+									className="rounded-t-sm px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+									isOpenClassName="bg-light-bg dark:bg-dark-bg"
+									itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
+								/>
+							)}
 						</div>
 					</div>
 				)}

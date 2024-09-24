@@ -38,7 +38,7 @@ const ManageGigsList = ({ gigs, toggleGigPublish, setGigDelete }: Props) => {
 							<img
 								src={coverImageUrl(gig.gigCoverImage)}
 								alt=""
-								className="aspect-[2/1] w-full rounded-sm object-cover"
+								className="aspect-[3/1] w-full rounded-sm object-cover"
 							/>
 							<Link to={`/gig/${gig.id}`} className="hover:underline">
 								{gig.title}

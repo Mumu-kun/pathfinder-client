@@ -30,7 +30,11 @@ const ManageEnrollments = ({}: Props) => {
 			<div className="medium-headings mb-4 mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Manage Enrollments</div>
 
 			{gigs && gigs.length > 0 ? (
-				gigs.map((gig) => <GigEnrollmentsList key={gig.id} gig={gig} />)
+				<div className="space-y-4">
+					{gigs.map((gig) => (
+						<GigEnrollmentsList key={gig.id} gig={gig} />
+					))}
+				</div>
 			) : (
 				<div className="flex h-52 flex-col items-center justify-center text-center">
 					<h1 className="small-headings mb-2">No Enrollments Found</h1>

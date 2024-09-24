@@ -135,7 +135,7 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 													key={index}
 													className="flex cursor-pointer items-center gap-2 text-ellipsis text-nowrap px-4 py-2 transition-all hover:bg-light-secondary dark:hover:bg-dark-secondary"
 												>
-													<img src={coverImageUrl(gig.coverImage)} alt="" className="aspect-[2/1] w-16 object-cover" />
+													<img src={coverImageUrl(gig.coverImage)} alt="" className="aspect-[3/1] w-16 object-cover" />
 													{gig.title}
 												</Link>
 											))}

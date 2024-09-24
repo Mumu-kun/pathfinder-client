@@ -86,7 +86,7 @@ const ManageGigs = () => {
 						className="flex h-20 items-center justify-center bg-light-secondary p-4"
 						key={`manageGig-${gigDelete?.id}`}
 					>
-						<img src={coverImageUrl(gigDelete?.gigCoverImage)} alt="" className="aspect-[2/1] object-cover" />
+						<img src={coverImageUrl(gigDelete?.gigCoverImage)} alt="" className="aspect-[3/1] object-cover" />
 						<Link to={`/gig/${gigDelete?.id}`} className="hover:underline">
 							{gigDelete?.title}
 						</Link>

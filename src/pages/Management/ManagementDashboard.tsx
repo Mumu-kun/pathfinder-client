@@ -1,16 +1,15 @@
-import React from "react";
-import ManagementNavbar from "./ManagementNavbar";
 import useAuth from "@/hooks/useAuth";
+import ManagementNavbar from "./ManagementNavbar";
 
 const ManagementDashboard = () => {
 	const { auth } = useAuth();
 	return (
-		<div>
+		<>
 			<ManagementNavbar />
-			<div className="text-center mt-10">
+			<div className="ml-10 mt-10 text-center">
 				<p className="small-headings">Hi {auth?.firstName}, Welcome to the management dashboard.</p>
 			</div>
-		</div>
+		</>
 	);
 };
 

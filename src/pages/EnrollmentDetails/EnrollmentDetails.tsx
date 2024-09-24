@@ -1,4 +1,5 @@
 import { TextAreaInputComponent, TextInputComponent } from "@/components/FormComponents";
+import Loading from "@/components/Loading";
 import ThemeContext from "@/context/ThemeProvider";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
@@ -143,7 +144,7 @@ const EnrollmentDetails = () => {
 	// TODO: adjustable view based on who's viewing - buyer/seller.
 
 	if (!enrollment) {
-		return null;
+		return <Loading />;
 	}
 
 	return (

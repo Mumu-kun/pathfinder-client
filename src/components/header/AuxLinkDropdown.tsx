@@ -9,6 +9,7 @@ type AuxLinkDropdownProps = {
 	isOpenClassName?: string;
 	className?: string;
 	itemClassName?: string;
+	dropdownClassName?: string;
 };
 
 const AuxLinkDropdown = ({
@@ -23,16 +24,18 @@ const AuxLinkDropdown = ({
 	return (
 		<Dropdown
 			head={
-				<div className={`flex select-none items-center gap-0.5 ${pClassName} ${isOpen ? isOpenClassName : ""}`}>
+				<div className={`flex select-none items-center gap-0.5 px-3 ${pClassName} ${isOpen ? isOpenClassName : ""}`}>
 					{title}
-					<FaCaretDown className="h-3 w-3" />
+					<FaCaretDown className="ml-1 h-3 w-3" />
 				</div>
 			}
 			{...{ isOpen, setIsOpen }}
 		>
-			<div className={`flex flex-col rounded-b-sm bg-light-bg transition-all dark:bg-dark-bg`}>
+			<div
+				className={`grid max-h-[10rem] grid-flow-col grid-rows-[repeat(auto-fill,2rem)] rounded bg-light-bg py-1 transition-all dark:bg-dark-bg`}
+			>
 				{options.map((option, index) => (
-					<Link key={index} to={option.url} className={`p-2 text-sm font-semibold ${itemClassName}`}>
+					<Link key={index} to={option.url} className={`w-max p-2 px-3 text-sm font-semibold ${itemClassName}`}>
 						{option.text}
 					</Link>
 				))}
