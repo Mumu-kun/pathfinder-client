@@ -61,16 +61,20 @@ const Recommendations = () => {
 				<div className="medium-headings mb-4 w-full max-w-[1200px] px-6 text-left">{queryParams.get("title")}</div>
 				<div className="mx-auto my-4 grid grid-cols-3 items-start gap-4 max-[1100px]:grid-cols-2 max-[730px]:grid-cols-1">
 					{gigs.length > 0 ? (
-						gigs.map((gig) => <GigCard gig={gig} key={gig.id} />)
+						<>
+							{gigs.map((gig) => (
+								<GigCard gig={gig} key={gig.id} />
+							))}
+							{!!recommId && (
+								<button onClick={fetchNextGigs} className="solid-btn self-center">
+									Show More
+								</button>
+							)}
+						</>
 					) : (
 						<div className="col-span-full text-center">No gigs found</div>
 					)}
 				</div>
-				{!!recommId && (
-					<button onClick={fetchNextGigs} className="solid-btn self-center">
-						Show More
-					</button>
-				)}
 			</div>
 		</UnlimitLayoutWidth>
 	);

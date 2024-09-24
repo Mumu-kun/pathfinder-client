@@ -88,7 +88,7 @@ const EnrollmentsList = ({ enrollments, getEnrollments }: Props) => {
 									</div>
 									<Link
 										to={`/enrollment/details/${enrollment.id}`}
-										className={`outline-btn text-sm ${isPastDeadline ? "border-none text-zinc-600 hover:bg-zinc-400" : ""}`}
+										className={`outline-btn text-sm ${isPastDeadline ? "border-none text-zinc-600 hover:bg-zinc-400 dark:text-white dark:hover:bg-zinc-700" : ""}`}
 									>
 										Details
 									</Link>

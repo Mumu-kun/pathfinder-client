@@ -4,6 +4,7 @@ import { coverImageUrl } from "@/utils/functions";
 import { GigManage } from "@/utils/types";
 import React from "react";
 import { FaAngleDown } from "react-icons/fa6";
+import { TbCurrencyTaka } from "react-icons/tb";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -15,7 +16,7 @@ type Props = {
 const ManageGigsList = ({ gigs, toggleGigPublish, setGigDelete }: Props) => {
 	return (
 		<div className="grid grid-cols-[5rem_1fr_repeat(6,auto)] gap-x-4 gap-y-1 text-sm max-sm:grid-cols-[3rem_1fr_repeat(6,auto)]">
-			<div className="col-span-full mb-2 grid grid-cols-subgrid border-b border-zinc-300 py-2 font-bold">
+			<div className="col-span-full mb-2 grid grid-cols-subgrid border-b border-zinc-300 py-2 pr-2 font-bold">
 				<div></div>
 				<div className="mr-auto">Gig</div>
 				<div>Score</div>
@@ -45,7 +46,9 @@ const ManageGigsList = ({ gigs, toggleGigPublish, setGigDelete }: Props) => {
 							<div className="text-center">{gig.score}</div>
 							<div className="text-center">{gig.ongoing}</div>
 							<div className="text-center">{gig.completed}</div>
-							<div className="text-center">{gig.earning}</div>
+							<div className="flex items-center text-center">
+								<TbCurrencyTaka className="h-4 w-4" /> {gig.earning}
+							</div>
 							<div className="text-center">{gig.rating}</div>
 							<Dropdown
 								head={<FaAngleDown />}

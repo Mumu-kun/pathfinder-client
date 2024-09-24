@@ -1,4 +1,3 @@
-import axios from "@/api/axios";
 import { NumberInputComponent, TextAreaInputComponent, TextInputComponent } from "@/components/FormComponents";
 import Loading from "@/components/Loading";
 import ZoomableImg from "@/components/misc/ZoomableImg";
@@ -213,7 +212,7 @@ const GigFormPage = ({ formType }: props) => {
 			validateOnChange
 			validateOnMount
 		>
-			{({ isSubmitting, values, setFieldValue, setFieldTouched, errors, touched }) => {
+			{({ isSubmitting, values, setFieldValue, setFieldTouched }) => {
 				if (!editMode) {
 					return <GigPage gig={{ ...gig, ...values }} setEditMode={setEditMode} />;
 				}

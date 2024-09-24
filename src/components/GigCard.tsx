@@ -68,7 +68,10 @@ const GigCard = ({ gig, className = "" }: GigCardProps) => {
 							currentTarget.onerror = null;
 							currentTarget.src = defaultProfileImage;
 						}}
-						className="h-full w-full rounded-sm border-2 border-white object-cover object-center shadow dark:border-black"
+						style={{
+							backgroundImage: `url(${defaultProfileImage})`,
+						}}
+						className="h-full w-full rounded-sm border-2 border-white bg-cover bg-center object-cover object-center shadow dark:border-black"
 						alt={`${gig.user?.firstName} ${gig.user?.lastName}`}
 					/>
 				</div>

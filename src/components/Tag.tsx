@@ -23,7 +23,7 @@ const Tag = ({ tag, disabled = false, className: pClassName }: TagProps) => {
 				!disabled && setIsDisabled(false);
 			}}
 			onClick={(e) => {
-				!e.altKey && !isDisabled && navigate("/");
+				!e.altKey && !isDisabled && navigate("/filter?tags=" + tag);
 				!disabled && isDisabled && setIsDisabled(false);
 			}}
 		>

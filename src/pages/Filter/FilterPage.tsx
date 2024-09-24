@@ -133,10 +133,13 @@ const FilterPage = () => {
 				{queryParams.get("query") ? (
 					<div className="mt-4 text-xl font-semibold">Search results for "{queryParams.get("query")}"</div>
 				) : selectedTags.length > 0 ? (
-					<div className="mt-4 text-xl font-semibold">
-						Gigs from{" "}
-						{selectedTags.map((tag) => (
-							<Tag tag={tag} className="px-2 !text-base" />
+					<div className="mt-4 flex items-center gap-2 text-xl font-semibold">
+						Gigs for tag{selectedTags.length > 1 ? "s" : ""}
+						{selectedTags.map((tag, idx) => (
+							<p className="font-bold">
+								{tag}
+								{idx < selectedTags.length - 1 ? "," : ""}
+							</p>
 						))}
 					</div>
 				) : null}
@@ -164,7 +167,7 @@ const FilterPage = () => {
 
 					<Dropdown
 						head={
-							<div className="flex select-none items-center justify-between gap-1 rounded border border-green-500 bg-white px-3 py-1.5">
+							<div className="flex select-none items-center justify-between gap-1 rounded border border-green-500 bg-white px-3 py-1.5 dark:bg-dark-bg">
 								Tags <FaCaretDown className="h-3 w-3" />
 							</div>
 						}
@@ -172,7 +175,7 @@ const FilterPage = () => {
 						noCloseOnClick
 					>
 						<div
-							className="mt-1 grid gap-x-6 gap-y-1 rounded border border-green-500 bg-white px-4 py-3"
+							className="mt-1 grid gap-x-6 gap-y-1 rounded border border-green-500 bg-white px-4 py-3 dark:bg-dark-bg"
 							style={{
 								gridTemplateColumns: `repeat(3, 1fr)`,
 							}}
@@ -185,7 +188,7 @@ const FilterPage = () => {
 										checked={selectedTags.includes(tag)}
 										name={tag}
 										id={tag}
-										onClick={(e) => {
+										onChange={(e) => {
 											const newParams = queryParams.copy();
 											if (e.currentTarget.checked) {
 												newParams.ifNotHas("tags", tag)?.append("tags", tag);
@@ -273,15 +276,15 @@ const FilterPage = () => {
 								menu: () => `!mt-1 !bg-white dark:!bg-dark-bg !z-10`,
 							}}
 						/>
-						<div className="flex cursor-pointer items-center rounded border border-green-500 bg-white p-0.5 px-1">
+						<div className="flex h-9 w-9 cursor-pointer items-center rounded border border-green-500 bg-white p-1 px-1.5 dark:bg-dark-bg dark:text-white">
 							{order === "DESC" ? (
 								<PiSortAscendingThin
-									className="h-8 w-8"
+									className="h-full w-full"
 									onClick={() => setQueryParams(queryParams.copy().set("order", "ASC"))}
 								/>
 							) : (
 								<PiSortDescendingThin
-									className="h-8 w-8"
+									className="h-full w-full"
 									onClick={() => setQueryParams(queryParams.copy().set("order", "DESC"))}
 								/>
 							)}

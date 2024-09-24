@@ -118,8 +118,8 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 
 			<div className="-mt-[2vw] flex justify-between">
 				<div className="mb-4 w-fit rounded bg-light-secondary px-4 py-2 shadow dark:bg-dark-secondary">
-					<div className="medium-headings pr-8 pt-2 text-left">{gig.title}</div>
-					<Link to={"#"} className="font-medium hover:underline">
+					<div className="medium-headings pr-8 pt-1 text-left">{gig.title}</div>
+					<Link to={`/filter?category=${gig.category}`} className="font-medium hover:underline">
 						{gig.category}
 					</Link>
 				</div>
