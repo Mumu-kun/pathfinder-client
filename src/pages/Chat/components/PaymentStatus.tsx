@@ -31,6 +31,19 @@ const PaymentStatus: React.FC<PaymentStatusProps> = ({ status }) => {
 				const response = await axiosPrivate.get(`api/v1/transactions/find/${transactionId}`);
 				console.log(response.data);
 				setTransaction(response.data);
+
+				const transaction: Transaction = response.data;
+
+				if (transaction.paymentConfirmed) {
+					const recommId = window.localStorage.getItem(`gig-recommId-${transaction.enrollment.gig.id}`);
+
+					if (recommId) {
+						await axiosPrivate.post(
+							`api/v1/recommendations/add-purchase-view/${transaction.enrollment.gig.id}/${transaction.enrollment.buyer.id}?recommId=${recommId}`
+						);
+					}
+				}
+
 				setLoading(false);
 			} catch (error) {
 				console.error(error);

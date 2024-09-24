@@ -27,6 +27,11 @@ const GigRecommendationsShowcase = ({ title, urlPath, showMorePath, needAuth = f
 				? axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/${urlPath}`)
 				: axios.get(`${GIGS_BASE_URL}/${urlPath}`));
 
+			const gigs: GigCardData[] = res.data.gigs;
+			gigs.forEach((gig) => {
+				window.localStorage.setItem(`gig-recommId-${gig.id}`, res.data.recommId);
+			});
+
 			setGigs(res.data.gigs);
 		} catch (error) {
 			console.error(error);

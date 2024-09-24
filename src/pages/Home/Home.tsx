@@ -1,10 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Categories from "./Categories";
-import ChangeTheme from "../../components/ChangeTheme";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
-import Intro from "./Intro";
+import React from "react";
 import GigRecommendationsShowcase from "../Profile/GigShowcase";
+import Categories from "./Categories";
+import Intro from "./Intro";
 
 const Home: React.FC = () => {
 	return (

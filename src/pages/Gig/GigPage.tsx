@@ -6,7 +6,7 @@ import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
 import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { fullImageUrl, userProfileImageUrl } from "@/utils/functions";
-import { defaultCoverImage, defaultProfileImage } from "@/utils/variables";
+import { defaultCoverImage, defaultProfileImage, GIGS_BASE_URL, GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
 import {
 	MDXEditor,
 	MDXEditorMethods,
@@ -21,12 +21,14 @@ import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { IoChatboxEllipsesSharp } from "react-icons/io5";
 import { RxSlash } from "react-icons/rx";
 import { Link, useParams } from "react-router-dom";
-import { useMediaQuery } from "usehooks-ts";
+import { useLocalStorage, useMediaQuery } from "usehooks-ts";
 import axios from "../../api/axios";
-import { Gig, Page, Review } from "../../utils/types";
+import { Gig, GigCardData, Page, Review } from "../../utils/types";
 import FAQQuestion from "./FAQQuestion";
 import ErrorPage from "@/components/ErrorPage";
 import { isAxiosError } from "axios";
+import Carousel from "@/components/Carousel";
+import GigCard from "@/components/GigCard";
 
 type props = {
 	gig?: Gig;
@@ -49,6 +51,8 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 	const axiosPrivate = useAxiosPrivate();
 
 	const [gig, setGig] = useState<Gig | undefined>(propGig);
+
+	const [similarGigs, setSimilarGigs] = useState<GigCardData[] | undefined>();
 
 	const [error, setError] = useState<{ errorCode: number; errorMessage: string } | undefined>(undefined);
 
@@ -82,8 +86,25 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 		}
 	};
 
+	const getSimilarGigs = async () => {
+		try {
+			const res = await axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/recommendations/similar-gigs/${id}`);
+			console.log(res.data);
+
+			const gigs: GigCardData[] = res.data.gigs;
+			gigs.forEach((gig) => {
+				window.localStorage.setItem(`gig-recommId-${gig.id}`, res.data.recommId);
+			});
+
+			setSimilarGigs(res.data.gigs);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	useEffect(() => {
 		!propGig && getGig(id).then((data) => setGig(data));
+		!propGig && auth && getSimilarGigs();
 		id && getGigReviews(id).then((data) => setReviews(data));
 	}, [id]);
 
@@ -207,7 +228,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 
 			{/* Reviews */}
 			{reviews ? (
-				<div className="mb-60 mt-8 max-w-[50rem]">
+				<div className="mb-8 mt-8 max-w-[50rem]">
 					<div className="medium-headings mb-2 text-left">Reviews</div>
 					{reviews.totalElements > 0 ? (
 						<ReviewBlock
@@ -223,6 +244,18 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 				</div>
 			) : (
 				<Loading />
+			)}
+
+			{similarGigs && similarGigs.length > 0 && (
+				<div className="mb-8">
+					<div className="medium-headings mb-2 text-left">Similar Gigs</div>
+
+					<Carousel>
+						{similarGigs.map((value) => (
+							<GigCard gig={value} key={`profileGig-${value.id}`} />
+						))}
+					</Carousel>
+				</div>
 			)}
 		</>
 	);

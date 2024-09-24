@@ -6,57 +6,57 @@ export default function Footer() {
 			<div className="flex-start flex flex-col justify-start lg:flex-row">
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">
 					<p className="small-headings mb-4 ml-0">Browse Popular Categories</p>
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Basic+Programming">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Basic+Programming">
 						Basic Programming
 					</Link> */}
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Data+Structures+and+Algorithms">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Data+Structures+and+Algorithms">
 						Data Structures and Algorithms
 					</Link>
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Web+Development">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Web+Development">
 						Web Development
 					</Link>
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Mobile+App+Development">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Mobile+App+Development">
 						Mobile App Development
 					</Link> */}
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Database+Management">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Database+Management">
 						Database Management
 					</Link> */}
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Software+Engineering">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Software+Engineering">
 						Software Engineering
 					</Link>
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Artificial+Intelligence">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Artificial+Intelligence">
 						Artificial Intelligence
 					</Link>
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Machine+Learning">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Machine+Learning">
 						Machine Learning
 					</Link>
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Cybersecurity">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Cybersecurity">
 						Cybersecurity
 					</Link>
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Cloud+Computing">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Cloud+Computing">
 						Cloud Computing
 					</Link> */}
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=DevOps">
+					<Link className="normal-text ml-0 underline" to="/filter?category=DevOps">
 						DevOps
 					</Link>
-					<Link className="normal-text ml-0 text-center underline" to="/filter?category=Computer+Networks">
+					<Link className="normal-text ml-0 underline" to="/filter?category=Computer+Networks">
 						Computer Networks
 					</Link>
 
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Human-Computer+Interaction">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Human-Computer+Interaction">
 						Human-Computer Interaction
 					</Link> */}
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Computer+Graphics">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Computer+Graphics">
 						Computer Graphics
 					</Link> */}
 
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Embedded+Systems">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Embedded+Systems">
 						Embedded Systems
 					</Link> */}
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Operating+Systems">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Operating+Systems">
 						Operating Systems
 					</Link> */}
-					{/* <Link className="normal-text ml-0 text-center underline" to="/filter?category=Others">
+					{/* <Link className="normal-text ml-0 underline" to="/filter?category=Others">
 						Others
 					</Link> */}
 				</div>
