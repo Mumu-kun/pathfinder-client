@@ -36,11 +36,6 @@ const Home: React.FC = () => {
 				needAuth
 				showMorePath="/recommendation?title=Recently+Viewed"
 			/>
-
-			<ChangeTheme />
-			<Link to="/profile" className="solid-btn">
-				Profile
-			</Link>
 		</>
 	);
 };

@@ -150,7 +150,7 @@ const EnrollmentDetails = () => {
 	return (
 		<>
 			<div className="medium-headings mb-4 mt-8 rounded-sm pb-4 pl-6 text-left text-green-500">Enrollment Details</div>
-			<div className="grid grid-cols-[minmax(40%,auto)_1fr] items-center overflow-hidden rounded-sm bg-light-secondary">
+			<div className="grid grid-cols-[minmax(40%,auto)_1fr] items-center overflow-hidden rounded-sm bg-light-secondary dark:bg-dark-secondary">
 				<Link
 					to={`/gig/${enrollment.gig.id}`}
 					className="small-headings mx-auto w-fit rounded-sm px-3 py-2 hover:underline"
