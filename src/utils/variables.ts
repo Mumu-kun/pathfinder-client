@@ -1,7 +1,8 @@
 import profileImage from "@/assets/profile.jpg";
 import coverImage from "@/assets/cover.jpg";
 
-export const BASE_URL = "http://localhost:8080";
+// export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "https://api.pathphindr.com";
 export const LOGIN_URL = "/api/v1/auth/authenticate";
 export const REGISTER_URL = "/api/v1/auth/register";
 export const REFRESH_TOKEN_URL = "/api/v1/auth/refresh-token";
