@@ -65,16 +65,16 @@ const Recommendations = () => {
 							{gigs.map((gig) => (
 								<GigCard gig={gig} key={gig.id} />
 							))}
-							{!!recommId && (
-								<button onClick={fetchNextGigs} className="solid-btn self-center">
-									Show More
-								</button>
-							)}
 						</>
 					) : (
 						<div className="col-span-full text-center">No gigs found</div>
 					)}
 				</div>
+				{!!recommId && (
+					<button onClick={fetchNextGigs} className="solid-btn self-center">
+						Show More
+					</button>
+				)}
 			</div>
 		</UnlimitLayoutWidth>
 	);

@@ -21,20 +21,20 @@ const Home: React.FC = () => {
 				title="Popular Gigs"
 				urlPath={`recommendations/popular-gigs`}
 				needAuth
-				showMorePath="/recommendations/popular-gigs?title=Popular+Gigs"
+				showMorePath="/recommendations?title=Popular+Gigs"
 			/>
 			<Categories />
 			<GigRecommendationsShowcase
 				title="Top Picks"
 				urlPath={`recommendations/top-picks`}
 				needAuth
-				showMorePath="/recommendation/top-picks?title=Top+Picks"
+				showMorePath="/recommendation?title=Top+Picks"
 			/>
 			<GigRecommendationsShowcase
 				title="Recently Viewed"
 				urlPath={`recommendations/recently-viewed`}
 				needAuth
-				showMorePath="/recommendation/recently-viewed?title=Recently+Viewed"
+				showMorePath="/recommendation?title=Recently+Viewed"
 			/>
 
 			<ChangeTheme />
