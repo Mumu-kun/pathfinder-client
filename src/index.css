@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300..800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -27,20 +28,26 @@ body {
 }
 
 @layer base {
+	.font-prim {
+		font-family: "Merriweather Sans", sans-serif;
+		font-optical-sizing: auto;
+		font-style: normal;
+	}
+
 	:root {
 		@apply normal-text;
 	}
 
 	.large-headings {
-		@apply text-center text-lg font-semibold sm:text-5xl;
+		@apply font-prim text-center text-4xl font-bold;
 	}
 
 	.medium-headings {
-		@apply text-center text-md font-semibold sm:text-3xl;
+		@apply font-prim text-center text-2xl font-bold;
 	}
 
 	.small-headings {
-		@apply text-left text-base font-bold sm:text-lg;
+		@apply font-prim text-left text-base font-bold;
 	}
 
 	.normal-text {

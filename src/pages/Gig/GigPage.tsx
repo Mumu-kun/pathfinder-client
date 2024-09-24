@@ -183,7 +183,8 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 						</div>
 						<div className="mr-3 border-light-text pl-3 font-medium min-[500px]:ml-2 min-[500px]:border-l dark:border-dark-text">
 							<div>{gig.totalOrders} Orders Placed</div>
-							<div>{gig.totalOrders} Reviews</div>
+							<div>{gig.totalCompleted} Completed</div>
+							<div>{gig.totalReviews} Reviews</div>
 						</div>
 					</div>
 
@@ -200,7 +201,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 						<h3 className="medium-headings mb-2 text-left">About the gig</h3>
 						<MDXEditor
 							markdown={gig.description ?? " "}
-							contentEditableClassName={`prose prose-sm dark:prose-invert`}
+							contentEditableClassName={`prose prose-sm !py-1 dark:prose-invert !min-w-full !w-full`}
 							plugins={[
 								headingsPlugin({
 									allowedHeadingLevels: [2, 3, 4],
@@ -276,7 +277,7 @@ const CallToEnroll = ({ gig, sticky = false, isSeller }: { gig: Gig; isSeller: b
 				markdown={gig.offerText ?? ""}
 				readOnly
 				plugins={[headingsPlugin({ allowedHeadingLevels: [4] }), listsPlugin()]}
-				contentEditableClassName="prose prose-sm dark:prose-invert px-2 pt-0"
+				contentEditableClassName="prose prose-sm dark:prose-invert !px-2 !pt-0"
 			/>
 
 			<div className="flex items-center justify-between gap-4">

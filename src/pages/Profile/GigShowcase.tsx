@@ -49,7 +49,7 @@ const GigRecommendationsShowcase = ({ title, urlPath, showMorePath, needAuth = f
 	return (
 		<div className="mb-8">
 			<div className="flex justify-between">
-				<div className="small-headings text-left">{title}</div>
+				<div className="medium-headings text-left">{title}</div>
 				{showMorePath && (
 					<Link to={showMorePath} className="outline-btn mr-2 self-end text-xs">
 						Show All

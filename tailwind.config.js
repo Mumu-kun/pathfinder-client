@@ -66,6 +66,30 @@ export default {
 			screens: {
 				xs: "500px",
 			},
+			typography: {
+				sm: {
+					css: {
+						h2: {
+							fontFamily: "Merriweather Sans",
+							fontSize: "1.1rem",
+							marginTop: "1rem",
+							marginBottom: "0.5rem",
+						},
+						h3: {
+							fontFamily: "Merriweather Sans",
+							marginTop: "0.8rem",
+							marginBottom: "0.4rem",
+						},
+						h4: {
+							fontFamily: "Merriweather Sans",
+						},
+						p: {
+							marginTop: "0.2rem",
+							marginBottom: "0.2rem",
+						},
+					},
+				},
+			},
 		},
 	},
 	plugins: [require("tailwind-scrollbar"), require("@tailwindcss/typography")],
