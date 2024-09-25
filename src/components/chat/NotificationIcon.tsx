@@ -16,7 +16,7 @@ const NotificationIcon = () => {
 	const [pageInfo, setPageInfo] = useState({
 		number: 0,
 		numberOfElements: 0,
-		last: true,
+		last: false,
 		totalElements: 0,
 		totalPages: 0,
 	});
@@ -24,7 +24,7 @@ const NotificationIcon = () => {
 	const getNotifications = async (pageNum: number = 0) => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/notifications/get?page=${pageNum}`);
-			// console.log(response.data);
+			console.log(response.data);
 
 			setPageInfo({
 				number: response.data.number,
@@ -33,6 +33,11 @@ const NotificationIcon = () => {
 				totalElements: response.data.totalElements,
 				totalPages: response.data.totalPages,
 			});
+
+			if (pageNum === 0) {
+				setNotifications(response.data.content);
+				return;
+			}
 
 			setNotifications((prev) => [...prev, ...response.data.content]);
 		} catch (error) {
