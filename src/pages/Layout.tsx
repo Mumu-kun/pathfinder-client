@@ -47,9 +47,7 @@ const Layout = ({
 			str.push(queryParams.get("title")!);
 		}
 
-		console.log(str);
-
-		document.title = "pathPhindr" + " | " + str.join(" | ");
+		document.title = "pathPhindr" + (str.length > 0 ? " | " + str.join(" | ") : "");
 	}, [location]);
 
 	useEffect(() => {

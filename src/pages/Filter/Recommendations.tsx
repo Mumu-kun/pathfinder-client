@@ -1,14 +1,17 @@
+import axios from "@/api/axios";
 import GigCard from "@/components/GigCard";
 import Loading from "@/components/Loading";
 import { UnlimitLayoutWidth } from "@/components/wrappers/LimitLayoutWidth";
+import useAuth from "@/hooks/useAuth";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { GigCardData } from "@/utils/types";
-import { GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
+import { GIGS_BASE_URL, GIGS_BASE_URL_PRIVATE } from "@/utils/variables";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const Recommendations = () => {
 	const { pathname, search } = useLocation();
+	const { auth } = useAuth();
 	const [queryParams, setQueryParams] = useState<URLSearchParams>(() => new URLSearchParams(search));
 
 	const [gigs, setGigs] = useState<GigCardData[] | undefined>();
@@ -18,7 +21,14 @@ const Recommendations = () => {
 
 	const fetchGigs = async () => {
 		try {
-			const res = await axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}${pathname}`);
+			const res = await (auth
+				? axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}${pathname}`)
+				: axios.get(`${GIGS_BASE_URL}${pathname}`));
+
+			const gigs: GigCardData[] = res.data.gigs;
+			gigs.forEach((gig) => {
+				window.localStorage.setItem(`gig-recommId-${gig.id}`, res.data.recommId);
+			});
 
 			setGigs(res.data.gigs);
 			setRecommId(res.data.recommId);
@@ -35,6 +45,11 @@ const Recommendations = () => {
 				setRecommId(undefined);
 				return;
 			}
+
+			const gigs: GigCardData[] = res.data.gigs;
+			gigs.forEach((gig) => {
+				window.localStorage.setItem(`gig-recommId-${gig.id}`, res.data.recommId);
+			});
 
 			setGigs((prev) => [...prev!, ...res.data.gigs]);
 			setRecommId(res.data.recommId);
