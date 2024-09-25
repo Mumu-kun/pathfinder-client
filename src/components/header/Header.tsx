@@ -1,18 +1,27 @@
+import Logo from "@/assets/logo.png";
 import useAuth from "@/hooks/useAuth";
 import useMode from "@/hooks/useMode";
 import { useEffect, useState } from "react";
+import { MdInfoOutline } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 import Sticky from "react-sticky-el/lib/basic-version";
 import { useMediaQuery } from "usehooks-ts";
 import ChatIcon from "../chat/ChatIcon";
 import NotificationIcon from "../chat/NotificationIcon";
-import AuxLinkDropdown from "./AuxLinkDropdown";
+import Dropdown from "../Dropdown";
 import HeaderAuthLinks from "./HeaderAuthLinks";
 import SearchBar from "./SearchBar";
-import Dropdown from "../Dropdown";
-import Logo from "@/assets/logo.png";
-import { MdInfoOutline } from "react-icons/md";
-import axios from "@/api/axios";
+
+const featuredCategories = [
+	"Data Structures and Algorithms",
+	"Web Development",
+	"Software Engineering",
+	"Artificial Intelligence",
+	"Machine Learning",
+	"Cybersecurity",
+	"DevOps",
+	"Computer Networks",
+];
 
 const Header = () => {
 	const location = useLocation();
@@ -25,19 +34,6 @@ const Header = () => {
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
 	const isMediaMD = useMediaQuery("(max-width: 768px)");
-
-	const [categories, setCategories] = useState<string[]>([]);
-	const [tags, setTags] = useState<string[]>([]);
-
-	useEffect(() => {
-		axios.get("/api/v1/public/categories/all").then((res) => {
-			setCategories(res.data);
-		});
-
-		axios.get("/api/v1/public/tags/search").then((res) => {
-			setTags(res.data);
-		});
-	}, []);
 
 	useEffect(() => {
 		isHome ? setStuck(Boolean(window.scrollY)) : setStuck(true);
@@ -61,7 +57,7 @@ const Header = () => {
 					className={`header-grid-layout w-full max-w-7xl items-center gap-x-4 transition-all duration-500 ease-in-out ${isBuyerMode && stuck ? "--stuck-header" : ""}`}
 				>
 					{/* Logo */}
-					<div className="col-span-1 flex items-center gap-2">
+					<div className="col-span-1 flex items-center gap-2 px-2">
 						<Link to="/" className="mr-6 h-12">
 							<img src={Logo} alt="pathPhindr" className="h-full max-w-full object-contain pt-3" />
 						</Link>
@@ -161,25 +157,17 @@ const Header = () => {
 				</div>
 
 				{/* Auxiliary Links */}
-				{isBuyerMode && (
+				{isBuyerMode && !isMediaMD && (
 					<div className="w-full">
-						<div className="mx-auto flex max-w-7xl">
-							<AuxLinkDropdown
-								title="Categories"
-								options={categories.map((category) => ({ text: category, url: `/filter?category=${category}` }))}
-								className="px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
-								isOpenClassName="bg-light-bg dark:bg-dark-bg"
-								itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
-							/>
-							{tags.length > 0 && (
-								<AuxLinkDropdown
-									title="Topics"
-									options={tags.map((tag) => ({ text: tag, url: `/filter?tags=${tag}` }))}
-									className="rounded-t-sm px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
-									isOpenClassName="bg-light-bg dark:bg-dark-bg"
-									itemClassName="bg-light-bg hover:bg-[#eeeeee] dark:bg-dark-bg dark:hover:bg-[#272727]"
-								/>
-							)}
+						<div className="mx-auto flex max-w-7xl flex-wrap max-lg:justify-center">
+							{featuredCategories.map((category) => (
+								<Link
+									to={`/filter?category=${category}`}
+									className="px-2 py-1 font-semibold hover:bg-[#eeeeee] dark:hover:bg-[#272727]"
+								>
+									{category}
+								</Link>
+							))}
 						</div>
 					</div>
 				)}

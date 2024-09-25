@@ -69,9 +69,15 @@ const Categories: React.FC = () => {
 
 	return (
 		<div className="mb-8 flex w-full flex-col">
-			<p className="medium-headings mb-2 text-left">Browse Popular Categories</p>
+			{/* <p className="medium-headings text-left">Browse Popular Categories</p> */}
+			<div className="mb-2 flex justify-between">
+				<div className="medium-headings text-left">Browse Popular Categories</div>
+				<button {...getToggleProps()} className="outline-btn mr-2 self-end text-xs">
+					{isExpanded ? "Show Less" : "Show All"}
+				</button>
+			</div>
 			<div {...getCollapseProps()} className="w-full">
-				<div className="mx-auto grid w-full grid-cols-[repeat(auto-fill,8rem)] justify-center gap-2 p-2">
+				<div className="grid w-full grid-cols-[repeat(auto-fill,8rem)] gap-2 p-2">
 					{categories.map((category) => (
 						<Link
 							to={{ pathname: "/filter", search: `?category=${category}` }}
@@ -84,9 +90,6 @@ const Categories: React.FC = () => {
 					))}
 				</div>
 			</div>
-			<button {...getToggleProps()} className="solid-btn self-center">
-				{isExpanded ? "Less" : "More"}
-			</button>
 		</div>
 	);
 };

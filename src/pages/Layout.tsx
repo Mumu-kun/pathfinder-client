@@ -33,20 +33,23 @@ const Layout = ({
 				x = x.trim();
 				x = x.charAt(0).toUpperCase() + x.slice(1);
 				return x;
-			})
-			.join(" ");
+			});
+
+		if (location.pathname.startsWith("/recommendations")) {
+			str = ["Recommendations"];
+		}
 
 		const queryParams = new URLSearchParams(location.search);
 
 		if (queryParams.has("category")) {
-			str += (" | " + queryParams.get("category")) as string;
+			str.push(queryParams.get("category")!);
 		} else if (queryParams.has("title")) {
-			str += (" | " + queryParams.get("title")) as string;
+			str.push(queryParams.get("title")!);
 		}
 
 		console.log(str);
 
-		document.title = "pathPhindr" + (str ? " | " + str : "");
+		document.title = "pathPhindr" + " | " + str.join(" | ");
 	}, [location]);
 
 	useEffect(() => {

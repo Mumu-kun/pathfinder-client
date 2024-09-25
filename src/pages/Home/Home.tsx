@@ -14,31 +14,31 @@ const Home: React.FC = () => {
 				title="Featured"
 				urlPath={`recommendations/homepage`}
 				needAuth
-				showMorePath="/recommendations?title=Featured"
+				showMorePath="/recommendations/homepage?title=Featured"
 			/>
 			<GigRecommendationsShowcase
 				title="Recommended for You"
 				urlPath={`recommendations/user`}
 				needAuth
-				showMorePath="/recommendations?title=Recommended+For+You"
+				showMorePath="/recommendations/user?title=Recommended+For+You"
 			/>
 			<GigRecommendationsShowcase
 				title="Popular Gigs"
 				urlPath={`recommendations/popular-gigs`}
-				showMorePath="/recommendations?title=Popular+Gigs"
+				showMorePath="/recommendations/popular-gigs?title=Popular+Gigs"
 			/>
 			<Categories />
 			<GigRecommendationsShowcase
 				title="Top Picks"
 				urlPath={`recommendations/top-picks`}
 				needAuth
-				showMorePath="/recommendation?title=Top+Picks"
+				showMorePath="/recommendations/top-picks?title=Top+Picks"
 			/>
 			<GigRecommendationsShowcase
 				title="Recently Viewed"
 				urlPath={`recommendations/recently-viewed`}
 				needAuth
-				showMorePath="/recommendation?title=Recently+Viewed"
+				showMorePath="/recommendations/recently-viewed?title=Recently+Viewed"
 			/>
 		</>
 	);
