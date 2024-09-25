@@ -3,14 +3,11 @@ import { headingsPlugin, listsPlugin, MDXEditor, quotePlugin, thematicBreakPlugi
 import { useEffect, useState } from "react";
 import { FaMinimize } from "react-icons/fa6";
 import Loading from "./Loading";
-import { Link } from "react-router-dom";
-import useAuth from "@/hooks/useAuth";
 
 type FloatProps = {};
 
 const FloatCard = ({}: FloatProps) => {
 	const { guideline } = useAI();
-	const { auth } = useAuth();
 
 	const [open, setOpen] = useState<boolean>(false);
 
