@@ -112,7 +112,7 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 							</div>
 							{tagSuggestions && tagSuggestions.length > 0 && (
 								<>
-									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold">Tags</div>
+									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold dark:bg-dark-secondary">Tags</div>
 									{tagSuggestions.map((tag, index) => (
 										<Link
 											to={{ pathname: `/filter`, search: `?tags=${tag}` }}
@@ -126,7 +126,7 @@ const SearchBar = ({ stuck, className: pClassName = "" }: SearchBarProps) => {
 							)}
 							{gigSuggestions && (
 								<>
-									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold">Gigs</div>
+									<div className="bg-light-secondary px-4 py-1.5 text-sm font-bold dark:bg-dark-secondary">Gigs</div>
 									{gigSuggestions.length > 0 ? (
 										<>
 											{gigSuggestions.map((gig, index) => (

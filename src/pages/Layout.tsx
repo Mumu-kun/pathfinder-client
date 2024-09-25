@@ -1,6 +1,6 @@
 import ThemeContext from "@/context/ThemeProvider";
 import { useContext, useEffect, useState } from "react";
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Header from "../components/header/Header";
 import LimitLayoutWidth from "../components/wrappers/LimitLayoutWidth";
@@ -20,8 +20,33 @@ const Layout = ({
 }) => {
 	const { theme } = useContext(ThemeContext);
 	const navigation = useNavigation();
+	const location = useLocation();
 
 	const [loading, setLoading] = useState<boolean>(false);
+
+	useEffect(() => {
+		let str = location.pathname
+			.split("/")
+			.map((x) => {
+				x = x.trim();
+				x = x.charAt(0).toUpperCase() + x.slice(1);
+				return x;
+			})
+			.filter((x) => x !== "")
+			.join(" ");
+
+		const queryParams = new URLSearchParams(location.search);
+
+		if (queryParams.has("category")) {
+			str += (" | " + queryParams.get("category")) as string;
+		} else if (queryParams.has("title")) {
+			str += (" | " + queryParams.get("title")) as string;
+		}
+
+		console.log(str);
+
+		document.title = "pathPhindr" + (str ? " | " + str : "");
+	}, [location]);
 
 	useEffect(() => {
 		if (navigation.state !== "idle") {

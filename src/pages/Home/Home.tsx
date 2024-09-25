@@ -11,14 +11,20 @@ const Home: React.FC = () => {
 				<Intro />
 			</UnlimitLayoutWidth>
 			<GigRecommendationsShowcase
-				title="Recommended"
-				urlPath={`recommendations`}
-				showMorePath="/recommendations?title=Recommended"
+				title="Featured"
+				urlPath={`recommendations/homepage`}
+				needAuth
+				showMorePath="/recommendations?title=Featured"
+			/>
+			<GigRecommendationsShowcase
+				title="Recommended for You"
+				urlPath={`recommendations/user`}
+				needAuth
+				showMorePath="/recommendations?title=Recommended+For+You"
 			/>
 			<GigRecommendationsShowcase
 				title="Popular Gigs"
 				urlPath={`recommendations/popular-gigs`}
-				needAuth
 				showMorePath="/recommendations?title=Popular+Gigs"
 			/>
 			<Categories />

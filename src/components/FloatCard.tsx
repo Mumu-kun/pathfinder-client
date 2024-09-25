@@ -22,7 +22,7 @@ const FloatCard = ({}: FloatProps) => {
 
 	return (
 		<div
-			className={`fixed bottom-4 right-4 z-50 max-h-96 self-start justify-self-end rounded bg-light-secondary px-2 pb-2 pt-1 shadow dark:bg-dark-secondary ${open ? "w-80" : "h-8 w-8 cursor-pointer"} flex flex-col items-center justify-center overflow-hidden`}
+			className={`fixed bottom-4 right-4 z-50 max-h-96 self-start justify-self-end rounded border border-green-500 bg-light-secondary px-2 pb-2 pt-1 shadow dark:bg-dark-secondary ${open ? "w-80" : "h-8 w-8 cursor-pointer"} flex flex-col items-center justify-center overflow-hidden`}
 			onClick={() => !open && setOpen(true)}
 		>
 			{open ? (
@@ -39,7 +39,7 @@ const FloatCard = ({}: FloatProps) => {
 					>
 						<i className="bx bx-message-rounded-dots text-xl"></i> Ai Assistant
 					</div>
-					<div className="flex w-full flex-col overflow-auto rounded bg-white py-2">
+					<div className="flex w-full flex-col overflow-auto rounded bg-white py-2 scrollbar-thin dark:bg-black">
 						<div className="mb-2 px-3 font-semibold">Guideline on "{guideline.topic}"</div>
 
 						{guideline.content ? (
@@ -62,9 +62,9 @@ const FloatCard = ({}: FloatProps) => {
 							<Loading isTransparent />
 						)}
 					</div>
-					<Link to="/interaction/user/ai" className="solid-btn mt-2">
+					{/* <Link to="/interaction/user/ai" className="solid-btn mt-2">
 						{!auth && "Join To"} Ask More Questions
-					</Link>
+					</Link> */}
 				</>
 			) : (
 				<i className="bx bx-message-rounded-dots -mb-1 text-xl"></i>
