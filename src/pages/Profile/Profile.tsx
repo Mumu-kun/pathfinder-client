@@ -138,14 +138,18 @@ export const Profile = () => {
 				{/* Profile Info */}
 				<div className="flex flex-col">
 					<div>
-						<div className="text-4xl font-bold">
-							{profileData.firstName} {profileData.lastName}
+						<div className="flex items-end gap-1 text-3xl font-bold">
+							<span>
+								{profileData.firstName} {profileData.lastName}
+							</span>
+							{profileData.age && <span className="text-xl font-semibold">({profileData.age})</span>}
 						</div>
+						<div className="text-base font-semibold">{profileData.email}</div>
 
 						{!isOwnerProfile && (
 							<Link
 								to={`/interaction/user/${profileData.id}`}
-								className="solid-btn mt-4 flex w-fit items-center gap-0.5"
+								className="solid-btn mt-2 flex w-fit items-center gap-0.5"
 							>
 								<IoChatboxEllipsesSharp className="mt-0.5" />
 								<div className="mr-0.5">Chat</div>
@@ -159,7 +163,7 @@ export const Profile = () => {
 							<PiChalkboardTeacher className="h-7 w-7" />
 							<div className="text-lg font-medium">Teaches</div>
 							<div className="col-start-2 ml-0.5 flex flex-wrap">
-								{profileData.teachTags.map((tag, index) => (
+								{profileData.teachTags.slice(0, 6).map((tag, index) => (
 									<Tag tag={tag} key={index} />
 								))}
 							</div>

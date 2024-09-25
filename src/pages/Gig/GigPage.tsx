@@ -89,7 +89,7 @@ const GigPage = ({ gig: propGig, setEditMode }: props) => {
 	const getSimilarGigs = async () => {
 		try {
 			const res = await axiosPrivate.get(`${GIGS_BASE_URL_PRIVATE}/recommendations/similar-gigs/${id}`);
-			console.log(res.data);
+			// console.log(res.data);
 
 			const gigs: GigCardData[] = res.data.gigs;
 			gigs.forEach((gig) => {

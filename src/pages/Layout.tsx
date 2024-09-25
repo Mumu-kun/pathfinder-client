@@ -27,12 +27,13 @@ const Layout = ({
 	useEffect(() => {
 		let str = location.pathname
 			.split("/")
+			.filter((x) => x !== "" && x !== "unaccepted")
 			.map((x) => {
+				if (x === "management") x = "Site Management";
 				x = x.trim();
 				x = x.charAt(0).toUpperCase() + x.slice(1);
 				return x;
 			})
-			.filter((x) => x !== "")
 			.join(" ");
 
 		const queryParams = new URLSearchParams(location.search);
