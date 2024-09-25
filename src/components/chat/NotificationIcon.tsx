@@ -24,7 +24,7 @@ const NotificationIcon = () => {
 	const getNotifications = async (pageNum: number = 0) => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/notifications/get?page=${pageNum}`);
-			console.log(response.data);
+			// console.log(response.data);
 
 			setPageInfo({
 				number: response.data.number,

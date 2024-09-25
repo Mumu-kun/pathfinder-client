@@ -65,7 +65,7 @@ const OfferedEnrollments: React.FC = () => {
 			setPaymentGatewayUrl(response.data);
 			setConfirmEnrollmentModal(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 
@@ -75,7 +75,7 @@ const OfferedEnrollments: React.FC = () => {
 			setIncompleteEnrollmentAsBuyer(response.data);
 			setDeclineEnrollmentModal(false);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 

@@ -32,7 +32,7 @@ const Login: React.FC = () => {
 							withCredentials: true,
 						});
 
-						console.log(res);
+						// console.log(res);
 						if (res.data.emailVerified == false) {
 							navigate(`/email-not-verified/${res.data.email}`, { replace: true });
 							return;

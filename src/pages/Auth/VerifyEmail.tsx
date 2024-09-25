@@ -16,7 +16,7 @@ const VerifyEmail: React.FC = () => {
 		const verifyEmail = async () => {
 			try {
 				const res = await axios.put(`/api/v1/auth/verify-email/${verificationToken}`);
-				console.log(res.data);
+				// console.log(res.data);
 				if (res.data.emailVerified) {
 					setVerificationSuccess(true);
 					setAuth(res.data);

@@ -59,12 +59,12 @@ const CreateSession: React.FC<CreateSessionProps> = ({
 										withCredentials: true,
 									}
 								);
-								console.log(response);
+								// console.log(response);
 								setRunningSession(response.data);
 								setScheduleSessionClicked(false);
 								setLoading(false);
 							} catch (error) {
-								console.log(error);
+								console.error(error);
 							}
 						}}
 					>

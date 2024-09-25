@@ -8,7 +8,7 @@ const ZoomAuthPage: React.FC = () => {
 	const { search } = useLocation();
 	const queryParams = new URLSearchParams(search);
 
-	console.log(queryParams.get("code"));
+	// console.log(queryParams.get("code"));
 
 	const sendAuthCode = async () => {
 		try {

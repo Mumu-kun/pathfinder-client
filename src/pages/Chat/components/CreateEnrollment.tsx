@@ -37,9 +37,9 @@ const CreateEnrollment: React.FC<createEnrollmentProps> = ({ setCreateAnEnrollme
 			try {
 				const response = await axiosPrivate.get(`api/v1/public/gigs/seller/${userId}`);
 				setUsersGigs(response.data);
-				console.log(response.data);
+				// console.log(response.data);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		};
 

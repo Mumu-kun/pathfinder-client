@@ -45,7 +45,7 @@ const EnrollmentsList = ({ enrollments, getEnrollments }: Props) => {
 					<div className="text-center">Sessions</div>
 					<div className="text-center">Duration</div>
 					<div className="text-center">Price</div>
-					<div className="text-center">Deadline / Completed</div>
+					<div className="text-center">Deadline</div>
 					<div className="text-center">
 						<FaAngleDown className="invisible" />
 					</div>
