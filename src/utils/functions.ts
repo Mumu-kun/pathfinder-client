@@ -31,3 +31,12 @@ export const enableScroll = () => {
 export const sleep = async (ms: number) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
+export const isValidUrl = (text: string) => {
+	try {
+		new URL(text);
+		return true;
+	} catch (error) {
+		return false;
+	}
+};

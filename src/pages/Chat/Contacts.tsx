@@ -107,44 +107,43 @@ const Contacts: React.FC<ContactsProps> = ({
 					const senderId = chatRoom.firstUserId == userId ? chatRoom.secondUserId : chatRoom.firstUserId;
 
 					return (
-						<div
+						<Link
 							key={chatRoom.id}
-							className={`border-b border-light-secondary hover:bg-light-secondary dark:border-dark-secondary dark:hover:bg-dark-secondary ${urlId == senderId ? "rounded-md bg-light-secondary dark:bg-dark-secondary" : ""} transition-all`}
+							className={`border-b border-light-secondary hover:bg-light-secondary dark:border-dark-secondary dark:hover:bg-dark-secondary ${urlId == senderId ? "rounded-md bg-light-secondary dark:bg-dark-secondary" : ""} flex flex-shrink items-center gap-2 px-2 py-2 transition-all`}
+							to={{ pathname: `/interaction/user/${senderId}` }}
 						>
-							<Link to={{ pathname: `/interaction/user/${senderId}` }} className="flex items-center gap-2 px-2 py-2">
-								{/* // here the 3rd condition makes sure when I click on a new unseen chat, it becomes seen on the frontend right away. */}
-								<img
-									src={userProfileImageUrl(senderId)}
-									onError={({ currentTarget }) => {
-										currentTarget.onerror = null;
-										currentTarget.src = defaultProfileImage;
-									}}
-									style={{
-										background: `url(${defaultProfileImage}) center center / cover no-repeat`,
-									}}
-									className={`h-10 w-10 rounded-full object-cover object-center ${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "outline outline-2 outline-red-500"}`}
-									title={chatRoom.firstUserId == userId ? chatRoom.secondUserFullName : chatRoom.firstUserFullName}
-								/>
-								<div
-									className={`${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "font-bold"} min-w-0 flex-1`}
-									style={{
-										display: isExpanded ? "block" : "none",
-									}}
-								>
-									{chatRoom.firstUserId == userId ? (
-										<p className="text-left font-medium">{chatRoom.secondUserFullName}</p>
-									) : (
-										<p className="text-left font-medium">{chatRoom.firstUserFullName}</p>
-									)}
+							{/* // here the 3rd condition makes sure when I click on a new unseen chat, it becomes seen on the frontend right away. */}
+							<img
+								src={userProfileImageUrl(senderId)}
+								onError={({ currentTarget }) => {
+									currentTarget.onerror = null;
+									currentTarget.src = defaultProfileImage;
+								}}
+								style={{
+									background: `url(${defaultProfileImage}) center center / cover no-repeat`,
+								}}
+								className={`h-10 w-10 rounded-full object-cover object-center ${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "outline outline-2 outline-red-500"}`}
+								title={chatRoom.firstUserId == userId ? chatRoom.secondUserFullName : chatRoom.firstUserFullName}
+							/>
+							<div
+								className={`${chatRoom?.lastMessage?.read || chatRoom?.lastMessage?.senderId == userId || chatRoom?.lastMessage?.senderId == urlId ? "" : "font-bold"} min-w-0 max-w-[16rem] overflow-hidden`}
+								style={{
+									display: isExpanded ? "block" : "none",
+								}}
+							>
+								{chatRoom.firstUserId == userId ? (
+									<p className="text-left font-medium">{chatRoom.secondUserFullName}</p>
+								) : (
+									<p className="text-left font-medium">{chatRoom.firstUserFullName}</p>
+								)}
 
-									{chatRoom?.lastMessage?.senderId == userId ? (
-										<p className="w-full truncate text-sm">Me: {chatRoom?.lastMessage?.message}</p>
-									) : (
-										<p className="w-full truncate text-sm">{chatRoom?.lastMessage?.message}</p>
-									)}
-								</div>
-							</Link>
-						</div>
+								{chatRoom?.lastMessage?.senderId == userId ? (
+									<p className="w-full truncate text-sm">Me: {chatRoom?.lastMessage?.message}</p>
+								) : (
+									<p className="w-full truncate text-sm">{chatRoom?.lastMessage?.message}</p>
+								)}
+							</div>
+						</Link>
 					);
 				})}
 			</div>

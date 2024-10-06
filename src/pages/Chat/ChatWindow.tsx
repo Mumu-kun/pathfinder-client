@@ -6,10 +6,11 @@ import useStomp from "@/hooks/useStomp";
 import { Field, Form, Formik } from "formik";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link, useParams } from "react-router-dom";
-import { ReactTinyLink } from "react-tiny-link";
+
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { ChatMessage, ChatMessageInput } from "../../utils/types";
+import ChatMessageBlock from "./components/ChatMessageBlock";
 import NoContactSelected from "./components/NoContactSelected";
 
 interface ChatWindowProps {
@@ -143,15 +144,6 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 		}
 	}, [chatMessages]);
 
-	const isValidUrl = (text: string) => {
-		try {
-			new URL(text);
-			return true;
-		} catch (error) {
-			return false;
-		}
-	};
-
 	return (
 		<div
 			className="flex flex-1 flex-col self-stretch"
@@ -183,8 +175,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 								inverse={true}
 								className="flex flex-col-reverse"
 								endMessage={
-									<p style={{ textAlign: "center" }}>
-										<b>Yay! You have seen it all</b>
+									<p style={{ textAlign: "center" }} className="pb-8">
+										<b>You Started Talking</b>
 									</p>
 								}
 							>
@@ -194,31 +186,12 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 									const showSenderName = message.senderId !== prevSenderId;
 
 									return (
-										<div key={message.id}>
-											{showSenderName && (
-												<p
-													className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} p-1 text-xs`}
-												>
-													{message.senderId === senderId ? "You" : message.senderFullName}
-												</p>
-											)}
-											<div className={`flex ${message.senderId === senderId ? "justify-end" : "justify-start"} py-0.5`}>
-												<p className="normal-text max-w-72 break-all rounded-md bg-green-300 px-3 py-2 text-left dark:bg-green-600">
-													{isValidUrl(message.message) ? (
-														<ReactTinyLink
-															cardSize="small"
-															showGraphic={true}
-															maxLine={2}
-															minLine={1}
-															url={message.message}
-															onError={<p>{message.message}</p>}
-														/>
-													) : (
-														message.message
-													)}
-												</p>
-											</div>
-										</div>
+										<ChatMessageBlock
+											key={message.id}
+											message={message}
+											showSenderName={showSenderName}
+											senderId={senderId!}
+										/>
 									);
 								})}
 							</InfiniteScroll>
@@ -255,7 +228,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ messageSent, setMessageSent, is
 						}}
 					>
 						{({ isSubmitting }) => (
-							<Form className="mt-2 flex items-center justify-center gap-2 px-4">
+							<Form className="mt-2 flex items-center justify-center gap-2 px-4 pr-2">
 								<Field
 									name="message"
 									type="text"

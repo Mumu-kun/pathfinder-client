@@ -99,8 +99,9 @@ const NotificationIcon = () => {
 					{notifications.map((notification) => (
 						<Link
 							key={notification.id}
-							to={{ pathname: `${notification.linkSuffix}` }}
+							to={`${notification.linkSuffix ?? "#"}`}
 							className="text-wrap px-6 py-2 shadow-sm hover:bg-green-100 dark:hover:bg-green-800"
+							style={{ pointerEvents: notification.linkSuffix ? "auto" : "none" }}
 						>
 							{notification.text}
 						</Link>

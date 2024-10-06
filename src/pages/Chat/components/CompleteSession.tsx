@@ -1,4 +1,5 @@
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import useStomp from "@/hooks/useStomp";
 import { disableScroll, enableScroll } from "@/utils/functions";
 import { Session } from "@/utils/types";
 import { isAxiosError } from "axios";
@@ -10,6 +11,8 @@ interface CompleteSessionProps {
 
 const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 	const axiosPrivate = useAxiosPrivate();
+
+	const { receivedNotification } = useStomp();
 
 	const [isZoomAuthorized, setIsZoomAuthorized] = useState<boolean>(false);
 	const [joinLink, setJoinLink] = useState<string | undefined>();
@@ -80,6 +83,16 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 		}
 	}, [markSessionCompletedClicked]);
 
+	useEffect(() => {
+		if (
+			receivedNotification?.type === "SILENT" &&
+			receivedNotification?.text === "Your Zoom account has been connected."
+		) {
+			checkZoomAuthorized();
+			getJoinLink();
+		}
+	}, [receivedNotification]);
+
 	const now = new Date().getTime();
 	const sessionScheduledAt = new Date(session.scheduledAt).getTime();
 	const sessionEndTime = sessionScheduledAt + session.enrollment.sessionDurationInMinutes * 60000;
@@ -89,9 +102,9 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 	return (
 		<>
 			{session.sessionType === "online" && isDuringSession && (
-				<div className="mx-auto my-1 flex items-center justify-center gap-x-2">
+				<div className="mx-auto mt-1 flex items-center justify-center gap-x-2">
 					<button onClick={startSession} className="solid-btn">
-						{isZoomAuthorized ? "Start Session" : "Authorize Zoom"}
+						{isZoomAuthorized ? "Start Session" : "Connect Zoom"}
 					</button>
 					{joinLink && (
 						<button
@@ -105,7 +118,7 @@ const CompleteSession: React.FC<CompleteSessionProps> = ({ session }) => {
 					)}
 				</div>
 			)}
-			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn mx-auto">
+			<button onClick={() => setMarkSessionCompletedClicked(true)} className="outline-btn mx-auto mt-1">
 				Mark Session as Completed
 			</button>
 			{markSessionCompletedClicked && (

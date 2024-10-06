@@ -67,26 +67,26 @@ const Controls = ({ isControlsExpanded: isExpanded, toggleControlsExpanded: togg
 		}
 	}, [receivedNotification]);
 
+	if (loading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
-			{loading ? (
-				<Loading />
-			) : (
-				<div
-					className="hover-effect-no-shadow mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4"
-					onClick={toggleExpanded}
+			<div
+				className="hover-effect-no-shadow mx-auto flex h-8 cursor-pointer items-center justify-center gap-2 px-4"
+				onClick={toggleExpanded}
+			>
+				<FaListCheck className="h-5 w-5" />
+				<p
+					className="small-headings text-center"
+					style={{
+						display: isExpanded ? "block" : "none",
+					}}
 				>
-					<FaListCheck className="h-5 w-5" />
-					<p
-						className="small-headings text-center"
-						style={{
-							display: isExpanded ? "block" : "none",
-						}}
-					>
-						Controls
-					</p>
-				</div>
-			)}
+					Controls
+				</p>
+			</div>
 			{userId !== contactId && (
 				<div
 					className="min-w-[20rem] flex-col items-center"

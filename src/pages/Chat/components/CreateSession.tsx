@@ -7,6 +7,7 @@ import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { ErrorMessage, Field, FieldProps, Form, Formik } from "formik";
 import Select, { SingleValue } from "react-select";
 import * as Yup from "yup";
+import { IoClose } from "react-icons/io5";
 
 const sessionScheduleSchema = Yup.object().shape({
 	scheduledAt: Yup.date().required(),
@@ -33,11 +34,9 @@ const CreateSession: React.FC<CreateSessionProps> = ({
 			{loading && <Loading fullscreen />}
 			<div className="modal-grand-parent">
 				<div className="modal-parent">
-					<div className="flex items-center justify-between">
+					<div className="mb-4 flex items-center justify-between">
 						<p className="small-headings text-left">Schedule a Session</p>
-						<button onClick={() => setScheduleSessionClicked(false)} className="solid-cancel-btn-sm">
-							X
-						</button>
+						<IoClose onClick={() => setScheduleSessionClicked(false)} className="solid-cancel-btn-sm h-6 w-6 !p-0.5" />
 					</div>
 
 					<Formik

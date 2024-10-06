@@ -18,7 +18,7 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 
 	const { receivedNotification } = useStomp();
 
-	const getRunningRessions = async () => {
+	const getRunningSessions = async () => {
 		try {
 			const response = await axiosPrivate.get(`api/v1/sessions/running/enrollment/${enrollment.id}`);
 			console.log(response.data);
@@ -29,12 +29,12 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 	};
 
 	useEffect(() => {
-		getRunningRessions();
+		getRunningSessions();
 	}, [enrollment, viewType]);
 
 	useEffect(() => {
 		if (receivedNotification?.type === "SESSION") {
-			getRunningRessions();
+			getRunningSessions();
 		}
 	}, [receivedNotification]);
 
@@ -159,6 +159,7 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 												minute: "numeric",
 											})}
 										</span>
+
 										<span>Type</span>
 										<span>:</span>
 										<span>{runningSession.sessionType}</span>
@@ -166,6 +167,7 @@ const SessionData: React.FC<sesssionDataProps> = ({ enrollment, viewType }) => {
 											date={new Date(runningSession.scheduledAt).getTime()}
 											renderer={({ days, hours, minutes, seconds, completed }) => {
 												if (completed) {
+													getRunningSessions();
 													return <span className="col-span-full">Session is running</span>;
 												} else {
 													return (

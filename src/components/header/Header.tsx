@@ -34,7 +34,6 @@ const Header = () => {
 	const [stuck, setStuck] = useState<boolean>(!isHome || window.scrollY > 0);
 
 	const isMediaMD = useMediaQuery("(max-width: 768px)");
-	const isMediaLG = useMediaQuery("(max-width: 1024px)");
 
 	useEffect(() => {
 		isHome ? setStuck(Boolean(window.scrollY)) : setStuck(true);
@@ -62,7 +61,7 @@ const Header = () => {
 						<Link to="/" className="mr-6 flex h-12 items-end gap-1">
 							<img src={Logo} alt="pathPhindr" className="h-full max-w-full object-contain pt-3" />
 							<div
-								className={`font-prim pb-2.5 text-[1.7rem] font-bold ${!isMediaLG && stuck ? "opacity-0" : ""} transition-all`}
+								className={`font-prim pb-2.5 text-[1.7rem] font-bold max-sm:opacity-0 ${stuck ? "lg:opacity-0" : ""} transition-all`}
 							>
 								ath<span className="text-green-500">Phindr</span>
 							</div>
@@ -90,7 +89,7 @@ const Header = () => {
 								</>
 							) : (
 								<Dropdown
-									head={<MdInfoOutline className="hover-effect-no-shadow h-5 w-5" />}
+									head={<MdInfoOutline className="hover-effect-no-shadow h-6 w-6 pb-0.5" />}
 									rightAlign
 									dropdownClassName="mt-2"
 								>
