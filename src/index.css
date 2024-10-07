@@ -30,6 +30,7 @@ body {
 @layer base {
 	.font-prim {
 		font-family: "Merriweather Sans", sans-serif;
+		word-spacing: 0.1rem;
 		font-optical-sizing: auto;
 		font-style: normal;
 	}

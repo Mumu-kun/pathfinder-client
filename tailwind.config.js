@@ -72,16 +72,20 @@ export default {
 						h2: {
 							fontFamily: "Merriweather Sans",
 							fontSize: "1.1rem",
+							wordSpacing: "0.1rem",
 							marginTop: "1rem",
 							marginBottom: "0.5rem",
 						},
 						h3: {
 							fontFamily: "Merriweather Sans",
+							fontSize: "1rem",
+							wordSpacing: "0.1rem",
 							marginTop: "0.8rem",
 							marginBottom: "0.4rem",
 						},
 						h4: {
 							fontFamily: "Merriweather Sans",
+							wordSpacing: "0.1rem",
 						},
 						p: {
 							marginTop: "0.2rem",
