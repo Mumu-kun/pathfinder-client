@@ -89,7 +89,7 @@ export default function Footer() {
 					</div>
 					<div className="flex items-center justify-center">
 						<i className="bx bx-envelope normal-text ml-0 text-xl"></i>
-						<p className="normal-text ml-0">our-email-here@gmail.com</p>
+						<p className="normal-text ml-0">contact@pathphindr.com</p>
 					</div>
 				</div>
 				<div className="my-5 flex w-full flex-col items-start justify-start pl-20 lg:w-1/3">

@@ -35,7 +35,7 @@ const EmailNotVerified: React.FC = () => {
 	}, [email]);
 
 	return (
-		<div className="dark-bg-dark-secondary m-5 space-y-2 rounded-md bg-light-secondary p-4">
+		<div className="dark-bg-dark-secondary m-5 space-y-2 rounded-md bg-light-secondary dark:bg-dark-secondary p-4">
 			{emailVerified ? (
 				<Navigate to="/" replace />
 			) : (
